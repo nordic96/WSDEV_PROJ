@@ -22,8 +22,6 @@ public partial class MainPage : System.Web.UI.Page
 
     protected void Button1_Click(object sender, EventArgs e)
     {
-        string search = TextBox1.Text;
-        string ds = cis.GetAirportInformationByCountry(search);
-        Label1.Text = ds;
+
     }
 }

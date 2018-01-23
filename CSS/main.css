@@ -1,0 +1,38 @@
+﻿body {
+
+}
+div.menu_bar {
+    border-style:solid;
+    border-width:medium;
+    position:fixed;
+    top: 11%;
+    bottom:9%;
+    width:10%;
+    height:100%;
+}
+div.content {
+    position: fixed;
+    top: 11%;
+    left: 15%;
+}
+div.content_scroll {
+    position: fixed;
+    overflow-y:scroll;
+    top: 25%;
+    bottom:8%;
+    width: auto;
+    height:auto;
+    left: 15%;
+}
+div.title_bar {
+    border-bottom-style:solid;
+    border-bottom-width:medium;
+    position:fixed;
+    top:0px;
+    text-align:center;
+    height:8%;
+    width:100%;
+}
+table.menu_bar {
+
+}
