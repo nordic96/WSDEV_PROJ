@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="MainPage.aspx.cs" Inherits="MainPage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="HSCode.aspx.cs" Inherits="HSCode" %>
 
 <!DOCTYPE html>
 
@@ -21,11 +21,9 @@
                 </tr>
             </table>
         </div>
-        <div class="title_bar1">
-            <img src="Image/Billy.png" width="70px"/>
-        </div>
-        <div class="title_bar2">
+        <div class="title_bar">
             <h2>TRADE & LOGISTICS</h2>
+            <img src="" />
         </div>
 
         <form id="form1" runat="server">
@@ -52,3 +50,4 @@
             </form>
 </body>
 </html>
+

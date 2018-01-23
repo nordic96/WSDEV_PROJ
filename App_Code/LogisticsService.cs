@@ -22,9 +22,16 @@ public class LogisticsService : System.Web.Services.WebService
     }
 
     [WebMethod]
+<<<<<<< HEAD
     public string HelloWorld()
     {
         return "Hello World";
     }
+=======
+    public string searchCountry(string countryCode, string countryName, string portCode, string portName)
+    {
+        return countryName;
+    }//end method
+>>>>>>> a1cc6a4f5eea924c263f34bf9fd24f5e703e6d61
 
 }
