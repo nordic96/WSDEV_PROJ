@@ -1,10 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="MainPage.aspx.cs" Inherits="MainPage" %>
-
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="SeaPortSearch.aspx.cs" Inherits="SeaPortSearch" %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Logistics & Trading</title>
+    <title>Logistics & Trading: Sea Port Information</title>
     <link rel="stylesheet" href="CSS/main.css"/>
 </head>
 <body>
@@ -21,11 +20,9 @@
                 </tr>
             </table>
         </div>
-        <div class="title_bar1">
-            <img src="Image/Billy.png" width="70px"/>
-        </div>
-        <div class="title_bar2">
+        <div class="title_bar">
             <h2>TRADE & LOGISTICS</h2>
+            <img src="" />
         </div>
         <form id="form1" runat="server">
         <div class="content">
