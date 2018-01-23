@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="MainPage.aspx.cs" Inherits="MainPage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="HSCode.aspx.cs" Inherits="HSCode" %>
 
 <!DOCTYPE html>
 
@@ -50,3 +50,4 @@
             </form>
 </body>
 </html>
+

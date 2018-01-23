@@ -12,12 +12,12 @@ using System.Text;
 public class ExcelRead
 {
     DownloadFile file = new DownloadFile();
-    private string GetConectionString()
+    private string GetConectionString(string url)
     {
         Dictionary<string, string> props = new Dictionary<string, string>();
         props["Provider"] = "Microsoft.ACE.OLEDB.12.0";
         props["Extended Properties"] = "Excel 12.0 XML";
-        props["Data Source"] = file.DownloadFileTemp("http://www.pscoman.com/Portals/0/documents/portcode2012.xls"); //File Source C:\Users\rhrlg\Downloads/portcode2012.xls
+        props["Data Source"] = file.DownloadFileTemp(url); //File Source C:\Users\rhrlg\Downloads/portcode2012.xls
 
         StringBuilder sb = new StringBuilder();
         foreach(KeyValuePair<string,string> prop in props)
@@ -29,10 +29,10 @@ public class ExcelRead
         }
         return sb.ToString();
     }
-    public DataSet ExcelReadData()
+    public DataSet ExcelReadData(string url)
     {
         DataSet ds = new DataSet();
-        string connectionString = GetConectionString();
+        string connectionString = GetConectionString(url);
         using (OleDbConnection conn = new OleDbConnection(connectionString))
         {
             conn.Open();
