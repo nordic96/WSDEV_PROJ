@@ -42,7 +42,7 @@ public class LogisticsService : System.Web.Services.WebService
         }
         return sb.ToString();
     }
-
+    //Read Excel(.xls) file and return a DataSet that contains global sea port information.
     [WebMethod]
     public DataSet GetAllSeaPortInformation()
     {
@@ -50,6 +50,12 @@ public class LogisticsService : System.Web.Services.WebService
         ds = ReadExcelData(System.Web.Configuration.WebConfigurationManager.AppSettings["PortListUrl"]);
         return ds;
     }
+    //Search port information based on selected category from the Excel file
+    //[WebMethod]
+    //public DataSet SearchSeaportInnformation()
+    //{
+
+    //}
 
     [WebMethod]
     public DataSet GetAllHSCodeInformation()
