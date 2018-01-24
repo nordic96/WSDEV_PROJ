@@ -37,5 +37,14 @@ public partial class _Default : Page
         }
         gvRSS.DataSource = feeds;
         gvRSS.DataBind();
+        //Setting the label text
+        lblRssFeedSubject.Text = urlConfig.Substring(10) + " ";
+    }
+
+    protected void ddlNewsTopic_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string rssFeedKey = "";
+        rssFeedKey = "RssFeedUrl" + ddlNewsTopic.SelectedValue;
+        PopulateRSSFeed(rssFeedKey);
     }
 }

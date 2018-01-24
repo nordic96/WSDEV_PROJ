@@ -16,15 +16,26 @@
     </div>--%>
     <div class="row">
         <div class="col-md-4">
-            <h2>News Feed</h2>
-            <p>This news feed is provided by RealWire (RSS). Visit this website for more information <a href="https://www.realwire.com/">(https://www.realwire.com/)</a>.</p>
+            <table style="width:1000px">
+                <tr><td><h2><asp:Label ID="lblRssFeedSubject" runat="server" Text=""></asp:Label>News</h2></td></tr>
+                <tr><td><p>This news feed is provided by RealWire (RSS). Visit this website for more information <a href="https://www.realwire.com/">(https://www.realwire.com/)</a>.</p></td></tr>
+                <tr><td>Change news topic: </td>
+                    <td>
+                        <asp:DropDownList ID="ddlNewsTopic" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlNewsTopic_SelectedIndexChanged">
+                            <asp:ListItem>Maritime</asp:ListItem>
+                            <asp:ListItem>Cargo</asp:ListItem>
+                            <asp:ListItem>Freight</asp:ListItem>
+                        </asp:DropDownList></td>
+                </tr>
+            </table>
+
             <asp:GridView ID="gvRSS" runat="server" Witdh="1000px" AutoGenerateColumns="false" BorderStyle="None" GridLines="None">
                 <Columns>
                     <asp:TemplateField>
                         <ItemTemplate>
                             <table width="1000px" border="0" cellpadding="0" cellspacing="5">
                                 <tr>
-                                    <td><h3 style="color:#3E7CFF"><%#Eval("Title") %></h3></td>
+                                    <td><h3 style="color:#B52A33"><%#Eval("Title") %></h3></td>
                                 </tr>
                                 <tr>
                                     <td><%#Eval("PublishDate") %></td>
