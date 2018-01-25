@@ -52,7 +52,7 @@ public class LogisticsService : System.Web.Services.WebService
     }
     //Search port information based on selected category from the Excel file
     [WebMethod]
-    public DataSet SearchSeaportInformation(string searchBy, string searchText)
+    public DataSet SearchSeaPortInformation(string searchBy, string searchText)
     {
         DataSet ds = new DataSet();
         ds = SearchExcelData(System.Web.Configuration.WebConfigurationManager.AppSettings["PortListUrl"]
