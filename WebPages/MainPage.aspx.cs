@@ -1,27 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using PortService;
-using System.Xml;
-using System.Data;
+using System.Xml.Linq;
 
-public partial class MainPage : System.Web.UI.Page
+public partial class _Default : Page
 {
-    ExcelRead excel = new ExcelRead();
-    //ReadExcel excel = new ReadExcel();
-    airport cis = new airport();
+
     protected void Page_Load(object sender, EventArgs e)
     {
-        gv1.DataSource = excel.ExcelReadData("http://www.pscoman.com/Portals/0/documents/portcode2012.xls");
-        gv1.DataBind();
-        //Label1.Text = excel.ReadExcelData(@"C:\Users\rhrlg\Downloads/portcode2012.xls");
+        this.PopulateRSSFeed("RssFeedUrlMaritime");
     }
 
-    protected void Button1_Click(object sender, EventArgs e)
+    private void PopulateRSSFeed(string urlConfig)
     {
+        string rssFeedUrl = ConfigurationManager.AppSettings[urlConfig];
+        List<Feeds> feeds = new List<Feeds>();
+        XDocument xDoc = XDocument.Load(rssFeedUrl);
+        var items = (from x in xDoc.Descendants("item")
+                     select new
+                     {
+                         title = x.Element("title").Value,
+                         link = x.Element("link").Value,
+                         pubDate = x.Element("pubDate").Value,
+                         desc = x.Element("description").Value
+                     });
+        if(items != null)
+        {
+            feeds.AddRange(items.Select(i => new Feeds
+            {
+                Title = i.title, Link = i.link, PublishDate = i.pubDate, Description = i.desc
+            }));
+        }
+        gvRSS.DataSource = feeds;
+        gvRSS.DataBind();
+        //Setting the label text
+        lblRssFeedSubject.Text = urlConfig.Substring(10) + " ";
+    }
 
+    protected void ddlNewsTopic_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string rssFeedKey = "";
+        rssFeedKey = "RssFeedUrl" + ddlNewsTopic.SelectedValue;
+        PopulateRSSFeed(rssFeedKey);
     }
 }
