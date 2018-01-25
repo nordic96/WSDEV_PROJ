@@ -4,22 +4,25 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using PortService;
+//using PortService;
 using System.Xml;
-using System.Data;
 
 public partial class CustomDuties : System.Web.UI.Page
 {
     ExcelRead excel = new ExcelRead();
     //ReadExcel excel = new ReadExcel();
-    airport cis = new airport();
+    //airport cis = new airport();
     protected void Page_Load(object sender, EventArgs e)
     {
+
         gv1.DataSource = excel.ExcelReadData("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en");
         gv1.DataBind();
         ddlHRCode.DataSource = excel.ExcelReadData("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en");
+        //ddlHRCode.DataTextField = "F1";
+        //ddlHRCode.DataValueField = "F1";
         ddlHRCode.DataBind();
         //Label1.Text = excel.ReadExcelData(@"C:\Users\rhrlg\Downloads/portcode2012.xls");
+
     }
 
 
