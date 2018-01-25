@@ -47,11 +47,11 @@
                         <span class="icon-bar"></span>
                     </button>
                     <img src="../Content/Billy.png" width="50" height="50" align="left"/>
-                    <a class="navbar-brand" runat="server" href="~/">VAN Trading & Logistics</a>
+                    <a class="navbar-brand" runat="server" href="WebPages/MainPage.aspx">VAN Trading & Logistics</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Home</a></li>
+                        <li><a runat="server" href="/WebPages/MainPage.aspx">Home</a></li>
                         <li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="/WebPages/SeaPortSearch.aspx">Sea Port Search</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>

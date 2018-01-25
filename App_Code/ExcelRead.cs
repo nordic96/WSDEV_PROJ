@@ -65,4 +65,36 @@ public class ExcelRead
         // TODO: Add constructor logic here
         //
     }
+    public DataSet ExcelSearchData(string url, string searchBy, string searchText)
+    {
+        DataSet ds = new DataSet();
+        string connectionString = GetConectionString(url);
+        using (OleDbConnection conn = new OleDbConnection(connectionString))
+        {
+            conn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = conn;
+
+            //Get all Sheets in Excel File
+            DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+
+            //Loop through all Sheets to get data
+            foreach (DataRow dr in dtSheet.Rows)
+            {
+                string sheetName = dr["TABLE_NAME"].ToString();
+
+                cmd.CommandText = "SELECT * FROM [" + sheetName + "] WHERE [" + searchBy + "]='" + searchText+"'";
+                DataTable dt = new DataTable();
+                dt.TableName = sheetName;
+                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                da.Fill(dt);
+
+                ds.Tables.Add(dt);
+            }
+
+            cmd = null;
+            conn.Close();
+        }
+        return ds;
+    }
 }
