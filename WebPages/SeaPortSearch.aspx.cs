@@ -31,7 +31,7 @@ public partial class WebPages_SeaPortSearch : System.Web.UI.Page
     protected void btnSearchPort_Click(object sender, EventArgs e)
     {
         string searchBy = ddlSearchPort.SelectedValue, searchText = txtSearchPort.Text;
-        portExcelDs = cis.SearchSeaportInformation(searchBy, searchText);
+        portExcelDs = cis.SearchSeaPortInformation(searchBy, searchText);
 
         gvSeaPort.DataSource = portExcelDs;
         gvSeaPort.DataBind();
