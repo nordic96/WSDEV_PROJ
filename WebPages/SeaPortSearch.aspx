@@ -2,8 +2,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     <h2>Search Sea Port Information</h2>
-    <p>This information is provided by PORT SERVICES CORPORATION (S.A.O.G), PORT SULTAN QABOOS. Visit this website for more information. <br />
-        <a href="http://www.pscoman.com/" >(http://www.pscoman.com)</a></p>
+    <p>This information is provided by PORT SERVICES CORPORATION (S.A.O.G), PORT SULTAN QABOOS. Visit this website for more information.</p>
+    <a href="http://www.pscoman.com/" ><img src="../Content/SAOG-logo.PNG" style="width:497px;height:96px;"/></a>  
     <br />
     <h5>Select the drop down list to search specific port information.</h5>
     <table>

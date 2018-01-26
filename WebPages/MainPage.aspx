@@ -34,7 +34,7 @@
                 <Columns>
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <table width="1000px" border="0" cellpadding="0" cellspacing="5">
+                            <table style="width:1000px;border-spacing:5px">
                                 <tr>
                                     <td><h3 style="color:#B52A33"><%#Eval("Title") %></h3></td>
                                 </tr>
@@ -45,7 +45,7 @@
                                     <td><%#Eval("Description") %></td>
                                 </tr>
                                 <tr>
-                                    <td align="right">
+                                    <td style="text-align:right">
                                         <a href='<%#Eval("Link") %>' target="_blank">Read More...</a>
                                     </td>
                                 </tr>

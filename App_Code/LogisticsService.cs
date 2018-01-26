@@ -68,6 +68,44 @@ public class LogisticsService : System.Web.Services.WebService
         return ds;
     }
 
+    [WebMethod]
+    public PostalPrice calculateLocalPostMailPrice(string post_size, double weight)
+    {
+        PostalPrice postalPrice = new PostalPrice();
+        postalPrice.result = true;
+
+        double total = 0.0;
+        string key = "LocalRate_" + post_size;
+        int rate_key = 0;
+
+        string[] rate_string = System.Web.Configuration.WebConfigurationManager.AppSettings[key].Split(',');
+
+        if (weight <= 20)
+            rate_key = 0;
+        else if (20 < weight && weight <= 40)
+            rate_key = 1;
+        else if (40 < weight && weight <= 100)
+            rate_key = 2;
+        else if (100 < weight && weight <= 250)
+            rate_key = 3;
+        else if (250 < weight && weight <= 500)
+            rate_key = 4;
+        else if (500 < weight && weight <= 1000)
+            rate_key = 5;
+        else if (1000 < weight && weight <= 2000)
+            rate_key = 6;
+
+        if (rate_key + 1 <= rate_string.Length)
+            total = Convert.ToDouble(rate_string[rate_key]);
+
+        else if (rate_key + 1 > rate_string.Length)
+            postalPrice.result = false;
+
+        postalPrice.price = total;
+        return postalPrice;
+    }
+
+    //Read Excel Function
     private DataSet ReadExcelData(string url)
     {
         DataSet ds = new DataSet();
@@ -102,6 +140,7 @@ public class LogisticsService : System.Web.Services.WebService
         return ds;
     }
 
+    //Search from Excel fucntion
     private DataSet SearchExcelData(string url, string searchBy, string searchText)
     {
         DataSet ds = new DataSet();

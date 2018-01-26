@@ -11,6 +11,14 @@ body {
     padding-right: 15px;
 }
 
+table.gh_table td {
+    padding:10px;
+}
+
+div.gh_postCal_div {
+    display: none;
+}
+
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
 select,
