@@ -216,6 +216,7 @@ public partial class WebPages_CalculatePostRate : System.Web.UI.Page
             {
                 popup_error();
                 txtBulkWeight.Text = "";
+                lblTotalPrice.Text = "";
             }
             else if (result == true)
             {
