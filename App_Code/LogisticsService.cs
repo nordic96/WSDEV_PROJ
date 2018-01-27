@@ -105,7 +105,7 @@ public class LogisticsService : System.Web.Services.WebService
         postalPrice.price = total;
         return postalPrice;
     }
-
+    //Calculate the post mail charge for overseas by surface transport.
     [WebMethod]
     public PostalPrice CalculatePostRateSurface(string mailType, double weight)
     {
@@ -132,7 +132,7 @@ public class LogisticsService : System.Web.Services.WebService
         p.result = status;
         return p;
     }
-
+    //Calculate the post mail charge for overseas by air transport.
     [WebMethod]
     public PostalPrice CalculatePostRateAir(string country_code, string mailType, double weight)
     {
@@ -230,6 +230,83 @@ public class LogisticsService : System.Web.Services.WebService
         p.result = status;
         return p;
     }
+
+    [WebMethod]
+    public PostalPrice CalculatePostRateBulk(string transport_mode, string destination, double weight)
+    {
+        PostalPrice p = new PostalPrice();
+        bool result = true;
+        string zone_area = "";
+        zone_area = get_zone_area(destination);
+        List<ZoneRateList> zone_rate_lists = new List<ZoneRateList>();
+
+        double totalRate = 0, first5Kg = 0, addlKg = 0;
+
+        string[] zone_A_rate = "16;3;NA;NA".Split(';');
+        string[] zone_B_rate = "30;5;18;2".Split(';');
+        string[] zone_C_rate = "30;5;18;2".Split(';');
+        string[] zone_R_rate = "40;7;20;2".Split(';');
+        string[] zone_S_rate = "50;9;25;2".Split(';');
+        string[] zone_T_rate = "50;9;25;2".Split(';');
+
+        ZoneRateList a = new ZoneRateList("A", zone_A_rate);
+        ZoneRateList b = new ZoneRateList("B", zone_B_rate);
+        ZoneRateList c = new ZoneRateList("C", zone_C_rate);
+        ZoneRateList r = new ZoneRateList("R", zone_R_rate);
+        ZoneRateList s = new ZoneRateList("S", zone_S_rate);
+        ZoneRateList t = new ZoneRateList("T", zone_T_rate);
+
+        zone_rate_lists.Add(a);
+        zone_rate_lists.Add(b);
+        zone_rate_lists.Add(c);
+        zone_rate_lists.Add(r);
+        zone_rate_lists.Add(s);
+        zone_rate_lists.Add(t);
+
+        foreach (ZoneRateList list in zone_rate_lists)
+        {
+            if (list.zone_name.Equals(zone_area))
+            {
+                if (transport_mode.Equals("air"))
+                {
+                    first5Kg = Convert.ToDouble(list.zone_rate[0]);
+                    addlKg = Convert.ToDouble(list.zone_rate[1]);
+                }
+                else if (transport_mode.Equals("surface"))
+                {
+                    if (zone_area.Equals("A"))
+                    {
+                        result = false;
+                    }
+
+                    else
+                    {
+                        first5Kg = Convert.ToDouble(list.zone_rate[2]);
+                        addlKg = Convert.ToDouble(list.zone_rate[3]);
+                    }
+                }
+                else
+                    result = false;
+            }
+        }
+
+        //Calculation
+        if (0 < weight && weight <= 5)
+        {
+            totalRate = first5Kg;
+        }
+        else if (weight > 5 && weight <= 30)
+        {
+            totalRate = first5Kg + (Math.Ceiling(weight - 5) * addlKg);
+        }
+        else
+            result = false;
+
+        p.price = totalRate;
+        p.result = result;
+        return p;
+    }
+
     //Read Excel Function
     private DataSet ReadExcelData(string url)
     {
@@ -319,5 +396,44 @@ zone2 = System.Web.Configuration.WebConfigurationManager.AppSettings["AirMail_Zo
         }
 
         return zoneNumber;
+    }
+
+    private string get_zone_area(string select)
+    {
+        string zone_area = "";
+
+        string[] zone_A = System.Web.Configuration.WebConfigurationManager.AppSettings["Bulk_Zone_A"].Split(';');
+        string[] zone_B = System.Web.Configuration.WebConfigurationManager.AppSettings["Bulk_Zone_B"].Split(';');
+        string[] zone_C = System.Web.Configuration.WebConfigurationManager.AppSettings["Bulk_Zone_C"].Split(';');
+        string[] zone_R = System.Web.Configuration.WebConfigurationManager.AppSettings["Bulk_Zone_R"].Split(';');
+        string[] zone_S = System.Web.Configuration.WebConfigurationManager.AppSettings["Bulk_Zone_S"].Split(';');
+        string[] zone_T = System.Web.Configuration.WebConfigurationManager.AppSettings["Bulk_Zone_T"].Split(';');
+
+        ZoneList a = new ZoneList("A", zone_A);
+        ZoneList b = new ZoneList("B", zone_B);
+        ZoneList c = new ZoneList("C", zone_C);
+        ZoneList r = new ZoneList("R", zone_R);
+        ZoneList s = new ZoneList("S", zone_S);
+        ZoneList t = new ZoneList("T", zone_T);
+
+        List<ZoneList> zone_lists = new List<ZoneList>();
+        zone_lists.Add(a);
+        zone_lists.Add(b);
+        zone_lists.Add(c);
+        zone_lists.Add(r);
+        zone_lists.Add(s);
+        zone_lists.Add(t);
+
+        foreach (ZoneList zone_list in zone_lists)
+        {
+            for (int i = 0; i < zone_list.countries.Length; i++)
+            {
+                if (zone_list.countries[i].Equals(select))
+                {
+                    zone_area = zone_list.zone_name;
+                }
+            }
+        }
+        return zone_area;
     }
 }

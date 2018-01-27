@@ -20,10 +20,21 @@
             <table style="width:1000px">
                 <tr><td><h2><asp:Label ID="lblRssFeedSubject" runat="server" Text=""></asp:Label>News</h2></td></tr>
                 <tr><td><p>This news feed is provided by RealWire (RSS). Visit this website for more information.</p></td></tr>
-                <tr><td><a href="https://www.realwire.com/"><img src="../Content/realwire-logo.PNG" style="width:279px;height:104px"/></a></td></tr>
+                <tr><td><a href="https://www.realwire.com/"><img src="../Content/realwire-logo.PNG" style="width:279px;height:104px"/></a></td>
+                </tr>
                 <tr><td>Change news topic: </td>
                     <td>
-                        <asp:DropDownList ID="ddlNewsTopic" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlNewsTopic_SelectedIndexChanged"></asp:DropDownList></td>
+                        <asp:DropDownList ID="ddlNewsTopic" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlNewsTopic_SelectedIndexChanged"></asp:DropDownList>
+                    </td>
+                </tr>
+                <tr>
+                    <td>                        
+                        <asp:UpdateProgress ID="UpdateProgress1" runat="server">
+                            <ProgressTemplate>
+                                Loading...<img src="../Content/loading-icon.gif" style="width:70px;height:50px;"/>
+                            </ProgressTemplate>
+                        </asp:UpdateProgress>
+                    </td>
                 </tr>
             </table>
 

@@ -37,6 +37,7 @@ public partial class WebPages_CalculatePostRate : System.Web.UI.Page
             airPostCalFrm.Style.Add("display", "none");
             surfacePostCalFrm.Style.Add("display", "none");
             bulkPostCalFrm.Style.Add("display", "none");
+            lblTotalPrice.Text = "";
         }
         else if (selected.Equals("air"))
         {
@@ -45,6 +46,7 @@ public partial class WebPages_CalculatePostRate : System.Web.UI.Page
             surfacePostCalFrm.Style.Add("display", "none");
             bulkPostCalFrm.Style.Add("display", "none");
             localPostCalFrm.Style.Add("display", "none");
+            lblTotalPrice.Text = "";
         }
         else if (selected.Equals("surface"))
         {
@@ -53,6 +55,7 @@ public partial class WebPages_CalculatePostRate : System.Web.UI.Page
             bulkPostCalFrm.Style.Add("display", "none");
             localPostCalFrm.Style.Add("display", "none");
             airPostCalFrm.Style.Add("display", "none");
+            lblTotalPrice.Text = "";
         }
         else if (selected.Equals("bulk"))
         {
@@ -61,6 +64,7 @@ public partial class WebPages_CalculatePostRate : System.Web.UI.Page
             localPostCalFrm.Style.Add("display", "none");
             airPostCalFrm.Style.Add("display", "none");
             surfacePostCalFrm.Style.Add("display", "none");
+            lblTotalPrice.Text = "";
         }
     }
 
@@ -204,9 +208,9 @@ public partial class WebPages_CalculatePostRate : System.Web.UI.Page
             bool result;
             double weight = Convert.ToDouble(txtBulkWeight.Text);
             string transport_mode = ddlBulkTransport.SelectedValue;
-            string zone_area = get_zone_area(ddlBulkCountry.SelectedValue);
+            string destination = ddlBulkCountry.SelectedValue;
 
-            p = calculateBulkMail(transport_mode, zone_area, weight);
+            p = logistics.CalculatePostRateBulk(transport_mode, destination, weight);
             result = p.result;
             if (result == false)
             {
@@ -345,79 +349,5 @@ zone2 = System.Web.Configuration.WebConfigurationManager.AppSettings["AirMail_Zo
             }
         }
         return zone_area;
-    }
-    
-    //To be implemented into ASMX
-    private PostalPrice calculateBulkMail(string transport_mode, string zone_area, double weight)
-    {
-        PostalPrice p = new PostalPrice();
-        bool result = true;
-        List<ZoneRateList> zone_rate_lists = new List<ZoneRateList>();
-
-        double totalRate = 0, first5Kg = 0, addlKg = 0;
-
-        string[] zone_A_rate = "16;3;NA;NA".Split(';');
-        string[] zone_B_rate = "30;5;18;2".Split(';');
-        string[] zone_C_rate = "30;5;18;2".Split(';');
-        string[] zone_R_rate = "40;7;20;2".Split(';');
-        string[] zone_S_rate = "50;9;25;2".Split(';');
-        string[] zone_T_rate = "50;9;25;2".Split(';');
-
-        ZoneRateList a = new ZoneRateList("A", zone_A_rate);
-        ZoneRateList b = new ZoneRateList("B", zone_B_rate);
-        ZoneRateList c = new ZoneRateList("C", zone_C_rate);
-        ZoneRateList r = new ZoneRateList("R", zone_R_rate);
-        ZoneRateList s = new ZoneRateList("S", zone_S_rate);
-        ZoneRateList t = new ZoneRateList("T", zone_T_rate);
-
-        zone_rate_lists.Add(a);
-        zone_rate_lists.Add(b);
-        zone_rate_lists.Add(c);
-        zone_rate_lists.Add(r);
-        zone_rate_lists.Add(s);
-        zone_rate_lists.Add(t);
-
-        foreach (ZoneRateList list in zone_rate_lists)
-        {
-            if(list.zone_name.Equals(zone_area))
-            {
-                if (transport_mode.Equals("air"))
-                {
-                    first5Kg = Convert.ToDouble(list.zone_rate[0]);
-                    addlKg = Convert.ToDouble(list.zone_rate[1]);
-                }
-                else if (transport_mode.Equals("surface"))
-                {
-                    if (zone_area.Equals("A"))
-                    {
-                        result = false;
-                    }
-
-                    else
-                    {
-                        first5Kg = Convert.ToDouble(list.zone_rate[2]);
-                        addlKg = Convert.ToDouble(list.zone_rate[3]);
-                    }
-                }
-                else
-                    result = false;
-            }
-        }
-
-        //Calculation
-        if (0 < weight && weight <= 5)
-        {
-            totalRate = first5Kg;
-        }
-        else if (weight > 5 && weight <= 30)
-        {
-            totalRate = first5Kg + (Math.Ceiling(weight - 5) * addlKg);
-        }
-        else
-            result = false;
-
-        p.price = totalRate;
-        p.result = result;
-        return p;
     }
 }

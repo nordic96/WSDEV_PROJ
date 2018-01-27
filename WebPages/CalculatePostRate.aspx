@@ -5,6 +5,11 @@
     <p>This information is provided by SingPost. Click the logo below to visit SingPost official website.</p>
     <a href="https://www.singpost.com"><img src="../Content/singpost-logo.png" style="width:160px;height:53px;" /></a>
     <br /><br /> 
+    <asp:UpdateProgress ID="UpdateProgress1" runat="server">
+        <ProgressTemplate>
+            Loading...
+        </ProgressTemplate>
+    </asp:UpdateProgress>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
             Please choose one of the postage calculation categories :
