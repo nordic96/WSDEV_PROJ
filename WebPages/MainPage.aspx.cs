@@ -12,7 +12,13 @@ public partial class _Default : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        this.PopulateRSSFeed("RssFeedUrlMaritime");
+        if(!Page.IsPostBack)
+        {
+            this.PopulateRSSFeed("RssFeedUrlCargo");
+            string[] newsTopicList = System.Web.Configuration.WebConfigurationManager.AppSettings["RssFeedMenuList"].Split(',');
+            ddlNewsTopic.DataSource = newsTopicList;
+            ddlNewsTopic.DataBind();
+        }
     }
 
     private void PopulateRSSFeed(string urlConfig)

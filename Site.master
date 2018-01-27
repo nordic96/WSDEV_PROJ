@@ -54,6 +54,7 @@
                         <li><a runat="server" href="/WebPages/MainPage.aspx">Home</a></li>
                         <li><a runat="server" href="/WebPages/SeaPortSearch.aspx">Sea Port Search</a></li>
                         <li><a runat="server" href="/WebPages/CalculatePostRate.aspx">Post Rate</a></li>
+                        <li><a runat="server" href="/WebPages/FreightForwarders.aspx">Freight Forwarders</a></li>
                         <li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
                     </ul>

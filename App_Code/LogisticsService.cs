@@ -68,8 +68,9 @@ public class LogisticsService : System.Web.Services.WebService
         return ds;
     }
 
+    //Calculate the post mail charge in local area (SG).
     [WebMethod]
-    public PostalPrice calculateLocalPostMailPrice(string post_size, double weight)
+    public PostalPrice CalculatePostRateLocal(string post_size, double weight)
     {
         PostalPrice postalPrice = new PostalPrice();
         postalPrice.result = true;
@@ -105,6 +106,130 @@ public class LogisticsService : System.Web.Services.WebService
         return postalPrice;
     }
 
+    [WebMethod]
+    public PostalPrice CalculatePostRateSurface(string mailType, double weight)
+    {
+        PostalPrice p = new PostalPrice();
+        double totalSurfaceRate = 0;
+        bool status = true;
+
+        if (mailType.Equals("papers"))
+        {
+            if (0 < weight && weight <= 20)
+                totalSurfaceRate = 0.50;
+            else if (20 < weight && weight <= 50)
+                totalSurfaceRate = 0.70;
+            else if (50 < weight && weight <= 100)
+                totalSurfaceRate = 1;
+            else if (weight > 100 && weight <= 2000)
+                totalSurfaceRate = 1 + (1 * (Math.Ceiling((weight - 100) / 100)));
+
+            else
+                status = false;
+        }
+
+        p.price = totalSurfaceRate;
+        p.result = status;
+        return p;
+    }
+
+    [WebMethod]
+    public PostalPrice CalculatePostRateAir(string country_code, string mailType, double weight)
+    {
+        PostalPrice p = new PostalPrice();
+        double totalAirRate = 0;
+        bool status = true;
+
+        int zone = get_zone_no(country_code);
+        if (mailType.Equals("papers"))
+        {
+            if (zone == 1)
+            {
+                if (0 < weight && weight <= 20)
+                    totalAirRate = 0.50;
+                else if (20 < weight && weight <= 50)
+                    totalAirRate = 0.70;
+                else if (50 < weight && weight <= 100)
+                    totalAirRate = 1.10;
+                else if (weight > 100 && weight <= 2000)
+                {
+                    totalAirRate = 1.10 + (1.10 * (Math.Ceiling((weight - 100) / 100)));
+                }
+                else
+                    status = false;
+            }
+            else if (zone == 2)
+            {
+                if (0 < weight && weight <= 20)
+                    totalAirRate = 0.70;
+                else if (weight > 20 && weight <= 2000)
+                    totalAirRate = 0.70 + (0.25 * (Math.Ceiling((weight - 20) / 10)));
+                else
+                    status = false;
+            }
+            else if (zone == 3)
+            {
+                if (0 < weight && weight <= 20)
+                    totalAirRate = 1.30;
+                else if (weight > 20 && weight <= 2000)
+                    totalAirRate = 1.30 + (0.35 * (Math.Ceiling((weight - 20) / 10)));
+                else
+                    status = false;
+            }
+        }
+        else if (mailType.Equals("packets"))
+        {
+            if (zone == 1)
+            {
+                if (0 < weight && weight <= 100)
+                    totalAirRate = 2.50;
+                else if (100 < weight && weight <= 250)
+                    totalAirRate = 3.90;
+                else if (250 < weight && weight <= 500)
+                    totalAirRate = 5.20;
+                else if (weight > 500 && weight <= 2000)
+                {
+                    totalAirRate = 5.20 + (1.10 * (Math.Ceiling((weight - 500) / 100)));
+                }
+                else
+                    status = false;
+            }
+            else if (zone == 2)
+            {
+                if (0 < weight && weight <= 100)
+                    totalAirRate = 3.20;
+                else if (100 < weight && weight <= 250)
+                    totalAirRate = 6.80;
+                else if (250 < weight && weight <= 500)
+                    totalAirRate = 12.00;
+                else if (weight > 500 && weight <= 2000)
+                {
+                    totalAirRate = 12.00 + (2.50 * (Math.Ceiling((weight - 500) / 100)));
+                }
+                else
+                    status = false;
+            }
+            else if (zone == 3)
+            {
+                if (0 < weight && weight <= 100)
+                    totalAirRate = 4.70;
+                else if (100 < weight && weight <= 250)
+                    totalAirRate = 9.85;
+                else if (250 < weight && weight <= 500)
+                    totalAirRate = 17.00;
+                else if (weight > 500 && weight <= 2000)
+                {
+                    totalAirRate = 17.00 + (3.50 * (Math.Ceiling((weight - 500) / 100)));
+                }
+                else
+                    status = false;
+            }
+        }
+
+        p.price = totalAirRate;
+        p.result = status;
+        return p;
+    }
     //Read Excel Function
     private DataSet ReadExcelData(string url)
     {
@@ -174,4 +299,25 @@ public class LogisticsService : System.Web.Services.WebService
         return ds;
     }
 
+    //For Airmail Post Rate Get Country Zone Number
+    private int get_zone_no(string select)
+    {
+        string[] zone1 = System.Web.Configuration.WebConfigurationManager.AppSettings["AirMail_Zone1"].Split(';'),
+zone2 = System.Web.Configuration.WebConfigurationManager.AppSettings["AirMail_Zone2"].Split(';');
+
+        int zoneNumber = 3;
+
+        for (int i = 0; i < zone1.Length; i++)
+        {
+            if (select.Equals(zone1[i]))
+                zoneNumber = 1;
+        }
+        for (int i = 0; i < zone2.Length; i++)
+        {
+            if (select.Equals(zone2[i]))
+                zoneNumber = 2;
+        }
+
+        return zoneNumber;
+    }
 }

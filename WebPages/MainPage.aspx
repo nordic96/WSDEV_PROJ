@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Home" Language="C#" MasterPageFile="../Site.Master" AutoEventWireup="true" CodeFile="MainPage.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-<%--    <div class="jumbotron">
+    <%--    <div class="jumbotron">
         <h1>ASP.NET</h1>
         <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
         <p><a href="http://www.asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
@@ -19,14 +19,11 @@
         <div class="col-md-4">
             <table style="width:1000px">
                 <tr><td><h2><asp:Label ID="lblRssFeedSubject" runat="server" Text=""></asp:Label>News</h2></td></tr>
-                <tr><td><p>This news feed is provided by RealWire (RSS). Visit this website for more information <a href="https://www.realwire.com/">(https://www.realwire.com/)</a>.</p></td></tr>
+                <tr><td><p>This news feed is provided by RealWire (RSS). Visit this website for more information.</p></td></tr>
+                <tr><td><a href="https://www.realwire.com/"><img src="../Content/realwire-logo.PNG" style="width:279px;height:104px"/></a></td></tr>
                 <tr><td>Change news topic: </td>
                     <td>
-                        <asp:DropDownList ID="ddlNewsTopic" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlNewsTopic_SelectedIndexChanged">
-                            <asp:ListItem>Maritime</asp:ListItem>
-                            <asp:ListItem>Cargo</asp:ListItem>
-                            <asp:ListItem>Freight</asp:ListItem>
-                        </asp:DropDownList></td>
+                        <asp:DropDownList ID="ddlNewsTopic" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlNewsTopic_SelectedIndexChanged"></asp:DropDownList></td>
                 </tr>
             </table>
 
