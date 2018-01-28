@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="MainPage.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Title="Home" Language="C#" MasterPageFile="../Site.Master" AutoEventWireup="true" CodeFile="MainPage.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <%--    <div class="jumbotron">
@@ -24,10 +24,7 @@
         <tr><td><h2><asp:Label ID="lblRssFeedSubject" runat="server" Text=""></asp:Label>News</h2></td></tr>
         <tr><td><p>This news feed is provided by RealWire (RSS). Visit this website for more information.</p></td></tr>
         <tr><td><a href="https://www.realwire.com/"><img src="../Content/realwire-logo.PNG" style="width:279px;height:104px"/></a></td>
-        </tr>
-        <tr style="height:50px;">
-            <td style="text-align:right">Change news topic: </td>
-            <td style="text-align:right">
+            <td style="text-align:right">Change news topic: 
                 <asp:DropDownList ID="ddlNewsTopic" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlNewsTopic_SelectedIndexChanged"></asp:DropDownList>
             </td>
         </tr>
@@ -39,7 +36,7 @@
                 <ItemTemplate>
                     <table style="border-spacing:5px">
                         <tr>
-                            <td><h3 style="color:#B52A33"><%#Eval("Title") %></h3></td>
+                            <td><h3 style="color:#2496BF"><%#Eval("Title") %></h3></td>
                         </tr>
                         <tr>
                             <td><%#Eval("PublishDate") %></td>
