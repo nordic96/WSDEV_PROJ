@@ -1,54 +1,61 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="MainPage.aspx.cs" Inherits="MainPage" %>
+﻿<%@ Page Title="Home" Language="C#" MasterPageFile="../Site.Master" AutoEventWireup="true" CodeFile="MainPage.aspx.cs" Inherits="_Default" %>
 
-<!DOCTYPE html>
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+<%--    <div class="jumbotron">
+        <h1>ASP.NET</h1>
+        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
+        <p><a href="http://www.asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    </div>--%>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title>Logistics & Trading</title>
-    <link rel="stylesheet" href="../CSS/main.css"/>
-</head>
-<body>
-            <div class="menu_bar">
-            <table class="menu_bar">
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
+<%--    <div class="row">
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+
+        </div>
+    </div>--%>
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+    <ContentTemplate>
+    <div class="row">
+        <div class="col-md-4">
+            <table style="width:1000px">
+                <tr><td><h2><asp:Label ID="lblRssFeedSubject" runat="server" Text=""></asp:Label>News</h2></td></tr>
+                <tr><td><p>This news feed is provided by RealWire (RSS). Visit this website for more information <a href="https://www.realwire.com/">(https://www.realwire.com/)</a>.</p></td></tr>
+                <tr><td>Change news topic: </td>
+                    <td>
+                        <asp:DropDownList ID="ddlNewsTopic" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlNewsTopic_SelectedIndexChanged">
+                            <asp:ListItem>Maritime</asp:ListItem>
+                            <asp:ListItem>Cargo</asp:ListItem>
+                            <asp:ListItem>Freight</asp:ListItem>
+                        </asp:DropDownList></td>
                 </tr>
             </table>
-        </div>
-        <div class="title_bar1">
-            <img src="../Image/Billy.png" width="70px"/>
-        </div>
-        <div class="title_bar2">
-            <h2>TRADE & LOGISTICS</h2>
-        </div>
 
-        <form id="form1" runat="server">
-        <div class="content">
-            <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label><br /><br />
-            <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label>
-            <table>
-            <tr>
-            <td>
-            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox></td>
-            <td>
-            <asp:Button ID="Button1" runat="server" Text="Search" OnClick="Button1_Click" style="height: 26px" /></td>
-            </tr>
-            </table>
+            <asp:GridView ID="gvRSS" runat="server" Witdh="1000px" AutoGenerateColumns="false" BorderStyle="None" GridLines="None">
+                <Columns>
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <table width="1000px" border="0" cellpadding="0" cellspacing="5">
+                                <tr>
+                                    <td><h3 style="color:#B52A33"><%#Eval("Title") %></h3></td>
+                                </tr>
+                                <tr>
+                                    <td><%#Eval("PublishDate") %></td>
+                                </tr>
+                                <tr>
+                                    <td><%#Eval("Description") %></td>
+                                </tr>
+                                <tr>
+                                    <td align="right">
+                                        <a href='<%#Eval("Link") %>' target="_blank">Read More...</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+            </asp:GridView>
         </div>
-        <div class="content_scroll">
-            
-            <div>
-                <br />  
-                <asp:GridView ID="gv1" runat="server"></asp:GridView>
-            </div>
-            
-        </div>
-            </form>
-</body>
-</html>
+    </div>
+    </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

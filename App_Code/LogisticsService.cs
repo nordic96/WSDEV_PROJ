@@ -8,12 +8,12 @@ using System.Data.OleDb;
 using System.Text;
 
 /// <summary>
-/// Summary description for LogisticsService
+/// This service contains logistics related WS.
 /// </summary>
 [WebService(Namespace = "http://www.tpifc.com/TPWebServices")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
-// [System.Web.Script.Services.ScriptService]
+[System.Web.Script.Services.ScriptService]
 public class LogisticsService : System.Web.Services.WebService
 {
 
@@ -55,11 +55,14 @@ public class LogisticsService : System.Web.Services.WebService
         return ds;
     }
     //Search port information based on selected category from the Excel file
-    //[WebMethod]
-    //public DataSet SearchSeaportInnformation()
-    //{
-
-    //}
+    [WebMethod]
+    public DataSet SearchSeaPortInformation(string searchBy, string searchText)
+    {
+        DataSet ds = new DataSet();
+        ds = SearchExcelData(System.Web.Configuration.WebConfigurationManager.AppSettings["PortListUrl"]
+            ,searchBy, searchText);
+        return ds;
+    }
 
     [WebMethod]
     public DataSet GetAllHSCodeInformation()
@@ -100,6 +103,39 @@ public class LogisticsService : System.Web.Services.WebService
             conn.Close();
         }
 
+        return ds;
+    }
+
+    private DataSet SearchExcelData(string url, string searchBy, string searchText)
+    {
+        DataSet ds = new DataSet();
+        string connectionString = GetConectionString(url);
+        using (OleDbConnection conn = new OleDbConnection(connectionString))
+        {
+            conn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = conn;
+
+            //Get all Sheets in Excel File
+            DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+
+            //Loop through all Sheets to get data
+            foreach (DataRow dr in dtSheet.Rows)
+            {
+                string sheetName = dr["TABLE_NAME"].ToString();
+
+                cmd.CommandText = "SELECT * FROM [" + sheetName + "] WHERE [" + searchBy + "]='" + searchText + "'";
+                DataTable dt = new DataTable();
+                dt.TableName = sheetName;
+                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                da.Fill(dt);
+
+                ds.Tables.Add(dt);
+            }
+
+            cmd = null;
+            conn.Close();
+        }
         return ds;
     }
 

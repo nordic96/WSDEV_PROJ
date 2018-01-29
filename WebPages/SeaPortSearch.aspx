@@ -8,12 +8,16 @@
     <h5>Select the drop down list to search specific port information.</h5>
     <table>
         <tr>
-            <td>Search By : <asp:DropDownList ID="ddlSearchPort" runat="server"></asp:DropDownList></td>
+            <td>Search By : <asp:DropDownList ID="ddlSearchPort" runat="server" OnSelectedIndexChanged="ddlSearchPort_SelectedIndexChanged"></asp:DropDownList></td>
             <td><asp:TextBox ID="txtSearchPort" runat="server"></asp:TextBox></td>
-            <td><asp:Button ID="btnSearchPort" runat="server" Text="Search" /></td>
+            <td><asp:Button ID="btnSearchPort" runat="server" Text="Search" OnClick="btnSearchPort_Click" /></td>
         </tr>
     </table>
-    <br />
-    <asp:GridView ID="gvSeaPort" runat="server" Width="900px"></asp:GridView>
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
+            <br />
+            <asp:GridView ID="gvSeaPort" runat="server" Width="900px" PageSize="5"></asp:GridView>
+        </ContentTemplate>
+    </asp:UpdatePanel>
 </asp:Content>
 

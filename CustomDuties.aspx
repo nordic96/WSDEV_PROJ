@@ -35,6 +35,10 @@
                 </td>
                 <td>
                     <asp:Label ID="lblWeight" runat="server" Text="Weight (in kg/litres)"></asp:Label>
+                </td>
+                <td>
+                    <asp:Label ID="lblTotalProductPrice" runat="server" Text="Total Product Price"></asp:Label>
+                </td>    
                 <td>
                     <asp:Label ID="lblManufactured" runat="server" Text="Manufactured Country"></asp:Label>
                 </td>
@@ -45,6 +49,9 @@
                 </td>
                 <td>
                     <asp:TextBox ID="tbWeight" runat="server" TextMode="Number"></asp:TextBox>
+                </td>
+                <td>
+                    <asp:TextBox ID="tbTotalProductPrice" runat="server" TextMode="Number"></asp:TextBox>
                 </td>
                 <td>
                     <asp:DropDownList ID="ddlManufactured" runat="server" AutoPostBack="True">
