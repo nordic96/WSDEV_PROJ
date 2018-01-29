@@ -19,7 +19,7 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="SearchSeaportInformation">
+      <s:element name="SearchSeaPortInformation">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="searchBy" type="s:string" />
@@ -27,10 +27,10 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="SearchSeaportInformationResponse">
+      <s:element name="SearchSeaPortInformationResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="SearchSeaportInformationResult">
+            <s:element minOccurs="0" maxOccurs="1" name="SearchSeaPortInformationResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -58,6 +58,58 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="calculateLocalPostMailPrice">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="post_size" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="weight" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="calculateLocalPostMailPriceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="calculateLocalPostMailPriceResult" type="tns:PostalPrice" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PostalPrice">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="price" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="result" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="calculateSurfaceMail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mailType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="weight" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="calculateSurfaceMailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="calculateSurfaceMailResult" type="tns:PostalPrice" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="calculateAirMail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="country_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="weight" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="calculateAirMailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="calculateAirMailResult" type="tns:PostalPrice" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetAllSeaPortInformationSoapIn">
@@ -66,11 +118,11 @@
   <wsdl:message name="GetAllSeaPortInformationSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllSeaPortInformationResponse" />
   </wsdl:message>
-  <wsdl:message name="SearchSeaportInformationSoapIn">
-    <wsdl:part name="parameters" element="tns:SearchSeaportInformation" />
+  <wsdl:message name="SearchSeaPortInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchSeaPortInformation" />
   </wsdl:message>
-  <wsdl:message name="SearchSeaportInformationSoapOut">
-    <wsdl:part name="parameters" element="tns:SearchSeaportInformationResponse" />
+  <wsdl:message name="SearchSeaPortInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchSeaPortInformationResponse" />
   </wsdl:message>
   <wsdl:message name="GetAllHSCodeInformationSoapIn">
     <wsdl:part name="parameters" element="tns:GetAllHSCodeInformation" />
@@ -78,18 +130,48 @@
   <wsdl:message name="GetAllHSCodeInformationSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllHSCodeInformationResponse" />
   </wsdl:message>
+  <wsdl:message name="calculateLocalPostMailPriceSoapIn">
+    <wsdl:part name="parameters" element="tns:calculateLocalPostMailPrice" />
+  </wsdl:message>
+  <wsdl:message name="calculateLocalPostMailPriceSoapOut">
+    <wsdl:part name="parameters" element="tns:calculateLocalPostMailPriceResponse" />
+  </wsdl:message>
+  <wsdl:message name="calculateSurfaceMailSoapIn">
+    <wsdl:part name="parameters" element="tns:calculateSurfaceMail" />
+  </wsdl:message>
+  <wsdl:message name="calculateSurfaceMailSoapOut">
+    <wsdl:part name="parameters" element="tns:calculateSurfaceMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="calculateAirMailSoapIn">
+    <wsdl:part name="parameters" element="tns:calculateAirMail" />
+  </wsdl:message>
+  <wsdl:message name="calculateAirMailSoapOut">
+    <wsdl:part name="parameters" element="tns:calculateAirMailResponse" />
+  </wsdl:message>
   <wsdl:portType name="LogisticsServiceSoap">
     <wsdl:operation name="GetAllSeaPortInformation">
       <wsdl:input message="tns:GetAllSeaPortInformationSoapIn" />
       <wsdl:output message="tns:GetAllSeaPortInformationSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="SearchSeaportInformation">
-      <wsdl:input message="tns:SearchSeaportInformationSoapIn" />
-      <wsdl:output message="tns:SearchSeaportInformationSoapOut" />
+    <wsdl:operation name="SearchSeaPortInformation">
+      <wsdl:input message="tns:SearchSeaPortInformationSoapIn" />
+      <wsdl:output message="tns:SearchSeaPortInformationSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAllHSCodeInformation">
       <wsdl:input message="tns:GetAllHSCodeInformationSoapIn" />
       <wsdl:output message="tns:GetAllHSCodeInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="calculateLocalPostMailPrice">
+      <wsdl:input message="tns:calculateLocalPostMailPriceSoapIn" />
+      <wsdl:output message="tns:calculateLocalPostMailPriceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="calculateSurfaceMail">
+      <wsdl:input message="tns:calculateSurfaceMailSoapIn" />
+      <wsdl:output message="tns:calculateSurfaceMailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="calculateAirMail">
+      <wsdl:input message="tns:calculateAirMailSoapIn" />
+      <wsdl:output message="tns:calculateAirMailSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="LogisticsServiceSoap" type="tns:LogisticsServiceSoap">
@@ -103,8 +185,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SearchSeaportInformation">
-      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/SearchSeaportInformation" style="document" />
+    <wsdl:operation name="SearchSeaPortInformation">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/SearchSeaPortInformation" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -114,6 +196,33 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllHSCodeInformation">
       <soap:operation soapAction="http://www.tpifc.com/TPWebServices/GetAllHSCodeInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="calculateLocalPostMailPrice">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/calculateLocalPostMailPrice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="calculateSurfaceMail">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/calculateSurfaceMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="calculateAirMail">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/calculateAirMail" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -133,8 +242,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SearchSeaportInformation">
-      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/SearchSeaportInformation" style="document" />
+    <wsdl:operation name="SearchSeaPortInformation">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/SearchSeaPortInformation" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -144,6 +253,33 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllHSCodeInformation">
       <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/GetAllHSCodeInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="calculateLocalPostMailPrice">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/calculateLocalPostMailPrice" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="calculateSurfaceMail">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/calculateSurfaceMail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="calculateAirMail">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/calculateAirMail" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -45,4 +45,9 @@ public partial class WebPages_SeaPortSearch : System.Web.UI.Page
             ddlSearchPort.Items.Add(new ListItem(column.ColumnName));
         }
     }
+
+    protected void gvSeaPort_PageIndexChanged(object sender, EventArgs e)
+    {
+        lblTest.Text = "TEST";
+    }
 }
