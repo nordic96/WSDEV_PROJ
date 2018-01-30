@@ -59,10 +59,14 @@ public partial class WebPages_Freight : System.Web.UI.Page
         lblTest.Text = data.totalNumPages.ToString() + "\n";
         lblTest.Text += url;
         //lblTest.Text += "\nResult.Count " + result_list.Count.ToString() + "\nCount " + count.ToString();
-
         gvOneAddress.DataSource = results;
         gvOneAddress.DataBind();
-
+        gvOneAddress.HeaderRow.Cells[0].Text = "Address Name";
+        gvOneAddress.HeaderRow.Cells[1].Text = "BLK";
+        gvOneAddress.HeaderRow.Cells[2].Text = "Road Name";
+        gvOneAddress.HeaderRow.Cells[3].Text = "Building";
+        gvOneAddress.HeaderRow.Cells[4].Text = "Address Details";
+        gvOneAddress.HeaderRow.Cells[5].Text = "Postal Code";
         return data;
     }
 
@@ -75,6 +79,7 @@ public partial class WebPages_Freight : System.Web.UI.Page
         {
             counter++;
             Session["AttemptCount"] = counter;
+            data = load_data_result(counter);
             lblTest.Text = "Current Page : " + counter + " Total Page: " + totalPage;
         }
         else
@@ -103,6 +108,7 @@ public partial class WebPages_Freight : System.Web.UI.Page
         {
             counter--;
             Session["AttemptCount"] = counter;
+            data = load_data_result(counter);
             lblTest.Text = "Current Page : " + counter + " Total Page: " + totalPage;
         }
         else

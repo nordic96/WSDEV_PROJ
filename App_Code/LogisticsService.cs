@@ -369,7 +369,7 @@ public class LogisticsService : System.Web.Services.WebService
             //lblTotPrice.Text = "There is no need for custom duty";
         }
 
-        duty.totalDuties = totalproductprice;
+        duty.totalDuties = totPriceCalculation;
         duty.result = result;
         return duty;
     }
