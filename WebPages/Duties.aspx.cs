@@ -5,11 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-//using PortService;
-using System.Xml;
-using Logistics;
 
-public partial class CustomDuties : System.Web.UI.Page
+public partial class WebPages_Duties : System.Web.UI.Page
 {
     LogisticsService cis = new LogisticsService();
     ExcelRead excel = new ExcelRead();
@@ -23,8 +20,8 @@ public partial class CustomDuties : System.Web.UI.Page
             hrcodes = excel.ExcelReadData("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en");
             for (int t = 0; t < 5; t++)
             {
-                hrcodes.Tables[0].Rows[t].Delete(); 
-                
+                hrcodes.Tables[0].Rows[t].Delete();
+
             }
             gv1.DataSource = hrcodes;
             gv1.DataBind();
@@ -43,7 +40,7 @@ public partial class CustomDuties : System.Web.UI.Page
                     ddlHRCode.Items.Remove("");
                 }
             }
-       }
+        }
     }
 
 
@@ -62,80 +59,8 @@ public partial class CustomDuties : System.Web.UI.Page
 
         if (ddlManufactured.Text == "Domestic")
         {
-            char[] MyChar = { ' ','p','c','e' };
-            string subC = calculationCustomRate.Substring(0, 1);
-            string subE = calculationExciseRate.Substring(0, 1);
-            if (subC == "$") //CHECKING FOR CUSTOM DUTY THAT STARTS WITH '$'
-            {
-                string subC2 = calculationCustomRate.Substring(0, 7);
-                string newsubC2 = subC2.Remove(0, 1);
-                string NewString = newsubC2.TrimEnd(MyChar).ToString();
-                double customDutiesValue = Convert.ToDouble(NewString);
-
-                if (subE.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
-                {
-                    string subE2 = calculationExciseRate.Substring(0, 7);
-                    string newsubE2 = subE2.Remove(0, 1);
-                    string NewStringE = newsubE2.TrimEnd(MyChar).ToString();
-                    double exciseDutiesValue = Convert.ToDouble(NewStringE);
-                    double totPriceCalculation = (customDutiesValue * weight) + (exciseDutiesValue * weight);
-                    string totalPrice = Convert.ToString(totPriceCalculation);
-                    lblTotPrice.Text = "$"+totalPrice;
-                }
-
-                else if (calculationExciseRate.Contains("cents")) //CHECKING FOR EXCISE DUTY THAT CONTAINS 'CENTS'
-                {
-                    string subE2 = calculationExciseRate.Substring(0, 4);
-                    string NewStringE = subE2.TrimEnd(MyChar).ToString();
-                    double exciseDutiesValue = Convert.ToDouble(NewStringE);
-                    double totPriceCalculation = (customDutiesValue * weight) + (exciseDutiesValue * weight);
-                    string totalPrice = Convert.ToString(totPriceCalculation);
-                    lblTotPrice.Text = "$" + totalPrice;
-                }
-
-                else if (calculationExciseRate.Contains("%")) //CHECKING FOR EXCISE DUTY THAT CONTAINS '%'
-                {
-                    string subE2 = calculationExciseRate.Substring(0, 2);
-                    double exciseDutiesValue = Convert.ToDouble(subE2);
-                    double totPriceCalculation = (customDutiesValue * weight) + (exciseDutiesValue / 100) * (totalproductprice);
-                    string totalPrice = Convert.ToString(totPriceCalculation);
-                    lblTotPrice.Text = "$" + totalPrice;
-                }
-
-            }
-            else if(subC == "N") //CHECKING FOR CUSTOM DUTY 'NIL'
-            {
-                if (subE.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
-                {
-                    string subE2 = calculationExciseRate.Substring(0, 7);
-                    string newsubE2 = subE2.Remove(0, 1);
-                    string NewStringE = newsubE2.TrimEnd(MyChar).ToString();
-                    double exciseDutiesValue = Convert.ToDouble(NewStringE);
-                    double totPriceCalculation = exciseDutiesValue * weight;
-                    string totalPrice = Convert.ToString(totPriceCalculation);
-                    lblTotPrice.Text = "$" + totalPrice;
-                }
-
-                else if (calculationExciseRate.Contains("cents")) //CHECKING FOR EXCISE DUTY THAT CONTAINS 'CENTS'
-                {
-                    string subE2 = calculationExciseRate.Substring(0, 4);
-                    string NewStringE = subE2.TrimEnd(MyChar).ToString();
-                    double exciseDutiesValue = Convert.ToDouble(NewStringE);
-                    double totPriceCalculation = exciseDutiesValue * weight;
-                    string totalPrice = Convert.ToString(totPriceCalculation);
-                    lblTotPrice.Text = "$" + totalPrice;
-                }
-
-                else if (calculationExciseRate.Contains("%")) //CHECKING FOR EXCISE DUTY THAT CONTAINS '%'
-                {
-                    string subE2 = calculationExciseRate.Substring(0, 2);
-                    double exciseDutiesValue = Convert.ToDouble(subE2);
-                    double totPriceCalculation = (exciseDutiesValue / 100) * (totalproductprice);
-                    string totalPrice = Convert.ToString(totPriceCalculation);
-                    lblTotPrice.Text = "$" + totalPrice;
-                }
-            }
-
+            duty = cis.CalculateDomesticProductDuty(HSCode, weight, totalproductprice);
+            lblTotPrice.Text = "Total Price : S$" + duty.totalDuties.ToString();
         }
 
         else if (ddlManufactured.Text == "International")
@@ -150,7 +75,7 @@ public partial class CustomDuties : System.Web.UI.Page
             {
                 lblTotPrice.Text = "Total Price : S$" + duty.totalDuties.ToString();
             }
-            
+
         }
     }
 
@@ -301,4 +226,3 @@ public partial class CustomDuties : System.Web.UI.Page
         return duty;
     }
 }
-
