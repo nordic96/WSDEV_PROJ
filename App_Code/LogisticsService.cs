@@ -320,14 +320,9 @@ public class LogisticsService : System.Web.Services.WebService
         bool result = true;
         double totPriceCalculation = 0;
 
-        //ddlHRCode.DataSource = hrcodes;
         hrcodes = SearchHsCode("List of Dutiable Goods ", HSCode);
-        //int i = ddlHRCode.SelectedIndex + 5;
-        //string HSCode = ddlHRCode;
         string calculationCustomRate = hrcodes.Tables[0].Rows[0][2].ToString();
         string calculationExciseRate = hrcodes.Tables[0].Rows[0][3].ToString();
-        //double weight = Int32.Parse(tbWeight.Text);
-        //double totalproductprice = Int32.Parse(tbTotalProductPrice.Text);
         double totalproductprice = totalPrice;
 
 
@@ -340,33 +335,99 @@ public class LogisticsService : System.Web.Services.WebService
             string NewString = newsubC2.TrimEnd(MyChar).ToString();
             double customDutiesValue = Convert.ToDouble(NewString);
             totPriceCalculation = customDutiesValue * weight;
-            //string totalPrice = Convert.ToString(totPriceCalculation);
-            //lblTotPrice.Text = "$" + totalPrice;
-        }
-
-        else if (calculationExciseRate.Contains("cents")) //CHECKING FOR EXCISE DUTY THAT CONTAINS 'CENTS'
-        {
-            string subC2 = calculationExciseRate.Substring(0, 4);
-            string NewStringC = subC2.TrimEnd(MyChar).ToString();
-            double customDutiesValue = Convert.ToDouble(NewStringC);
-            totPriceCalculation = customDutiesValue * weight;
-            //string totalPrice = Convert.ToString(totPriceCalculation);
-            //lblTotPrice.Text = "$" + totalPrice;
-        }
-
-        else if (calculationExciseRate.Contains("%")) //CHECKING FOR EXCISE DUTY THAT CONTAINS '%'
-        {
-            string subC2 = calculationExciseRate.Substring(0, 2);
-            double customDutiesValue = Convert.ToDouble(subC2);
-            totPriceCalculation = (customDutiesValue / 100) * (totalproductprice);
-            //string totalPrice = Convert.ToString(totPriceCalculation);
-            //lblTotPrice.Text = "$" + totalPrice;
         }
 
         else if (subC == "N")
         {
             result = false;
-            //lblTotPrice.Text = "There is no need for custom duty";
+        }
+
+        duty.totalDuties = totPriceCalculation;
+        duty.result = result;
+        return duty;
+    }
+
+    [WebMethod]
+    public Duty CalculateDomesticProductDuty(string HSCode, double weight, double totalPrice)
+    {
+        ExcelRead excel = new ExcelRead();
+        DataSet hrcodes = new DataSet();
+        Duty duty = new Duty();
+        bool result = true;
+        double totPriceCalculation = 0;
+
+        hrcodes = SearchHsCode("List of Dutiable Goods ", HSCode);
+        string calculationCustomRate = hrcodes.Tables[0].Rows[0][2].ToString();
+        string calculationExciseRate = hrcodes.Tables[0].Rows[0][3].ToString();
+        double totalproductprice = totalPrice;
+
+
+        char[] MyChar = { ' ', 'p', 'c', 'e' };
+        string subC = calculationCustomRate.Substring(0, 1);
+        string subE = calculationExciseRate.Substring(0, 1);
+        if (subC.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
+        {
+            string subC2 = calculationCustomRate.Substring(0, 7);
+            string newsubC2 = subC2.Remove(0, 1);
+            string NewString = newsubC2.TrimEnd(MyChar).ToString();
+            double customDutiesValue = Convert.ToDouble(NewString);
+            //totPriceCalculation = customDutiesValue * weight;
+
+            if (subE.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
+            {
+                string subE2 = calculationExciseRate.Substring(0, 7);
+                string newsubE2 = subE2.Remove(0, 1);
+                string NewStringE = newsubE2.TrimEnd(MyChar).ToString();
+                double exciseDutiesValue = Convert.ToDouble(NewStringE);
+                totPriceCalculation = (customDutiesValue * weight) + (exciseDutiesValue * weight);
+            }
+
+            else if (calculationExciseRate.Contains("cents")) //CHECKING FOR EXCISE DUTY THAT CONTAINS 'CENTS'
+            {
+                string subE2 = calculationExciseRate.Substring(0, 4);
+                string NewStringE = subE2.TrimEnd(MyChar).ToString();
+                double exciseDutiesValue = Convert.ToDouble(NewStringE);
+                totPriceCalculation = (customDutiesValue * weight) + ((exciseDutiesValue / 100) * weight);
+            }
+
+            else if (calculationExciseRate.Contains("%")) //CHECKING FOR EXCISE DUTY THAT CONTAINS '%'
+            {
+                string subE2 = calculationExciseRate.Substring(0, 2);
+                double exciseDutiesValue = Convert.ToDouble(subE2);
+                totPriceCalculation = (customDutiesValue * weight) + (exciseDutiesValue / 100) * (totalproductprice);
+            }
+
+        }
+
+        else if (subC == "N")
+        {
+            result = false;
+            if (result == false)
+            {
+                if (subE.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
+                {
+                    string subE2 = calculationExciseRate.Substring(0, 7);
+                    string newsubE2 = subE2.Remove(0, 1);
+                    string NewStringE = newsubE2.TrimEnd(MyChar).ToString();
+                    double exciseDutiesValue = Convert.ToDouble(NewStringE);
+                    totPriceCalculation = exciseDutiesValue * weight;
+                }
+
+                else if (calculationExciseRate.Contains("cents")) //CHECKING FOR EXCISE DUTY THAT CONTAINS 'CENTS'
+                {
+                    string subE2 = calculationExciseRate.Substring(0, 4);
+                    string NewStringE = subE2.TrimEnd(MyChar).ToString();
+                    double exciseDutiesValue = Convert.ToDouble(NewStringE);
+                    totPriceCalculation = (exciseDutiesValue / 100) * weight;
+                }
+
+                else if (calculationExciseRate.Contains("%")) //CHECKING FOR EXCISE DUTY THAT CONTAINS '%'
+                {
+                    string subE2 = calculationExciseRate.Substring(0, 2);
+                    double exciseDutiesValue = Convert.ToDouble(subE2);
+                    totPriceCalculation = (exciseDutiesValue / 100) * (totalproductprice);
+                }
+            }
         }
 
         duty.totalDuties = totPriceCalculation;
@@ -443,7 +504,8 @@ public class LogisticsService : System.Web.Services.WebService
         return ds;
     }
 
-    private DataSet SearchHsCode(string searchBy, string searchText)
+    [WebMethod]
+    public DataSet SearchHsCode(string searchBy, string searchText)
     {
         DataSet ds = new DataSet();
         string connectionString = GetConectionString("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en");
