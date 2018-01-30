@@ -67,7 +67,6 @@
             </tr>
             <tr>
                 <td>
-                    <asp:Label ID="lblTotPriceText" runat="server" Text="Total Price: "></asp:Label>
                     <asp:Label ID="lblTotPrice" runat="server" Text=""></asp:Label>
                 </td>
             </tr>
