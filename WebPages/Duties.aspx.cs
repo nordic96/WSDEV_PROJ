@@ -232,18 +232,22 @@ public partial class WebPages_Duties : System.Web.UI.Page
 
     protected void btnSearchBy_Click(object sender, EventArgs e)
     {
-        string searchBy = ddlSearchBy.SelectedValue.ToString();
-        string searchText = tbSearchBy.Text;
+        //string searchBy = ddlSearchBy.SelectedValue.ToString();
+        //string searchText = tbSearchBy.Text;
+        int row_to_start = 0;
+        string search_by = ddlSearchBy.SelectedValue.ToString();
+        string search_text = tbSearchBy.Text;
         string url = "https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en";
-        if(searchBy == "List of Dutiable Goods ")
+        if(search_by == "List of Dutiable Goods ")
         {
-            hrcodes = cis.SearchHsCode(searchBy,searchText);
+            //hrcodes = cis.SearchHsCode(searchBy,searchText)
+            hrcodes = cis.ExcelSearchData_EP(url, row_to_start, search_by, search_text);
             gv1.DataSource = hrcodes;
             gv1.DataBind();
         }
-        else if(searchBy == "F2")
+        else if(search_by == "F2")
         {
-            hrcodes = cis.SearchExcelData(url, searchBy, searchText);
+            //hrcodes = cis.SearchExcelData(url, searchBy, searchText);
             gv1.DataSource = hrcodes;
             gv1.DataBind();
         }

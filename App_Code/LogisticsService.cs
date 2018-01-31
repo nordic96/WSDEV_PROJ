@@ -480,16 +480,13 @@ public class LogisticsService : System.Web.Services.WebService
         return ds;
     }
 
-<<<<<<< HEAD
     //Search from Excel fucntion
     
-    public DataSet SearchExcelData(string url, string searchBy, string searchText)
-=======
+    //public DataSet SearchExcelData(string url, string searchBy, string searchText)
     /*
      * Only string values are available
     */
-    private DataTable ExcelSearchData_EP(string url, int row_to_start, string search_by, string search_text)
->>>>>>> b6eb00e1d4e29615861dd075262c39edc7a10b45
+    public DataTable ExcelSearchData_EP(string url, int row_to_start, string search_by, string search_text)
     {
         DataSet ds_whole = new DataSet();
         DataTable ds_result = new DataTable();
