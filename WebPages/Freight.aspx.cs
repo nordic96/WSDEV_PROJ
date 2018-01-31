@@ -13,8 +13,9 @@ using System.Windows.Forms;
 
 public partial class WebPages_Freight : System.Web.UI.Page
 {
-    ExcelRead excel = new ExcelRead();
-    DataSet ds = new DataSet();
+    //ExcelRead excel = new ExcelRead();
+    DataTable ds = new DataTable("result");
+    LogisticsService cis = new LogisticsService();
 
     OneMapData data = new OneMapData();
     OneMapData_Result[] results = null;
@@ -27,7 +28,7 @@ public partial class WebPages_Freight : System.Web.UI.Page
             btnNextPage.Visible = false;
             btnPrevPage.Visible = false;
 
-            ds = excel.ExcelReadData_EP("http://www.worldfreightnetwork.com/userimages/WFN%20Contact%20List.xls", 2);
+            ds = cis.GetAllDutiableTaxHSCode();
             gvTest.DataSource = ds;
             gvTest.DataBind();
         }
