@@ -471,7 +471,8 @@ public class LogisticsService : System.Web.Services.WebService
     }
 
     //Search from Excel fucntion
-    private DataSet SearchExcelData(string url, string searchBy, string searchText)
+    
+    public DataSet SearchExcelData(string url, string searchBy, string searchText)
     {
         DataSet ds = new DataSet();
         string connectionString = GetConectionString(url);

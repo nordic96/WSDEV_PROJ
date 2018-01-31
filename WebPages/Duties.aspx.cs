@@ -25,6 +25,10 @@ public partial class WebPages_Duties : System.Web.UI.Page
             }
             gv1.DataSource = hrcodes;
             gv1.DataBind();
+            gv1.HeaderRow.Cells[0].Text = "HS Code";
+            gv1.HeaderRow.Cells[1].Text = "Product Description";
+            gv1.HeaderRow.Cells[2].Text = "Custom Duties";
+            gv1.HeaderRow.Cells[3].Text = "Excise Duties";
             ddlHRCode.DataSource = hrcodes;
             ddlHRCode.DataTextField = hrcodes.Tables[0].Columns[0].ToString();
             ddlHRCode.DataValueField = hrcodes.Tables[0].Columns[0].ToString();
@@ -225,4 +229,24 @@ public partial class WebPages_Duties : System.Web.UI.Page
         duty.result = result;
         return duty;
     }
+
+    protected void btnSearchBy_Click(object sender, EventArgs e)
+    {
+        string searchBy = ddlSearchBy.SelectedValue.ToString();
+        string searchText = tbSearchBy.Text;
+        string url = "https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en";
+        if(searchBy == "List of Dutiable Goods ")
+        {
+            hrcodes = cis.SearchHsCode(searchBy,searchText);
+            gv1.DataSource = hrcodes;
+            gv1.DataBind();
+        }
+        else if(searchBy == "F2")
+        {
+            hrcodes = cis.SearchExcelData(url, searchBy, searchText);
+            gv1.DataSource = hrcodes;
+            gv1.DataBind();
+        }
+    }
+
 }
