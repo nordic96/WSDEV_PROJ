@@ -578,7 +578,12 @@ public class LogisticsService : System.Web.Services.WebService
     [WebMethod]
     public DataTable SearchHsCode(string searchBy, string searchText)
     {
-        DataTable dt = new DataTable("HsCodeSearchResult");
+        //DataTable dt = new DataTable("HsCodeSearchResult");
+        DataTable dt = new DataTable();
+        string searchText_final = searchText.ToUpper();
+
+        dt = ExcelSearchData_EP("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en", 1, searchBy, searchText_final);
+        return dt;
         //string connectionString = GetConectionString("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en");
         //using (OleDbConnection conn = new OleDbConnection(connectionString))
         //{
@@ -606,7 +611,7 @@ public class LogisticsService : System.Web.Services.WebService
         //    cmd = null;
         //    conn.Close();
         //}
-        return dt;
+        //return dt;
     }
     //For Airmail Post Rate Get Country Zone Number
     private int get_zone_no(string select)

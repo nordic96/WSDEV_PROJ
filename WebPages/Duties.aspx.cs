@@ -10,14 +10,12 @@ public partial class WebPages_Duties : System.Web.UI.Page
 {
     LogisticsService cis = new LogisticsService();
     ExcelRead excel = new ExcelRead();
-    //ReadExcel excel = new ReadExcel();
-    //airport cis = new airport();
     DataSet hrcodes = null;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            hrcodes = excel.ExcelReadData("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en");
+            hrcodes = excel.ExcelReadData_EP("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en" , 1);
             for (int t = 0; t < 5; t++)
             {
                 hrcodes.Tables[0].Rows[t].Delete();
@@ -25,10 +23,10 @@ public partial class WebPages_Duties : System.Web.UI.Page
             }
             gv1.DataSource = hrcodes;
             gv1.DataBind();
-            gv1.HeaderRow.Cells[0].Text = "HS Code";
-            gv1.HeaderRow.Cells[1].Text = "Product Description";
-            gv1.HeaderRow.Cells[2].Text = "Custom Duties";
-            gv1.HeaderRow.Cells[3].Text = "Excise Duties";
+            //gv1.HeaderRow.Cells[0].Text = "HS Code";
+            //gv1.HeaderRow.Cells[1].Text = "Product Description";
+            //gv1.HeaderRow.Cells[2].Text = "Custom Duties";
+            //gv1.HeaderRow.Cells[3].Text = "Excise Duties";
             ddlHRCode.DataSource = hrcodes;
             ddlHRCode.DataTextField = hrcodes.Tables[0].Columns[0].ToString();
             ddlHRCode.DataValueField = hrcodes.Tables[0].Columns[0].ToString();
@@ -51,7 +49,7 @@ public partial class WebPages_Duties : System.Web.UI.Page
     protected void btnCalculate_Click(object sender, EventArgs e)
     {
         Duty duty = new Duty();
-        hrcodes = excel.ExcelReadData("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en");
+        hrcodes = excel.ExcelReadData_EP("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en", 1);
         ddlHRCode.DataSource = hrcodes;
         int i = ddlHRCode.SelectedIndex + 5;
         string calculationCustomRate = hrcodes.Tables[0].Rows[i][2].ToString();
@@ -232,16 +230,15 @@ public partial class WebPages_Duties : System.Web.UI.Page
 
     protected void btnSearchBy_Click(object sender, EventArgs e)
     {
-        //string searchBy = ddlSearchBy.SelectedValue.ToString();
-        //string searchText = tbSearchBy.Text;
-        int row_to_start = 0;
+        string searchBy = ddlSearchBy.SelectedValue.ToString();
+        string searchText = tbSearchBy.Text;
+        //int row_to_start = 0;
         string search_by = ddlSearchBy.SelectedValue.ToString();
-        string search_text = tbSearchBy.Text;
-        string url = "https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en";
+        //string search_text = tbSearchBy.Text;
+        //string url = "https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en";
         if(search_by == "List of Dutiable Goods ")
         {
-            //hrcodes = cis.SearchHsCode(searchBy,searchText)
-            hrcodes = cis.ExcelSearchData_EP(url, row_to_start, search_by, search_text);
+            DataTable hrcodes = cis.SearchHsCode(searchBy, searchText);
             gv1.DataSource = hrcodes;
             gv1.DataBind();
         }
