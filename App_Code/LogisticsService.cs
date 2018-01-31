@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Services;
 using System.Data;
-using System.Data.OleDb;
-using System.Text;
 using System.Net;
 using ExcelDataReader;
 
@@ -26,25 +23,6 @@ public class LogisticsService : System.Web.Services.WebService
         //InitializeComponent(); 
     }
 
-    //DownloadFile file = new DownloadFile();
-    //private string GetConectionString(string url)
-    //{
-    //    Dictionary<string, string> props = new Dictionary<string, string>();
-    //    props["Provider"] = "Microsoft.ACE.OLEDB.12.0";
-    //    props["Extended Properties"] = "Excel 12.0 XML";
-    //    props["Data Source"] = file.DownloadFileTemp(url); //File Source C:\Users\rhrlg\Downloads/portcode2012.xls
-
-    //    StringBuilder sb = new StringBuilder();
-    //    foreach (KeyValuePair<string, string> prop in props)
-    //    {
-    //        sb.Append(prop.Key);
-    //        sb.Append('=');
-    //        sb.Append(prop.Value);
-    //        sb.Append(';');
-    //    }
-    //    return sb.ToString();
-    //}
-
     //Read Excel(.xls) file and return a DataSet that contains global sea port information.
     [WebMethod]
     public DataSet GetAllSeaPortInformation()
@@ -64,11 +42,13 @@ public class LogisticsService : System.Web.Services.WebService
         "searchBy must be case-sensitive, however searchText is not case-sensitive.")]
     public DataTable SearchSeaPortInformation(string searchBy, string searchText)
     {
-        DataTable ds = new DataTable();
+        DataTable dt = new DataTable();
+
         string searchText_final = searchText.ToUpper();
 
-        ds = ExcelSearchData_EP("http://www.pscoman.com/Portals/0/documents/portcode2012.xls", 8, searchBy, searchText_final);
-        return ds;
+        dt = ExcelSearchData_EP("http://www.pscoman.com/Portals/0/documents/portcode2012.xls", 8, searchBy, searchText_final);
+
+        return dt;
     }
 
     [WebMethod]
@@ -456,7 +436,7 @@ public class LogisticsService : System.Web.Services.WebService
             // Auto-detect format, supports:
             //  - Binary Excel files (2.0-2003 format; *.xls)
             //  - OpenXml Excel files (2007 format; *.xlsx)
-            using (var reader = ExcelReaderFactory.CreateReader(stream))
+            using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
             {
 
                 // 2. Use the AsDataSet extension method
@@ -503,74 +483,52 @@ public class LogisticsService : System.Web.Services.WebService
         return dt;
     }
 
-    ////Read Excel Function
-    //private DataSet ReadExcelData(string url)
-    //{
-    //    DataSet ds = new DataSet();
-    //    string connectionString = GetConectionString(url);
-    //    using (OleDbConnection conn = new OleDbConnection(connectionString))
-    //    {
-    //        conn.Open();
-    //        OleDbCommand cmd = new OleDbCommand();
-    //        cmd.Connection = conn;
+    //Used by Jacky;
+    [WebMethod]
+    public DataTable GetAllDutiableTaxHSCode()
+    {
+        int row_to_start = 1;
+        string url = "https://drive.google.com/uc?export=download&id=1bvu9u09zqzQ4oTRSHRP2CQYUkasxudJw";
+        DownloadFile file = new DownloadFile();
+        WebClient client = new WebClient();
+        DataSet ds = new DataSet();
+        DataTable ds2 = new DataTable("DutiableTaxHSCode");
 
-    //        //Get all Sheets in Excel File
-    //        DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+        using (var stream = client.OpenRead(file.DownloadFileTemp(url)))
+        {
 
-    //        //Loop through all Sheets to get data
-    //        foreach (DataRow dr in dtSheet.Rows)
-    //        {
-    //            string sheetName = dr["TABLE_NAME"].ToString();
+            // Auto-detect format, supports:
+            //  - Binary Excel files (2.0-2003 format; *.xls)
+            //  - OpenXml Excel files (2007 format; *.xlsx)
+            using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
+            {
 
-    //            cmd.CommandText = "SELECT * FROM [" + sheetName + "]";
-    //            DataTable dt = new DataTable();
-    //            dt.TableName = sheetName;
-    //            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-    //            da.Fill(dt);
+                // 2. Use the AsDataSet extension method
+                ds = reader.AsDataSet(new ExcelDataSetConfiguration // if 5th row is header, read 4 times. if 2nd row is header, read 1 time;
+                {
+                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                    {
+                        EmptyColumnNamePrefix = "A",
 
-    //            ds.Tables.Add(dt);
-    //        }
-
-    //        cmd = null;
-    //        conn.Close();
-    //    }
-
-    //    return ds;
-    //}
-
-    ////Search from Excel fucntion
-    //private DataSet SearchExcelData(string url, string searchBy, string searchText)
-    //{
-    //    DataSet ds = new DataSet();
-    //    string connectionString = GetConectionString(url);
-    //    using (OleDbConnection conn = new OleDbConnection(connectionString))
-    //    {
-    //        conn.Open();
-    //        OleDbCommand cmd = new OleDbCommand();
-    //        cmd.Connection = conn;
-
-    //        //Get all Sheets in Excel File
-    //        DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-
-    //        //Loop through all Sheets to get data
-    //        foreach (DataRow dr in dtSheet.Rows)
-    //        {
-    //            string sheetName = dr["TABLE_NAME"].ToString();
-
-    //            cmd.CommandText = "SELECT * FROM [" + sheetName + "] WHERE [" + searchBy + "]='" + searchText + "'";
-    //            DataTable dt = new DataTable();
-    //            dt.TableName = sheetName;
-    //            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-    //            da.Fill(dt);
-
-    //            ds.Tables.Add(dt);
-    //        }
-
-    //        cmd = null;
-    //        conn.Close();
-    //    }
-    //    return ds;
-    //}
+                        UseHeaderRow = true,
+                        ReadHeaderRow = (rowReader) => {
+                            for (int i = 0; i < row_to_start - 1; i++)
+                            {
+                                rowReader.Read();
+                            }
+                        }
+                    }
+                });
+                // The result of each spreadsheet is in result.Tables
+            }
+        }
+        ds2.Columns.Add("HS Code", typeof(string));
+        ds2.Columns.Add("Product Description", typeof(string));
+        ds2.Columns.Add("Customs Duty", typeof(string));
+        ds2.Columns.Add("Excise Duty", typeof(string));
+        ds2.Load(ds.CreateDataReader(), System.Data.LoadOption.OverwriteChanges);
+        return ds2;
+    }
 
     [WebMethod]
     public DataTable SearchHsCode(string searchBy, string searchText)
