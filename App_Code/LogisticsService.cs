@@ -125,7 +125,8 @@ public class LogisticsService : System.Web.Services.WebService
         return p;
     }
     //Calculate the post mail charge for overseas by air transport.
-    [WebMethod]
+    [WebMethod (Description = "country_code (2 characters ex: MY for Malaysia). mailType only allows 'papers'/'packets'. " +
+        "weight is in (g). Any fail in validation, the result value will be set to false.")]
     public PostalPrice CalculatePostRateAir(string country_code, string mailType, double weight)
     {
         PostalPrice p = new PostalPrice();
@@ -216,6 +217,10 @@ public class LogisticsService : System.Web.Services.WebService
                 else
                     status = false;
             }
+        }
+        else
+        {
+            status = false;
         }
 
         p.price = totalAirRate;
@@ -566,8 +571,8 @@ public class LogisticsService : System.Web.Services.WebService
     //For Airmail Post Rate Get Country Zone Number
     private int get_zone_no(string select)
     {
-        string[] zone1 = System.Web.Configuration.WebConfigurationManager.AppSettings["AirMail_Zone1"].Split(';'),
-zone2 = System.Web.Configuration.WebConfigurationManager.AppSettings["AirMail_Zone2"].Split(';');
+        string[] zone1 = "MY;BN".Split(';'),
+zone2 = "KR;KP;CN;IN;VN;IL;TH;IR;SA;SY;HK;PK;PH;ID;MV;MM;IQ;LK;QA;BD;YE;TW;KH;AE;LB;AF;PS;NP;OM;MO;UZ;JO;AZ;MN;KW;BT;BH;AM;KG;TM;TJ;TL;CX;IO;CC".Split(';');
 
         int zoneNumber = 3;
 
@@ -589,12 +594,12 @@ zone2 = System.Web.Configuration.WebConfigurationManager.AppSettings["AirMail_Zo
     {
         string zone_area = "";
 
-        string[] zone_A = System.Web.Configuration.WebConfigurationManager.AppSettings["Bulk_Zone_A"].Split(';');
-        string[] zone_B = System.Web.Configuration.WebConfigurationManager.AppSettings["Bulk_Zone_B"].Split(';');
-        string[] zone_C = System.Web.Configuration.WebConfigurationManager.AppSettings["Bulk_Zone_C"].Split(';');
-        string[] zone_R = System.Web.Configuration.WebConfigurationManager.AppSettings["Bulk_Zone_R"].Split(';');
-        string[] zone_S = System.Web.Configuration.WebConfigurationManager.AppSettings["Bulk_Zone_S"].Split(';');
-        string[] zone_T = System.Web.Configuration.WebConfigurationManager.AppSettings["Bulk_Zone_T"].Split(';');
+        string[] zone_A = "MY".Split(';');
+        string[] zone_B = "BN;HK;ID;PH;TW;TH".Split(';');
+        string[] zone_C = "CN;IN;KR".Split(';');
+        string[] zone_R = "AU;JP;NZ".Split(';');
+        string[] zone_S = "GB;DE".Split(';');
+        string[] zone_T = "CF;ZA;ZW;BW".Split(';');
 
         ZoneList a = new ZoneList("A", zone_A);
         ZoneList b = new ZoneList("B", zone_B);
