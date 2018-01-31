@@ -3,24 +3,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
-            <h2>Address Search</h2>
+            <h2>Local Address Search</h2>
             <p>Search for any address located in Singapore.This information is provided by OneMapDataSG. Click the logo below to visit the website.</p>
-            <img src="../Content/onemap-logo.png" style="width:150px;height:150px;"/>
-            <table class="gh_table" style="width:auto">
-                <tr>
-                    <td>Search for any</td>
-                    <td>: <asp:DropDownList ID="ddlSearch" runat="server">
-                        <asp:ListItem Value="logistics">Logistics</asp:ListItem>
-                        <asp:ListItem Value="warehouse">Warehouse</asp:ListItem>
-                        <asp:ListItem Value="trading">Trading</asp:ListItem>
-                        <asp:ListItem Value="freight">Freight</asp:ListItem>
-                        </asp:DropDownList>&nbsp&nbsp related addresses in Singapore.</td>
-                </tr>
+            <a href="https://docs.onemap.sg/"><img src="../Content/onemap-logo.png" style="width:150px;height:150px;"/></a>
+            <table class="gh_table">
                 <tr>
                     <td>Search Address</td>
-                    <td>: <asp:TextBox ID="txtSearchAddress" runat="server" Width="96%"></asp:TextBox>
+                    <td>: <asp:TextBox ID="txtSearchAddress" runat="server" Width="200px"></asp:TextBox>
                     </td>
-                    <td><asp:Button ID="btnSearch" runat="server" Text="Search" /></td>
+                    <td><asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" /></td>
                 </tr>
             </table>
             <table style="width:100%;">
@@ -35,7 +26,7 @@
             </table>
             <asp:GridView ID="gvOneAddress" runat="server" Width="100%"></asp:GridView>
             <br />
-            
+            <asp:GridView ID="gvTest" runat="server"></asp:GridView>
             <br /><br />
         </ContentTemplate>
     </asp:UpdatePanel>

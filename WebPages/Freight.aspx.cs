@@ -13,27 +13,32 @@ using System.Windows.Forms;
 
 public partial class WebPages_Freight : System.Web.UI.Page
 {
+    ExcelRead excel = new ExcelRead();
+    DataSet ds = new DataSet();
+
     OneMapData data = new OneMapData();
     OneMapData_Result[] results = null;
+    string searchVal = "";
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(!Page.IsPostBack)
+        if (!Page.IsPostBack)
         {
-            Session["AttemptCount"] = 1;
-            data = load_data_result(1);
-            Session["TotalPage"] = data.totalNumPages;
+            btnNextPage.Visible = false;
+            btnPrevPage.Visible = false;
+
+            ds = excel.ExcelReadData_EP("http://www.worldfreightnetwork.com/userimages/WFN%20Contact%20List.xls", 2);
+            gvTest.DataSource = ds;
+            gvTest.DataBind();
         }
     }
 
-    private OneMapData load_data_result(int page_index)
+    private OneMapData load_data_result(string searchVal, int page_index)
     {
-        //OneMapData_Result[] results = null;
         IList<OneMapData_Result[]> result_list = new List<OneMapData_Result[]>();
-        string url = "https://developers.onemap.sg/commonapi/search?searchVal=logistics&returnGeom=N&getAddrDetails=Y&pageNum=" + page_index.ToString();
-        //int count = 1;
+        string url = System.Web.Configuration.WebConfigurationManager.AppSettings["OneMapAPIUrl"] + 
+            "?searchVal=" + searchVal + "&returnGeom=N&getAddrDetails=Y&pageNum=" + page_index.ToString();
 
-        //OneMapData data = new OneMapData();
         try
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -54,11 +59,6 @@ public partial class WebPages_Freight : System.Web.UI.Page
             lblTest.Text = ex.ToString();
         }
 
-
-        //DataSet ds = Dummy.ToDataSet<OneMapData_Result[]>(result_list);
-        lblTest.Text = data.totalNumPages.ToString() + "\n";
-        lblTest.Text += url;
-        //lblTest.Text += "\nResult.Count " + result_list.Count.ToString() + "\nCount " + count.ToString();
         gvOneAddress.DataSource = results;
         gvOneAddress.DataBind();
         gvOneAddress.HeaderRow.Cells[0].Text = "Address Name";
@@ -72,6 +72,7 @@ public partial class WebPages_Freight : System.Web.UI.Page
 
     protected void btnNextPage_Click(object sender, EventArgs e)
     {
+        string value = (string)Session["searchval"];
         int counter = (int)Session["AttemptCount"];
         int totalPage = (int)Session["TotalPage"];
 
@@ -79,28 +80,18 @@ public partial class WebPages_Freight : System.Web.UI.Page
         {
             counter++;
             Session["AttemptCount"] = counter;
-            data = load_data_result(counter);
+            data = load_data_result(value, counter);
             lblTest.Text = "Current Page : " + counter + " Total Page: " + totalPage;
         }
         else
         {
-            //lblTest.Text = "ATTEMPT COUNT LIMIT REACHED";
-            popup_error();
+            popup_error("page limit exceeded.");
         }
-
-        //do
-        //{
-        //    counter++;
-
-        //    Session["AttemptCount"] = counter;
-        //    lblTest.Text += "COUNTER" + counter + "\nTOTAL PAGE NO : " + data.totalNumPages;
-
-        //    load_data_result(counter);
-        //} while (counter == totalPage);
     }
 
     protected void btnPrevPage_Click(object sender, EventArgs e)
     {
+        string value = (string)Session["searchval"];
         int counter = (int)Session["AttemptCount"];
         int totalPage = (int)Session["TotalPage"];
 
@@ -108,19 +99,43 @@ public partial class WebPages_Freight : System.Web.UI.Page
         {
             counter--;
             Session["AttemptCount"] = counter;
-            data = load_data_result(counter);
+            data = load_data_result(value, counter);
             lblTest.Text = "Current Page : " + counter + " Total Page: " + totalPage;
         }
         else
         {
-            //lblTest.Text = "ATTEMPT COUNT LIMIT REACHED";
-            popup_error();
+            popup_error("page limit exceeded.");
         }
     }
 
-    private void popup_error()
+    protected void btnSearch_Click(object sender, EventArgs e)
     {
-        MessageBox.Show("page limit exceeded", "Warning",
+        searchVal = txtSearchAddress.Text;
+        if (searchVal.Equals(""))
+        {
+            popup_error("Please enter any value into the textbox.");
+        }
+        else
+        {
+            btnNextPage.Visible = true;
+            btnPrevPage.Visible = true;
+
+            data = load_data_result(searchVal, 1);
+
+            Session["searchval"] = txtSearchAddress.Text;
+            Session["AttemptCount"] = 1;
+            Session["TotalPage"] = data.totalNumPages;
+
+            int totalPage = (int)Session["TotalPage"];
+            int counter = (int)Session["AttemptCount"];
+
+            lblTest.Text = "Current Page : " + counter + " Total Page: " + totalPage;
+        }
+    }
+
+    private void popup_error(string message)
+    {
+        MessageBox.Show(message, "Warning",
     MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
     }
 

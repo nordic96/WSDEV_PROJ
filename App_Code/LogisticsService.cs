@@ -6,6 +6,8 @@ using System.Web.Services;
 using System.Data;
 using System.Data.OleDb;
 using System.Text;
+using System.Net;
+using ExcelDataReader;
 
 /// <summary>
 /// This service contains logistics related WS.
@@ -24,43 +26,48 @@ public class LogisticsService : System.Web.Services.WebService
         //InitializeComponent(); 
     }
 
+    //DownloadFile file = new DownloadFile();
+    //private string GetConectionString(string url)
+    //{
+    //    Dictionary<string, string> props = new Dictionary<string, string>();
+    //    props["Provider"] = "Microsoft.ACE.OLEDB.12.0";
+    //    props["Extended Properties"] = "Excel 12.0 XML";
+    //    props["Data Source"] = file.DownloadFileTemp(url); //File Source C:\Users\rhrlg\Downloads/portcode2012.xls
 
-    //[WebMethod]
+    //    StringBuilder sb = new StringBuilder();
+    //    foreach (KeyValuePair<string, string> prop in props)
+    //    {
+    //        sb.Append(prop.Key);
+    //        sb.Append('=');
+    //        sb.Append(prop.Value);
+    //        sb.Append(';');
+    //    }
+    //    return sb.ToString();
+    //}
 
-
-    DownloadFile file = new DownloadFile();
-    private string GetConectionString(string url)
-    {
-        Dictionary<string, string> props = new Dictionary<string, string>();
-        props["Provider"] = "Microsoft.ACE.OLEDB.12.0";
-        props["Extended Properties"] = "Excel 12.0 XML";
-        props["Data Source"] = file.DownloadFileTemp(url); //File Source C:\Users\rhrlg\Downloads/portcode2012.xls
-
-        StringBuilder sb = new StringBuilder();
-        foreach (KeyValuePair<string, string> prop in props)
-        {
-            sb.Append(prop.Key);
-            sb.Append('=');
-            sb.Append(prop.Value);
-            sb.Append(';');
-        }
-        return sb.ToString();
-    }
     //Read Excel(.xls) file and return a DataSet that contains global sea port information.
     [WebMethod]
     public DataSet GetAllSeaPortInformation()
     {
         DataSet ds = new DataSet();
-        ds = ReadExcelData(System.Web.Configuration.WebConfigurationManager.AppSettings["PortListUrl"]);
+        ds = ExcelReadData_EP("http://www.pscoman.com/Portals/0/documents/portcode2012.xls", 8); //Using new Excel Reader library
         return ds;
     }
-    //Search port information based on selected category from the Excel file
-    [WebMethod]
-    public DataSet SearchSeaPortInformation(string searchBy, string searchText)
+
+    /*
+     * 31/1/2018
+     * KoGihun
+    */
+    [WebMethod
+        (Description = "Search port information based on selected category from the Excel file. " +
+        "searchBy must be either 'Country Code', 'Port Code', 'Country Name', 'Port Name', 'Port Code'. " +
+        "searchBy must be case-sensitive, however searchText is not case-sensitive.")]
+    public DataTable SearchSeaPortInformation(string searchBy, string searchText)
     {
-        DataSet ds = new DataSet();
-        ds = SearchExcelData(System.Web.Configuration.WebConfigurationManager.AppSettings["PortListUrl"]
-            ,searchBy, searchText);
+        DataTable ds = new DataTable();
+        string searchText_final = searchText.ToUpper();
+
+        ds = ExcelSearchData_EP("http://www.pscoman.com/Portals/0/documents/portcode2012.xls", 8, searchBy, searchText_final);
         return ds;
     }
 
@@ -68,7 +75,8 @@ public class LogisticsService : System.Web.Services.WebService
     public DataSet GetAllHSCodeInformation()
     {
         DataSet ds = new DataSet();
-        ds = ReadExcelData(System.Web.Configuration.WebConfigurationManager.AppSettings["HSCodeListUrl"]);
+        //Replaced with Excel Data Reader library instead of oleDb.
+        ds = ExcelReadData_EP("https://data.gov.in/sites/default/files/datafile/itchs2012.xls", 1);
         return ds;
     }
 
@@ -320,30 +328,30 @@ public class LogisticsService : System.Web.Services.WebService
         bool result = true;
         double totPriceCalculation = 0;
 
-        hrcodes = SearchHsCode("List of Dutiable Goods ", HSCode);
-        string calculationCustomRate = hrcodes.Tables[0].Rows[0][2].ToString();
-        string calculationExciseRate = hrcodes.Tables[0].Rows[0][3].ToString();
-        double totalproductprice = totalPrice;
+        //hrcodes = SearchHsCode("List of Dutiable Goods ", HSCode);
+        //string calculationCustomRate = hrcodes.Tables[0].Rows[0][2].ToString();
+        //string calculationExciseRate = hrcodes.Tables[0].Rows[0][3].ToString();
+        //double totalproductprice = totalPrice;
 
 
-        char[] MyChar = { ' ', 'p', 'c', 'e' };
-        string subC = calculationCustomRate.Substring(0, 1);
-        if (subC.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
-        {
-            string subC2 = calculationCustomRate.Substring(0, 7);
-            string newsubC2 = subC2.Remove(0, 1);
-            string NewString = newsubC2.TrimEnd(MyChar).ToString();
-            double customDutiesValue = Convert.ToDouble(NewString);
-            totPriceCalculation = customDutiesValue * weight;
-        }
+        //char[] MyChar = { ' ', 'p', 'c', 'e' };
+        //string subC = calculationCustomRate.Substring(0, 1);
+        //if (subC.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
+        //{
+        //    string subC2 = calculationCustomRate.Substring(0, 7);
+        //    string newsubC2 = subC2.Remove(0, 1);
+        //    string NewString = newsubC2.TrimEnd(MyChar).ToString();
+        //    double customDutiesValue = Convert.ToDouble(NewString);
+        //    totPriceCalculation = customDutiesValue * weight;
+        //}
 
-        else if (subC == "N")
-        {
-            result = false;
-        }
+        //else if (subC == "N")
+        //{
+        //    result = false;
+        //}
 
-        duty.totalDuties = totPriceCalculation;
-        duty.result = result;
+        //duty.totalDuties = totPriceCalculation;
+        //duty.result = result;
         return duty;
     }
 
@@ -356,7 +364,8 @@ public class LogisticsService : System.Web.Services.WebService
         bool result = true;
         double totPriceCalculation = 0;
 
-        hrcodes = SearchHsCode("List of Dutiable Goods ", HSCode);
+        //Change the SearchHsCode - GH
+        //hrcodes = SearchHsCode("List of Dutiable Goods ", HSCode);
         string calculationCustomRate = hrcodes.Tables[0].Rows[0][2].ToString();
         string calculationExciseRate = hrcodes.Tables[0].Rows[0][3].ToString();
         double totalproductprice = totalPrice;
@@ -435,107 +444,166 @@ public class LogisticsService : System.Web.Services.WebService
         return duty;
     }
 
-    //Read Excel Function
-    private DataSet ReadExcelData(string url)
+    private DataSet ExcelReadData_EP(string url, int row_to_start) //If header is located at first row, put 1
     {
+        DownloadFile file = new DownloadFile();
+        WebClient client = new WebClient();
         DataSet ds = new DataSet();
-        string connectionString = GetConectionString(url);
-        using (OleDbConnection conn = new OleDbConnection(connectionString))
+
+        using (var stream = client.OpenRead(file.DownloadFileTemp(url)))
         {
-            conn.Open();
-            OleDbCommand cmd = new OleDbCommand();
-            cmd.Connection = conn;
 
-            //Get all Sheets in Excel File
-            DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-
-            //Loop through all Sheets to get data
-            foreach (DataRow dr in dtSheet.Rows)
+            // Auto-detect format, supports:
+            //  - Binary Excel files (2.0-2003 format; *.xls)
+            //  - OpenXml Excel files (2007 format; *.xlsx)
+            using (var reader = ExcelReaderFactory.CreateReader(stream))
             {
-                string sheetName = dr["TABLE_NAME"].ToString();
 
-                cmd.CommandText = "SELECT * FROM [" + sheetName + "]";
-                DataTable dt = new DataTable();
-                dt.TableName = sheetName;
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                da.Fill(dt);
-
-                ds.Tables.Add(dt);
+                // 2. Use the AsDataSet extension method
+                ds = reader.AsDataSet(new ExcelDataSetConfiguration // if 5th row is header, read 4 times. if 2nd row is header, read 1 time;
+                {
+                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                    {
+                        UseHeaderRow = true,
+                        ReadHeaderRow = (rowReader) => {
+                            //loop implemented by Gihun
+                            for (int i = 0; i < row_to_start - 1; i++)
+                            {
+                                rowReader.Read();
+                            }
+                        }
+                    }
+                });
+                // The result of each spreadsheet is in result.Tables
             }
-
-            cmd = null;
-            conn.Close();
-        }
-
-        return ds;
-    }
-
-    //Search from Excel fucntion
-    private DataSet SearchExcelData(string url, string searchBy, string searchText)
-    {
-        DataSet ds = new DataSet();
-        string connectionString = GetConectionString(url);
-        using (OleDbConnection conn = new OleDbConnection(connectionString))
-        {
-            conn.Open();
-            OleDbCommand cmd = new OleDbCommand();
-            cmd.Connection = conn;
-
-            //Get all Sheets in Excel File
-            DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-
-            //Loop through all Sheets to get data
-            foreach (DataRow dr in dtSheet.Rows)
-            {
-                string sheetName = dr["TABLE_NAME"].ToString();
-
-                cmd.CommandText = "SELECT * FROM [" + sheetName + "] WHERE [" + searchBy + "]='" + searchText + "'";
-                DataTable dt = new DataTable();
-                dt.TableName = sheetName;
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                da.Fill(dt);
-
-                ds.Tables.Add(dt);
-            }
-
-            cmd = null;
-            conn.Close();
         }
         return ds;
     }
+
+    /*
+     * Only string values are available
+    */
+    private DataTable ExcelSearchData_EP(string url, int row_to_start, string search_by, string search_text)
+    {
+        DataSet ds_whole = new DataSet();
+        DataTable ds_result = new DataTable();
+
+        ds_whole = ExcelReadData_EP(url, row_to_start);
+        ds_result = ds_whole.Tables[0];
+
+        IEnumerable<DataRow> query =
+            from port in ds_result.AsEnumerable()
+            where port.Field<string>(search_by) == search_text
+            select port;
+
+        // Create a table from the query.
+        DataTable dt = query.CopyToDataTable<DataRow>();
+
+        dt.TableName = "SearchInfoList";
+        return dt;
+    }
+
+    ////Read Excel Function
+    //private DataSet ReadExcelData(string url)
+    //{
+    //    DataSet ds = new DataSet();
+    //    string connectionString = GetConectionString(url);
+    //    using (OleDbConnection conn = new OleDbConnection(connectionString))
+    //    {
+    //        conn.Open();
+    //        OleDbCommand cmd = new OleDbCommand();
+    //        cmd.Connection = conn;
+
+    //        //Get all Sheets in Excel File
+    //        DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+
+    //        //Loop through all Sheets to get data
+    //        foreach (DataRow dr in dtSheet.Rows)
+    //        {
+    //            string sheetName = dr["TABLE_NAME"].ToString();
+
+    //            cmd.CommandText = "SELECT * FROM [" + sheetName + "]";
+    //            DataTable dt = new DataTable();
+    //            dt.TableName = sheetName;
+    //            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+    //            da.Fill(dt);
+
+    //            ds.Tables.Add(dt);
+    //        }
+
+    //        cmd = null;
+    //        conn.Close();
+    //    }
+
+    //    return ds;
+    //}
+
+    ////Search from Excel fucntion
+    //private DataSet SearchExcelData(string url, string searchBy, string searchText)
+    //{
+    //    DataSet ds = new DataSet();
+    //    string connectionString = GetConectionString(url);
+    //    using (OleDbConnection conn = new OleDbConnection(connectionString))
+    //    {
+    //        conn.Open();
+    //        OleDbCommand cmd = new OleDbCommand();
+    //        cmd.Connection = conn;
+
+    //        //Get all Sheets in Excel File
+    //        DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+
+    //        //Loop through all Sheets to get data
+    //        foreach (DataRow dr in dtSheet.Rows)
+    //        {
+    //            string sheetName = dr["TABLE_NAME"].ToString();
+
+    //            cmd.CommandText = "SELECT * FROM [" + sheetName + "] WHERE [" + searchBy + "]='" + searchText + "'";
+    //            DataTable dt = new DataTable();
+    //            dt.TableName = sheetName;
+    //            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+    //            da.Fill(dt);
+
+    //            ds.Tables.Add(dt);
+    //        }
+
+    //        cmd = null;
+    //        conn.Close();
+    //    }
+    //    return ds;
+    //}
 
     [WebMethod]
-    public DataSet SearchHsCode(string searchBy, string searchText)
+    public DataTable SearchHsCode(string searchBy, string searchText)
     {
-        DataSet ds = new DataSet();
-        string connectionString = GetConectionString("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en");
-        using (OleDbConnection conn = new OleDbConnection(connectionString))
-        {
-            conn.Open();
-            OleDbCommand cmd = new OleDbCommand();
-            cmd.Connection = conn;
+        DataTable dt = new DataTable("HsCodeSearchResult");
+        //string connectionString = GetConectionString("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en");
+        //using (OleDbConnection conn = new OleDbConnection(connectionString))
+        //{
+        //    conn.Open();
+        //    OleDbCommand cmd = new OleDbCommand();
+        //    cmd.Connection = conn;
 
-            //Get all Sheets in Excel File
-            DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+        //    //Get all Sheets in Excel File
+        //    DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
 
-            //Loop through all Sheets to get data
-            foreach (DataRow dr in dtSheet.Rows)
-            {
-                string sheetName = dr["TABLE_NAME"].ToString();
+        //    //Loop through all Sheets to get data
+        //    foreach (DataRow dr in dtSheet.Rows)
+        //    {
+        //        string sheetName = dr["TABLE_NAME"].ToString();
 
-                cmd.CommandText = "SELECT * FROM [" + sheetName + "] WHERE [" + searchBy + "]=" + Convert.ToInt32(searchText);
-                DataTable dt = new DataTable();
-                dt.TableName = sheetName;
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                da.Fill(dt);
+        //        cmd.CommandText = "SELECT * FROM [" + sheetName + "] WHERE [" + searchBy + "]=" + Convert.ToInt32(searchText);
+        //        DataTable dt = new DataTable();
+        //        dt.TableName = sheetName;
+        //        OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+        //        da.Fill(dt);
 
-                ds.Tables.Add(dt);
-            }
+        //        ds.Tables.Add(dt);
+        //    }
 
-            cmd = null;
-            conn.Close();
-        }
-        return ds;
+        //    cmd = null;
+        //    conn.Close();
+        //}
+        return dt;
     }
     //For Airmail Post Rate Get Country Zone Number
     private int get_zone_no(string select)
