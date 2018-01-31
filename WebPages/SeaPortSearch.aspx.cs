@@ -30,11 +30,13 @@ public partial class WebPages_SeaPortSearch : System.Web.UI.Page
 
     protected void btnSearchPort_Click(object sender, EventArgs e)
     {
+        DataTable dt = new DataTable();
         string searchBy = ddlSearchPort.SelectedValue, searchText = txtSearchPort.Text;
-        DataTable portExcelDs_result = cis.SearchSeaPortInformation(searchBy, searchText);
+        dt = cis.SearchSeaPortInformation(searchBy, searchText);
 
-        gvSeaPort.DataSource = portExcelDs_result;
+        gvSeaPort.DataSource = dt;
         gvSeaPort.DataBind();
+
     }
 
     //Load port columns into the  drop down list

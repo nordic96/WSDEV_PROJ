@@ -24,9 +24,9 @@
                     </td>
                 </tr>
             </table>
-            <asp:GridView ID="gvOneAddress" runat="server" Width="100%"></asp:GridView>
+            <asp:GridView ID="gvOneAddress" runat="server" Width="100%" AutoGenerateColumns="true"></asp:GridView>
             <br />
-            <asp:GridView ID="gvTest" runat="server"></asp:GridView>
+            <asp:GridView ID="gvTest" runat="server" Width="100%" AutoGenerateColumns="true"></asp:GridView>
             <br /><br />
         </ContentTemplate>
     </asp:UpdatePanel>

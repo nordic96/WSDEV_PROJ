@@ -101,11 +101,14 @@ public class ExcelRead
         return ds;
     }
 
-    public DataSet ExcelReadData_EP(string url, int row_to_start) //If header is located at first row, put 1
+
+    //Testing for reading merged cells
+    public DataTable ExcelReadData_EPX(string url, int row_to_start) //If header is located at first row, put 1
     {
         DownloadFile file = new DownloadFile();
         WebClient client = new WebClient();
         DataSet ds = new DataSet();
+        DataTable ds2 = new DataTable("final");
 
         using (var stream = client.OpenRead(file.DownloadFileTemp(url)))
         {
@@ -113,29 +116,16 @@ public class ExcelRead
             // Auto-detect format, supports:
             //  - Binary Excel files (2.0-2003 format; *.xls)
             //  - OpenXml Excel files (2007 format; *.xlsx)
-            using (var reader = ExcelReaderFactory.CreateReader(stream))
+            using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
             {
-                //do
-                //{
-                //    while (reader.Read())
-                //    {
-                //        // reader.GetDouble(0);
-                //        if (reader.Depth.Equals(row_to_start))
-                //        {
-                //            reader.NextResult();
-                //        }
-                //        else
-                //        {
-                //            continue;
-                //        }
-                //    }
-                //} while (reader.NextResult());
 
                 // 2. Use the AsDataSet extension method
                 ds = reader.AsDataSet(new ExcelDataSetConfiguration // if 5th row is header, read 4 times. if 2nd row is header, read 1 time;
                 {
                     ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
                     {
+                        EmptyColumnNamePrefix = "A",
+
                         UseHeaderRow = true,
                         ReadHeaderRow = (rowReader) => {
                             for(int i=0; i < row_to_start - 1; i++)
@@ -145,11 +135,14 @@ public class ExcelRead
                         }
                     }
                 });
-
                 // The result of each spreadsheet is in result.Tables
             }
         }
-
-        return ds;
+        ds2.Columns.Add("HS Code", typeof(string));
+        ds2.Columns.Add("Product Description", typeof(string));
+        ds2.Columns.Add("Customs Duty", typeof(string));
+        ds2.Columns.Add("Excise Duty", typeof(string));
+        ds2.Load(ds.CreateDataReader(), System.Data.LoadOption.OverwriteChanges);
+        return ds2;
     }
 }
