@@ -11,7 +11,8 @@
             <table style="width:auto">
                 <tr style="height:50px;">
                     <td>Search By : <asp:DropDownList ID="ddlSearchPort" runat="server" OnSelectedIndexChanged="ddlSearchPort_SelectedIndexChanged"></asp:DropDownList></td>
-                    <td><asp:TextBox ID="txtSearchPort" runat="server"></asp:TextBox></td>
+                    <td><asp:TextBox ID="txtSearchPort" runat="server"></asp:TextBox>
+                    </td>
                     <td><asp:Button ID="btnSearchPort" runat="server" Text="Search" OnClick="btnSearchPort_Click" /></td>
                     <td>
                         <asp:UpdateProgress ID="UpdateProgress1" runat="server">
