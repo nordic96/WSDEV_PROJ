@@ -31,12 +31,24 @@ public partial class WebPages_SeaPortSearch : System.Web.UI.Page
     protected void btnSearchPort_Click(object sender, EventArgs e)
     {
         DataTable dt = new DataTable();
-        string searchBy = ddlSearchPort.SelectedValue, searchText = txtSearchPort.Text;
+        string searchBy = ddlSearchPort.SelectedItem.Text, searchText = txtSearchPort.Text;
+        
         dt = cis.SearchSeaPortInformation(searchBy, searchText);
+        int row_count = dt.Rows.Count;
 
-        gvSeaPort.DataSource = dt;
-        gvSeaPort.DataBind();
+        if (row_count > 0)
+        {
+            lblTest.Text = "";
+            gvSeaPort.DataSource = dt;
+            gvSeaPort.DataBind();
+        }
 
+        else if (dt == null || row_count == 0)
+        {
+            lblTest.Text = "No search result found.";
+            gvSeaPort.DataSource = dt;
+            gvSeaPort.DataBind();
+        }
     }
 
     //Load port columns into the  drop down list
@@ -48,8 +60,12 @@ public partial class WebPages_SeaPortSearch : System.Web.UI.Page
         }
     }
 
-    protected void gvSeaPort_PageIndexChanged(object sender, EventArgs e)
+    private List<string> GetCompletionList(string prefixText, int count)
     {
-        lblTest.Text = "TEST";
+        List<string> list = new List<string>();
+
+
+
+        return list;
     }
 }

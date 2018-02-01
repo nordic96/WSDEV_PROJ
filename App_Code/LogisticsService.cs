@@ -43,10 +43,9 @@ public class LogisticsService : System.Web.Services.WebService
     public DataTable SearchSeaPortInformation(string searchBy, string searchText)
     {
         DataTable dt = new DataTable();
+        //string searchText_final = "";
 
-        string searchText_final = searchText.ToUpper();
-
-        dt = ExcelSearchData_EP("http://www.pscoman.com/Portals/0/documents/portcode2012.xls", 8, searchBy, searchText_final);
+        dt = ExcelSearchData_EP("http://www.pscoman.com/Portals/0/documents/portcode2012.xls", 8, searchBy, searchText);
 
         return dt;
     }
@@ -475,6 +474,7 @@ public class LogisticsService : System.Web.Services.WebService
     {
         DataSet ds_whole = new DataSet();
         DataTable ds_result = new DataTable();
+        DataTable dt = new DataTable();
 
         ds_whole = ExcelReadData_EP(url, row_to_start);
         ds_result = ds_whole.Tables[0];
@@ -484,10 +484,18 @@ public class LogisticsService : System.Web.Services.WebService
             where port.Field<string>(search_by) == search_text
             select port;
 
+        //If query is not empty search result will be copied into data table.
+        if(query.Any())
+        {
+            dt = query.CopyToDataTable<DataRow>();
+            dt.TableName = "SearchInfoList";
+        }
+        else
+        {
+            dt.TableName = "EmptySearchInfoList";
+        }
         // Create a table from the query.
-        DataTable dt = query.CopyToDataTable<DataRow>();
 
-        dt.TableName = "SearchInfoList";
         return dt;
     }
 

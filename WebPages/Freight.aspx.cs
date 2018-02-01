@@ -139,5 +139,4 @@ public partial class WebPages_Freight : System.Web.UI.Page
         MessageBox.Show(message, "Warning",
     MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
     }
-
 }
