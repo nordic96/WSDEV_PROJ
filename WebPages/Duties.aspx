@@ -51,8 +51,8 @@
             <h5>Search the duties rate by either HS Code/Product Description</h5>
             <asp:Label ID="lblSearchBy" runat="server" Text="Search By: "></asp:Label>
             <asp:DropDownList ID="ddlSearchBy" runat="server" Height="16px">
-                <asp:ListItem Value="List of Dutiable Goods ">HS Code</asp:ListItem>
-                <asp:ListItem Value="F2">Product Description</asp:ListItem>
+                <asp:ListItem Value="HS Code">HS Code</asp:ListItem>
+                <asp:ListItem Value="Product Description">Product Description</asp:ListItem>
             </asp:DropDownList>
             <asp:TextBox ID="tbSearchBy" runat="server"></asp:TextBox>
             <asp:Button ID="btnSearchBy" runat="server" Text="Search" OnClick="btnSearchBy_Click" />
