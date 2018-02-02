@@ -51,14 +51,6 @@ public class LogisticsService : System.Web.Services.WebService
         return dt;
     }
 
-    [WebMethod]
-    public DataSet GetAllHSCodeInformation()
-    {
-        DataSet ds = new DataSet();
-        //Replaced with Excel Data Reader library instead of oleDb.
-        ds = ExcelReadData_EP("https://data.gov.in/sites/default/files/datafile/itchs2012.xls", 1);
-        return ds;
-    }
 
     //Calculate the post mail charge in local area (SG).
     [WebMethod
@@ -318,130 +310,6 @@ public class LogisticsService : System.Web.Services.WebService
         return p;
     }
 
-    [WebMethod]
-    public Duty CalculateIntnProductDuty(string HSCode, double weight, double totalPrice)
-    {
-        //ExcelRead excel = new ExcelRead();
-        DataSet hrcodes = new DataSet();
-        Duty duty = new Duty();
-        bool result = true;
-        double totPriceCalculation = 0;
-
-        //hrcodes = SearchHsCode("HS Code", HSCode);
-        string calculationCustomRate = hrcodes.Tables[0].Rows[0][2].ToString();
-        string calculationExciseRate = hrcodes.Tables[0].Rows[0][3].ToString();
-        double totalproductprice = totalPrice;
-
-
-        char[] MyChar = { ' ', 'p', 'c', 'e' };
-        string subC = calculationCustomRate.Substring(0, 1);
-        if (subC.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
-        {
-            string subC2 = calculationCustomRate.Substring(0, 7);
-            string newsubC2 = subC2.Remove(0, 1);
-            string NewString = newsubC2.TrimEnd(MyChar).ToString();
-            double customDutiesValue = Convert.ToDouble(NewString);
-            totPriceCalculation = customDutiesValue * weight;
-        }
-
-        else if (subC == "N")
-        {
-            result = false;
-        }
-
-        duty.totalDuties = totPriceCalculation;
-        duty.result = result;
-        return duty;
-    }
-
-    [WebMethod]
-    public Duty CalculateDomesticProductDuty(string HSCode, double weight, double totalPrice)
-    {
-        ExcelRead excel = new ExcelRead();
-        DataSet hrcodes = new DataSet();
-        Duty duty = new Duty();
-        bool result = true;
-        double totPriceCalculation = 0;
-
-        //Change the SearchHsCode - GH
-        //hrcodes = SearchHsCode("List of Dutiable Goods ", HSCode);
-        string calculationCustomRate = hrcodes.Tables[0].Rows[0][2].ToString();
-        string calculationExciseRate = hrcodes.Tables[0].Rows[0][3].ToString();
-        double totalproductprice = totalPrice;
-
-
-        char[] MyChar = { ' ', 'p', 'c', 'e' };
-        string subC = calculationCustomRate.Substring(0, 1);
-        string subE = calculationExciseRate.Substring(0, 1);
-        if (subC.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
-        {
-            string subC2 = calculationCustomRate.Substring(0, 7);
-            string newsubC2 = subC2.Remove(0, 1);
-            string NewString = newsubC2.TrimEnd(MyChar).ToString();
-            double customDutiesValue = Convert.ToDouble(NewString);
-            //totPriceCalculation = customDutiesValue * weight;
-
-            if (subE.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
-            {
-                string subE2 = calculationExciseRate.Substring(0, 7);
-                string newsubE2 = subE2.Remove(0, 1);
-                string NewStringE = newsubE2.TrimEnd(MyChar).ToString();
-                double exciseDutiesValue = Convert.ToDouble(NewStringE);
-                totPriceCalculation = (customDutiesValue * weight) + (exciseDutiesValue * weight);
-            }
-
-            else if (calculationExciseRate.Contains("cents")) //CHECKING FOR EXCISE DUTY THAT CONTAINS 'CENTS'
-            {
-                string subE2 = calculationExciseRate.Substring(0, 4);
-                string NewStringE = subE2.TrimEnd(MyChar).ToString();
-                double exciseDutiesValue = Convert.ToDouble(NewStringE);
-                totPriceCalculation = (customDutiesValue * weight) + ((exciseDutiesValue / 100) * weight);
-            }
-
-            else if (calculationExciseRate.Contains("%")) //CHECKING FOR EXCISE DUTY THAT CONTAINS '%'
-            {
-                string subE2 = calculationExciseRate.Substring(0, 2);
-                double exciseDutiesValue = Convert.ToDouble(subE2);
-                totPriceCalculation = (customDutiesValue * weight) + (exciseDutiesValue / 100) * (totalproductprice);
-            }
-
-        }
-
-        else if (subC == "N")
-        {
-            result = false;
-            if (result == false)
-            {
-                if (subE.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
-                {
-                    string subE2 = calculationExciseRate.Substring(0, 7);
-                    string newsubE2 = subE2.Remove(0, 1);
-                    string NewStringE = newsubE2.TrimEnd(MyChar).ToString();
-                    double exciseDutiesValue = Convert.ToDouble(NewStringE);
-                    totPriceCalculation = exciseDutiesValue * weight;
-                }
-
-                else if (calculationExciseRate.Contains("cents")) //CHECKING FOR EXCISE DUTY THAT CONTAINS 'CENTS'
-                {
-                    string subE2 = calculationExciseRate.Substring(0, 4);
-                    string NewStringE = subE2.TrimEnd(MyChar).ToString();
-                    double exciseDutiesValue = Convert.ToDouble(NewStringE);
-                    totPriceCalculation = (exciseDutiesValue / 100) * weight;
-                }
-
-                else if (calculationExciseRate.Contains("%")) //CHECKING FOR EXCISE DUTY THAT CONTAINS '%'
-                {
-                    string subE2 = calculationExciseRate.Substring(0, 2);
-                    double exciseDutiesValue = Convert.ToDouble(subE2);
-                    totPriceCalculation = (exciseDutiesValue / 100) * (totalproductprice);
-                }
-            }
-        }
-
-        duty.totalDuties = totPriceCalculation;
-        duty.result = result;
-        return duty;
-    }
 
     private DataSet ExcelReadData_EP(string url, int row_to_start) //If header is located at first row, put 1
     {
@@ -562,33 +430,19 @@ public class LogisticsService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public DataTable SearchHsCode(string searchBy, string searchText)
+    public DataTable SearchDutiableTaxHsCode(string searchBy, string searchText)
     {
-<<<<<<< HEAD
-        DataTable dt = new DataTable();
-        //DataTable dt = new DataTable();
-        //string searchText_final = searchText;
-
-        dt = ExcelSearchData_EP("https://drive.google.com/uc?export=download&id=1bvu9u09zqzQ4oTRSHRP2CQYUkasxudJw", 1, searchBy, searchText);
-        return dt;
-        //string connectionString = GetConectionString("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en");
-        //using (OleDbConnection conn = new OleDbConnection(connectionString))
-        //{
-        //    conn.Open();
-        //    OleDbCommand cmd = new OleDbCommand();
-        //    cmd.Connection = conn;
-=======
         DataSet ds_whole = new DataSet();
         DataTable ds_result = new DataTable();
         DataTable dt = new DataTable();
+        DataTable dt2 = new DataTable("final");
         IEnumerable<DataRow> query = null;
->>>>>>> eadd14a0fc14f926a90431c8b7b0d89f6dd08d1e
 
         ds_whole = ExcelReadData_EP("https://drive.google.com/uc?export=download&id=1bvu9u09zqzQ4oTRSHRP2CQYUkasxudJw", 1);
         ds_result = ds_whole.Tables[0];
 
         //If Else to check whether searchby is HS Code or Product Description.
-        if(searchBy.Equals("HS Code"))
+        if (searchBy.Equals("HS Code"))
         {
             query =
                 from port in ds_result.AsEnumerable()
@@ -613,18 +467,270 @@ public class LogisticsService : System.Web.Services.WebService
             dt.TableName = "EmptySearchInfoList";
         }
 
-        //If query is not empty search result will be copied into data table.
+        dt2.Columns.Add("HS Code", typeof(string));
+        dt2.Columns.Add("Product Description", typeof(string));
+        dt2.Columns.Add("Customs Duty", typeof(string));
+        dt2.Columns.Add("Excise Duty", typeof(string));
+        dt2.Load(dt.CreateDataReader(), System.Data.LoadOption.OverwriteChanges);
+        return dt2;
 
-        // Create a table from the query.
 
-<<<<<<< HEAD
-        //    cmd = null;
-        //    conn.Close();
-        //}
-        //return dt;
-=======
+    }
+
+    [WebMethod]
+    public DataSet GetAllHSCodeInformation()
+    {
+        DataSet ds = new DataSet();
+        //Replaced with Excel Data Reader library instead of oleDb.
+        ds = ExcelReadData_EP("https://www.tradenet.gov.sg/tradenet/portlets/search/searchHSCA/searchHSCA.do?download=hsCodeDownload&tradeNetVersion=41&searchType=userDownload&simpleSearch=false", 1);
+        return ds;
+    }
+
+    [WebMethod]
+    public DataTable SearchHsCodeInformation(string searchBy, string searchText)
+    {
+        DataTable dt = new DataTable();
+        //string searchText_final = "";
+
+        dt = ExcelSearchData_EP("https://www.tradenet.gov.sg/tradenet/portlets/search/searchHSCA/searchHSCA.do?download=hsCodeDownload&tradeNetVersion=41&searchType=userDownload&simpleSearch=false", 1, searchBy, searchText);
+
         return dt;
->>>>>>> eadd14a0fc14f926a90431c8b7b0d89f6dd08d1e
+    }
+
+    [WebMethod]
+    public Duty CalculateDomesticProductDuty(string HSCode, double weight, double totalPrice)
+    {
+        //ExcelRead excel = new ExcelRead();
+        //DataSet hrcodes = new DataSet();
+        DataTable hrcodes = new DataTable();
+        Duty duty = new Duty();
+        bool result = true;
+        double totPriceCalculation = 0;
+
+        hrcodes = SearchDutiableTaxHsCode("HS Code", HSCode);
+        string calculationCustomRate = hrcodes.Rows[0][2].ToString();
+        string calculationExciseRate = hrcodes.Rows[0][3].ToString();
+        double totalproductprice = totalPrice;
+
+
+        char[] MyChar = { ' ', 'p', 'c', 'e' };
+        string subC = calculationCustomRate.Substring(0, 1);
+        string subE = calculationExciseRate.Substring(0, 1);
+        if (subC.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
+        {
+            string subC2 = calculationCustomRate.Substring(0, 7);
+            string newsubC2 = subC2.Remove(0, 1);
+            string NewString = newsubC2.TrimEnd(MyChar).ToString();
+            double customDutiesValue = Convert.ToDouble(NewString);
+            //totPriceCalculation = customDutiesValue * weight;
+
+            if (subE.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
+            {
+                string subE2 = calculationExciseRate.Substring(0, 7);
+                string newsubE2 = subE2.Remove(0, 1);
+                string NewStringE = newsubE2.TrimEnd(MyChar).ToString();
+                double exciseDutiesValue = Convert.ToDouble(NewStringE);
+                totPriceCalculation = (customDutiesValue * weight) + (exciseDutiesValue * weight);
+            }
+
+            else if (calculationExciseRate.Contains("cents")) //CHECKING FOR EXCISE DUTY THAT CONTAINS 'CENTS'
+            {
+                string subE2 = calculationExciseRate.Substring(0, 4);
+                string NewStringE = subE2.TrimEnd(MyChar).ToString();
+                double exciseDutiesValue = Convert.ToDouble(NewStringE);
+                totPriceCalculation = (customDutiesValue * weight) + ((exciseDutiesValue / 100) * weight);
+            }
+
+            else if (subE.Equals("0")) //CHECKING FOR EXCISE DUTY THAT CONTAINS '%'
+            {
+                string subE2 = calculationExciseRate.Substring(0, 4);
+                string NewStringE = subE2.TrimEnd(MyChar).ToString();
+                double exciseDutiesValue = Convert.ToDouble(NewStringE);
+                totPriceCalculation = (customDutiesValue * weight) + (exciseDutiesValue * totalproductprice);
+            }
+
+        }
+
+        else if (subC == "N")
+        {
+            result = false;
+            if (result == false)
+            {
+                if (subE.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
+                {
+                    string subE2 = calculationExciseRate.Substring(0, 7);
+                    string newsubE2 = subE2.Remove(0, 1);
+                    string NewStringE = newsubE2.TrimEnd(MyChar).ToString();
+                    double exciseDutiesValue = Convert.ToDouble(NewStringE);
+                    totPriceCalculation = exciseDutiesValue * weight;
+                }
+
+                else if (calculationExciseRate.Contains("cents")) //CHECKING FOR EXCISE DUTY THAT CONTAINS 'CENTS'
+                {
+                    string subE2 = calculationExciseRate.Substring(0, 4);
+                    string NewStringE = subE2.TrimEnd(MyChar).ToString();
+                    double exciseDutiesValue = Convert.ToDouble(NewStringE);
+                    totPriceCalculation = (exciseDutiesValue / 100) * weight;
+                }
+
+                else if (subE.Equals("0")) //CHECKING FOR EXCISE DUTY THAT CONTAINS '%'
+                {
+                    string subE2 = calculationExciseRate.Substring(0, 4);
+                    string NewStringE = subE2.TrimEnd(MyChar).ToString();
+                    double exciseDutiesValue = Convert.ToDouble(NewStringE);
+                    totPriceCalculation = exciseDutiesValue * totalproductprice;
+                }
+            }
+        }
+
+        duty.totalDuties = totPriceCalculation;
+        duty.result = result;
+        return duty;
+    }
+
+    [WebMethod]
+    public Duty CalculateIntnProductDuty(string HSCode, double weight, double totalPrice)
+    {
+        //ExcelRead excel = new ExcelRead();
+        //DataSet hrcodes = new DataSet();
+        DataTable hrcodes = new DataTable();
+        Duty duty = new Duty();
+        bool result = true;
+        double totPriceCalculation = 0;
+
+        hrcodes = SearchDutiableTaxHsCode("HS Code", HSCode);
+        string calculationCustomRate = hrcodes.Rows[0][2].ToString();
+        string calculationExciseRate = hrcodes.Rows[0][3].ToString();
+        double totalproductprice = totalPrice;
+
+
+        char[] MyChar = { ' ', 'p', 'c', 'e' };
+        string subC = calculationCustomRate.Substring(0, 1);
+        if (subC.Equals("$")) //CHECKING FOR EXCISE DUTY THAT STARTS WITH '$'
+        {
+            string subC2 = calculationCustomRate.Substring(0, 7);
+            string newsubC2 = subC2.Remove(0, 1);
+            string NewString = newsubC2.TrimEnd(MyChar).ToString();
+            double customDutiesValue = Convert.ToDouble(NewString);
+            totPriceCalculation = customDutiesValue * weight;
+        }
+
+        else if (subC == "N")
+        {
+            result = false;
+        }
+
+        duty.totalDuties = totPriceCalculation;
+        duty.result = result;
+        return duty;
+    }
+
+    [WebMethod]
+    public DataTable GetAllFreightForwarderContacts()
+    {
+        int row_to_start = 2;
+        string url = "http://www.worldfreightnetwork.com/userimages/WFN%20Contact%20List.xls";
+        DownloadFile file = new DownloadFile();
+        WebClient client = new WebClient();
+        DataSet ds = new DataSet();
+        DataTable ds2 = new DataTable("FreightForwarder");
+
+        using (var stream = client.OpenRead(file.DownloadFileTemp(url)))
+        {
+
+            // Auto-detect format, supports:
+            //  - Binary Excel files (2.0-2003 format; *.xls)
+            //  - OpenXml Excel files (2007 format; *.xlsx)
+            using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
+            {
+
+                // 2. Use the AsDataSet extension method
+                ds = reader.AsDataSet(new ExcelDataSetConfiguration // if 5th row is header, read 4 times. if 2nd row is header, read 1 time;
+                {
+                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                    {
+                        EmptyColumnNamePrefix = "A",
+
+                        UseHeaderRow = true,
+                        ReadHeaderRow = (rowReader) => {
+                            for (int i = 0; i < row_to_start - 1; i++)
+                            {
+                                rowReader.Read();
+                            }
+                        }
+                    }
+                });
+                // The result of each spreadsheet is in result.Tables
+            }
+        }
+        //ds2.Columns.Add("Country", typeof(string));
+        //ds2.Columns.Add("Company Name", typeof(string));
+        //ds2.Columns.Add("Tel Num", typeof(string));
+        //ds2.Columns.Add("Emergency Num", typeof(string));
+        //ds2.Columns.Add("Fax Number", typeof(string));
+        //ds2.Columns.Add("Email", typeof(string));
+        //ds2.Columns.Add("Contact Names", typeof(string));
+        //ds2.Columns.Add("Website", typeof(string));
+        //ds2.Columns.Add("MSN", typeof(string));
+        //ds2.Columns.Add("Skype", typeof(string));
+        //ds2.Columns.Add("Address", typeof(string));
+        //ds2.Columns.Add("Noted", typeof(string));
+        ds2.Load(ds.CreateDataReader(), System.Data.LoadOption.OverwriteChanges);
+        return ds2;
+    }
+
+    [WebMethod]
+    public DataTable SearchFreightForwarders(string searchBy, string searchText)
+    {
+        DataSet ds_whole = new DataSet();
+        DataTable ds_result = new DataTable();
+        DataTable dt = new DataTable();
+        DataTable dt2 = new DataTable("final");
+        IEnumerable<DataRow> query = null;
+
+        ds_whole = ExcelReadData_EP("http://www.worldfreightnetwork.com/userimages/WFN%20Contact%20List.xls", 2);
+        ds_result = ds_whole.Tables[0];
+
+        //If Else to check whether searchby is HS Code or Product Description.
+        if (searchBy.Equals("Country"))
+        {
+            query =
+                from port in ds_result.AsEnumerable()
+                where port.Field<string>(searchBy) == Convert.ToString(searchText)
+                select port;
+        }
+        else if (searchBy.Equals("Company Name"))
+        {
+            query =
+                from port in ds_result.AsEnumerable()
+                where port.Field<string>(searchBy).Contains(searchText)
+                select port;
+        }
+
+        if (query.Any())
+        {
+            dt = query.CopyToDataTable<DataRow>();
+            dt.TableName = "SearchInfoList";
+        }
+        else
+        {
+            dt.TableName = "EmptySearchInfoList";
+        }
+
+        dt2.Columns.Add("Country", typeof(string));
+        dt2.Columns.Add("Company Name", typeof(string));
+        dt2.Columns.Add("Tel Num", typeof(string));
+        dt2.Columns.Add("Emergency Num", typeof(string));
+        dt2.Columns.Add("Fax Number", typeof(string));
+        dt2.Columns.Add("Email", typeof(string));
+        dt2.Columns.Add("Contact Names", typeof(string));
+        dt2.Columns.Add("Website", typeof(string));
+        dt2.Columns.Add("MSN", typeof(string));
+        dt2.Columns.Add("Skype", typeof(string));
+        dt2.Columns.Add("Address", typeof(string));
+        dt2.Columns.Add("Noted", typeof(string));
+        dt2.Load(dt.CreateDataReader(), System.Data.LoadOption.OverwriteChanges);
+        return dt2;
     }
 
     //For Airmail Post Rate Get Country Zone Number
