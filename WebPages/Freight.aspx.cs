@@ -60,6 +60,8 @@ public partial class WebPages_Freight : System.Web.UI.Page
             lblTest.Text = ex.ToString();
         }
 
+        //Validating empty search result.
+
         gvOneAddress.DataSource = results;
         gvOneAddress.DataBind();
         gvOneAddress.HeaderRow.Cells[0].Text = "Address Name";

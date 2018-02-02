@@ -12,7 +12,14 @@ body {
 }
 
 div.gh_scroll {
-    overflow-y: scroll; height:700px;
+    overflow-y: scroll; height:500px;
+}
+
+div.gh_total_price {
+    width:20%;
+    border-bottom-style:solid;
+    border-bottom-width:thin;
+    border-bottom-color:dodgerblue;
 }
 
 table.gh_table td {
