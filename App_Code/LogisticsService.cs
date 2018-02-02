@@ -559,11 +559,12 @@ public class LogisticsService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public DataTable SearchHsCode(string searchBy, string searchText)
+    public DataTable SearchDutiableTaxHsCode(string searchBy, string searchText)
     {
         DataSet ds_whole = new DataSet();
         DataTable ds_result = new DataTable();
         DataTable dt = new DataTable();
+        DataTable dt2 = new DataTable("final");
         IEnumerable<DataRow> query = null;
 
         ds_whole = ExcelReadData_EP("https://drive.google.com/uc?export=download&id=1bvu9u09zqzQ4oTRSHRP2CQYUkasxudJw", 1);
@@ -595,11 +596,12 @@ public class LogisticsService : System.Web.Services.WebService
             dt.TableName = "EmptySearchInfoList";
         }
 
-        //If query is not empty search result will be copied into data table.
-
-        // Create a table from the query.
-
-        return dt;
+        dt2.Columns.Add("HS Code", typeof(string));
+        dt2.Columns.Add("Product Description", typeof(string));
+        dt2.Columns.Add("Customs Duty", typeof(string));
+        dt2.Columns.Add("Excise Duty", typeof(string));
+        dt2.Load(dt.CreateDataReader(), System.Data.LoadOption.OverwriteChanges);
+        return dt2;
     }
 
     //For Airmail Post Rate Get Country Zone Number
