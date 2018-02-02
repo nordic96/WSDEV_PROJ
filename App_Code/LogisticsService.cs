@@ -100,7 +100,8 @@ public class LogisticsService : System.Web.Services.WebService
         return postalPrice;
     }
     //Calculate the post mail charge for overseas by surface transport.
-    [WebMethod]
+    [WebMethod
+    (Description = "mailType can be only 'papers' available. weight is measaured in (g). (max. weight is 2000g)")]
     public PostalPrice CalculatePostRateSurface(string mailType, double weight)
     {
         PostalPrice p = new PostalPrice();
