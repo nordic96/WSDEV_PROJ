@@ -147,7 +147,9 @@
                 </table>
             </div>
             <br />
-            <asp:Label ID="lblTotalPrice" runat="server" Text=""></asp:Label>
+            <div class="gh_total_price">
+                <asp:Label ID="lblTotalPrice" runat="server" Text=""></asp:Label>
+            </div>
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>
