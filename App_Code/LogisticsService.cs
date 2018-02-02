@@ -24,7 +24,8 @@ public class LogisticsService : System.Web.Services.WebService
     }
 
     //Read Excel(.xls) file and return a DataSet that contains global sea port information.
-    [WebMethod]
+    [WebMethod 
+    (Description = "Return a DataTable of global sea port information (Country Code, Country Name, Port Code, Port Name).")]
     public DataSet GetAllSeaPortInformation()
     {
         DataSet ds = new DataSet();
@@ -37,9 +38,9 @@ public class LogisticsService : System.Web.Services.WebService
      * KoGihun
     */
     [WebMethod
-        (Description = "Search port information based on selected category from the Excel file. " +
-        "searchBy must be either 'Country Code', 'Port Code', 'Country Name', 'Port Name', 'Port Code'. " +
-        "searchBy must be case-sensitive, however searchText is not case-sensitive.")]
+    (Description = "Search port information based on selected category from the Excel file. " +
+    "searchBy must be either 'Country Code', 'Port Code', 'Country Name', 'Port Name', 'Port Code'. " +
+    "searchBy and searchText must be case-sensitive.")]
     public DataTable SearchSeaPortInformation(string searchBy, string searchText)
     {
         DataTable dt = new DataTable();
@@ -60,7 +61,9 @@ public class LogisticsService : System.Web.Services.WebService
     }
 
     //Calculate the post mail charge in local area (SG).
-    [WebMethod]
+    [WebMethod
+    (Description = "post_size must be either 'regular'/'large'/'non' (none for Non-Standard). weight is measured in (g). " +
+        "Maximum weight is 2000g (for regular size, max. weight is 40g) Invalid weight amount will return result as false.")]
     public PostalPrice CalculatePostRateLocal(string post_size, double weight)
     {
         PostalPrice postalPrice = new PostalPrice();
@@ -97,7 +100,8 @@ public class LogisticsService : System.Web.Services.WebService
         return postalPrice;
     }
     //Calculate the post mail charge for overseas by surface transport.
-    [WebMethod]
+    [WebMethod
+    (Description = "mailType can be only 'papers' available. weight is measaured in (g). (max. weight is 2000g)")]
     public PostalPrice CalculatePostRateSurface(string mailType, double weight)
     {
         PostalPrice p = new PostalPrice();
@@ -132,102 +136,113 @@ public class LogisticsService : System.Web.Services.WebService
         double totalAirRate = 0;
         bool status = true;
 
-        int zone = get_zone_no(country_code);
-        if (mailType.Equals("papers"))
+        if(country_code.Length.Equals(2))
         {
-            if (zone == 1)
+            int zone = get_zone_no(country_code);
+            if (mailType.Equals("papers"))
             {
-                if (0 < weight && weight <= 20)
-                    totalAirRate = 0.50;
-                else if (20 < weight && weight <= 50)
-                    totalAirRate = 0.70;
-                else if (50 < weight && weight <= 100)
-                    totalAirRate = 1.10;
-                else if (weight > 100 && weight <= 2000)
+                if (zone == 1)
                 {
-                    totalAirRate = 1.10 + (1.10 * (Math.Ceiling((weight - 100) / 100)));
+                    if (0 < weight && weight <= 20)
+                        totalAirRate = 0.50;
+                    else if (20 < weight && weight <= 50)
+                        totalAirRate = 0.70;
+                    else if (50 < weight && weight <= 100)
+                        totalAirRate = 1.10;
+                    else if (weight > 100 && weight <= 2000)
+                    {
+                        totalAirRate = 1.10 + (1.10 * (Math.Ceiling((weight - 100) / 100)));
+                    }
+                    else
+                        status = false;
                 }
-                else
+                else if (zone == 2)
+                {
+                    if (0 < weight && weight <= 20)
+                        totalAirRate = 0.70;
+                    else if (weight > 20 && weight <= 2000)
+                        totalAirRate = 0.70 + (0.25 * (Math.Ceiling((weight - 20) / 10)));
+                    else
+                        status = false;
+                }
+                else if (zone == 3)
+                {
+                    if (0 < weight && weight <= 20)
+                        totalAirRate = 1.30;
+                    else if (weight > 20 && weight <= 2000)
+                        totalAirRate = 1.30 + (0.35 * (Math.Ceiling((weight - 20) / 10)));
+                    else
+                        status = false;
+                }
+                else //if no zone number matches
                     status = false;
             }
-            else if (zone == 2)
+            else if (mailType.Equals("packets"))
             {
-                if (0 < weight && weight <= 20)
-                    totalAirRate = 0.70;
-                else if (weight > 20 && weight <= 2000)
-                    totalAirRate = 0.70 + (0.25 * (Math.Ceiling((weight - 20) / 10)));
-                else
-                    status = false;
+                if (zone == 1)
+                {
+                    if (0 < weight && weight <= 100)
+                        totalAirRate = 2.50;
+                    else if (100 < weight && weight <= 250)
+                        totalAirRate = 3.90;
+                    else if (250 < weight && weight <= 500)
+                        totalAirRate = 5.20;
+                    else if (weight > 500 && weight <= 2000)
+                    {
+                        totalAirRate = 5.20 + (1.10 * (Math.Ceiling((weight - 500) / 100)));
+                    }
+                    else
+                        status = false;
+                }
+                else if (zone == 2)
+                {
+                    if (0 < weight && weight <= 100)
+                        totalAirRate = 3.20;
+                    else if (100 < weight && weight <= 250)
+                        totalAirRate = 6.80;
+                    else if (250 < weight && weight <= 500)
+                        totalAirRate = 12.00;
+                    else if (weight > 500 && weight <= 2000)
+                    {
+                        totalAirRate = 12.00 + (2.50 * (Math.Ceiling((weight - 500) / 100)));
+                    }
+                    else
+                        status = false;
+                }
+                else if (zone == 3)
+                {
+                    if (0 < weight && weight <= 100)
+                        totalAirRate = 4.70;
+                    else if (100 < weight && weight <= 250)
+                        totalAirRate = 9.85;
+                    else if (250 < weight && weight <= 500)
+                        totalAirRate = 17.00;
+                    else if (weight > 500 && weight <= 2000)
+                    {
+                        totalAirRate = 17.00 + (3.50 * (Math.Ceiling((weight - 500) / 100)));
+                    }
+                    else
+                        status = false;
+                }
             }
-            else if (zone == 3)
+            else
             {
-                if (0 < weight && weight <= 20)
-                    totalAirRate = 1.30;
-                else if (weight > 20 && weight <= 2000)
-                    totalAirRate = 1.30 + (0.35 * (Math.Ceiling((weight - 20) / 10)));
-                else
-                    status = false;
+                status = false;
             }
         }
-        else if (mailType.Equals("packets"))
-        {
-            if (zone == 1)
-            {
-                if (0 < weight && weight <= 100)
-                    totalAirRate = 2.50;
-                else if (100 < weight && weight <= 250)
-                    totalAirRate = 3.90;
-                else if (250 < weight && weight <= 500)
-                    totalAirRate = 5.20;
-                else if (weight > 500 && weight <= 2000)
-                {
-                    totalAirRate = 5.20 + (1.10 * (Math.Ceiling((weight - 500) / 100)));
-                }
-                else
-                    status = false;
-            }
-            else if (zone == 2)
-            {
-                if (0 < weight && weight <= 100)
-                    totalAirRate = 3.20;
-                else if (100 < weight && weight <= 250)
-                    totalAirRate = 6.80;
-                else if (250 < weight && weight <= 500)
-                    totalAirRate = 12.00;
-                else if (weight > 500 && weight <= 2000)
-                {
-                    totalAirRate = 12.00 + (2.50 * (Math.Ceiling((weight - 500) / 100)));
-                }
-                else
-                    status = false;
-            }
-            else if (zone == 3)
-            {
-                if (0 < weight && weight <= 100)
-                    totalAirRate = 4.70;
-                else if (100 < weight && weight <= 250)
-                    totalAirRate = 9.85;
-                else if (250 < weight && weight <= 500)
-                    totalAirRate = 17.00;
-                else if (weight > 500 && weight <= 2000)
-                {
-                    totalAirRate = 17.00 + (3.50 * (Math.Ceiling((weight - 500) / 100)));
-                }
-                else
-                    status = false;
-            }
-        }
+        //Else country code is not 2 chars
         else
         {
             status = false;
         }
+
 
         p.price = totalAirRate;
         p.result = status;
         return p;
     }
 
-    [WebMethod]
+    [WebMethod (Description = "transport_mode must be either 'air'/'surface'. destination is for country code(2char; eg.MY for Malaysia). weight is measured in (kg).")]
     public PostalPrice CalculatePostRateBulk(string transport_mode, string destination, double weight)
     {
         PostalPrice p = new PostalPrice();
@@ -549,6 +564,7 @@ public class LogisticsService : System.Web.Services.WebService
     [WebMethod]
     public DataTable SearchHsCode(string searchBy, string searchText)
     {
+<<<<<<< HEAD
         DataTable dt = new DataTable();
         //DataTable dt = new DataTable();
         //string searchText_final = searchText;
@@ -561,36 +577,64 @@ public class LogisticsService : System.Web.Services.WebService
         //    conn.Open();
         //    OleDbCommand cmd = new OleDbCommand();
         //    cmd.Connection = conn;
+=======
+        DataSet ds_whole = new DataSet();
+        DataTable ds_result = new DataTable();
+        DataTable dt = new DataTable();
+        IEnumerable<DataRow> query = null;
+>>>>>>> eadd14a0fc14f926a90431c8b7b0d89f6dd08d1e
 
-        //    //Get all Sheets in Excel File
-        //    DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+        ds_whole = ExcelReadData_EP("https://drive.google.com/uc?export=download&id=1bvu9u09zqzQ4oTRSHRP2CQYUkasxudJw", 1);
+        ds_result = ds_whole.Tables[0];
 
-        //    //Loop through all Sheets to get data
-        //    foreach (DataRow dr in dtSheet.Rows)
-        //    {
-        //        string sheetName = dr["TABLE_NAME"].ToString();
+        //If Else to check whether searchby is HS Code or Product Description.
+        if(searchBy.Equals("HS Code"))
+        {
+            query =
+                from port in ds_result.AsEnumerable()
+                where port.Field<double>(searchBy) == Convert.ToDouble(searchText)
+                select port;
+        }
+        else if (searchBy.Equals("Product Description"))
+        {
+            query =
+                from port in ds_result.AsEnumerable()
+                where port.Field<string>(searchBy).Contains(searchText)
+                select port;
+        }
 
-        //        cmd.CommandText = "SELECT * FROM [" + sheetName + "] WHERE [" + searchBy + "]=" + Convert.ToInt32(searchText);
-        //        DataTable dt = new DataTable();
-        //        dt.TableName = sheetName;
-        //        OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-        //        da.Fill(dt);
+        if (query.Any())
+        {
+            dt = query.CopyToDataTable<DataRow>();
+            dt.TableName = "SearchInfoList";
+        }
+        else
+        {
+            dt.TableName = "EmptySearchInfoList";
+        }
 
-        //        ds.Tables.Add(dt);
-        //    }
+        //If query is not empty search result will be copied into data table.
 
+        // Create a table from the query.
+
+<<<<<<< HEAD
         //    cmd = null;
         //    conn.Close();
         //}
         //return dt;
+=======
+        return dt;
+>>>>>>> eadd14a0fc14f926a90431c8b7b0d89f6dd08d1e
     }
+
     //For Airmail Post Rate Get Country Zone Number
     private int get_zone_no(string select)
     {
         string[] zone1 = "MY;BN".Split(';'),
-zone2 = "KR;KP;CN;IN;VN;IL;TH;IR;SA;SY;HK;PK;PH;ID;MV;MM;IQ;LK;QA;BD;YE;TW;KH;AE;LB;AF;PS;NP;OM;MO;UZ;JO;AZ;MN;KW;BT;BH;AM;KG;TM;TJ;TL;CX;IO;CC".Split(';');
+                 zone2 = "KR;KP;CN;IN;VN;IL;TH;IR;SA;SY;HK;PK;PH;ID;MV;MM;IQ;LK;QA;BD;YE;TW;KH;AE;LB;AF;PS;NP;OM;MO;UZ;JO;AZ;MN;KW;BT;BH;AM;KG;TM;TJ;TL;CX;IO;CC".Split(';'),
+                 zone3 = "NZ;AU;US;FR;GB;RU;MA;BG;ES;DE;PL;RO;UA;BY;GR".Split(';') ;
 
-        int zoneNumber = 3;
+        int zoneNumber = 0;
 
         for (int i = 0; i < zone1.Length; i++)
         {
@@ -601,6 +645,11 @@ zone2 = "KR;KP;CN;IN;VN;IL;TH;IR;SA;SY;HK;PK;PH;ID;MV;MM;IQ;LK;QA;BD;YE;TW;KH;AE
         {
             if (select.Equals(zone2[i]))
                 zoneNumber = 2;
+        }
+        for (int i=0; i<zone3.Length; i++)
+        {
+            if (select.Equals(zone3[i]))
+                zoneNumber = 3;
         }
 
         return zoneNumber;
