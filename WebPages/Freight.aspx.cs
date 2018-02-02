@@ -28,9 +28,9 @@ public partial class WebPages_Freight : System.Web.UI.Page
             btnNextPage.Visible = false;
             btnPrevPage.Visible = false;
 
-            ds = cis.GetAllDutiableTaxHSCode();
-            gvTest.DataSource = ds;
-            gvTest.DataBind();
+            //ds = cis.GetAllDutiableTaxHSCode();
+            //gvTest.DataSource = ds;
+            //gvTest.DataBind();
         }
     }
 
@@ -123,6 +123,7 @@ public partial class WebPages_Freight : System.Web.UI.Page
 
             data = load_data_result(searchVal, 1);
 
+            //Store input data and counter as Session values.
             Session["searchval"] = txtSearchAddress.Text;
             Session["AttemptCount"] = 1;
             Session["TotalPage"] = data.totalNumPages;

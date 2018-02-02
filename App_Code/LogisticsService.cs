@@ -39,7 +39,7 @@ public class LogisticsService : System.Web.Services.WebService
     [WebMethod
         (Description = "Search port information based on selected category from the Excel file. " +
         "searchBy must be either 'Country Code', 'Port Code', 'Country Name', 'Port Name', 'Port Code'. " +
-        "searchBy must be case-sensitive, however searchText is not case-sensitive.")]
+        "searchBy and searchText must be case-sensitive.")]
     public DataTable SearchSeaPortInformation(string searchBy, string searchText)
     {
         DataTable dt = new DataTable();
@@ -132,95 +132,106 @@ public class LogisticsService : System.Web.Services.WebService
         double totalAirRate = 0;
         bool status = true;
 
-        int zone = get_zone_no(country_code);
-        if (mailType.Equals("papers"))
+        if(country_code.Length.Equals(2))
         {
-            if (zone == 1)
+            int zone = get_zone_no(country_code);
+            if (mailType.Equals("papers"))
             {
-                if (0 < weight && weight <= 20)
-                    totalAirRate = 0.50;
-                else if (20 < weight && weight <= 50)
-                    totalAirRate = 0.70;
-                else if (50 < weight && weight <= 100)
-                    totalAirRate = 1.10;
-                else if (weight > 100 && weight <= 2000)
+                if (zone == 1)
                 {
-                    totalAirRate = 1.10 + (1.10 * (Math.Ceiling((weight - 100) / 100)));
+                    if (0 < weight && weight <= 20)
+                        totalAirRate = 0.50;
+                    else if (20 < weight && weight <= 50)
+                        totalAirRate = 0.70;
+                    else if (50 < weight && weight <= 100)
+                        totalAirRate = 1.10;
+                    else if (weight > 100 && weight <= 2000)
+                    {
+                        totalAirRate = 1.10 + (1.10 * (Math.Ceiling((weight - 100) / 100)));
+                    }
+                    else
+                        status = false;
                 }
-                else
+                else if (zone == 2)
+                {
+                    if (0 < weight && weight <= 20)
+                        totalAirRate = 0.70;
+                    else if (weight > 20 && weight <= 2000)
+                        totalAirRate = 0.70 + (0.25 * (Math.Ceiling((weight - 20) / 10)));
+                    else
+                        status = false;
+                }
+                else if (zone == 3)
+                {
+                    if (0 < weight && weight <= 20)
+                        totalAirRate = 1.30;
+                    else if (weight > 20 && weight <= 2000)
+                        totalAirRate = 1.30 + (0.35 * (Math.Ceiling((weight - 20) / 10)));
+                    else
+                        status = false;
+                }
+                else //if no zone number matches
                     status = false;
             }
-            else if (zone == 2)
+            else if (mailType.Equals("packets"))
             {
-                if (0 < weight && weight <= 20)
-                    totalAirRate = 0.70;
-                else if (weight > 20 && weight <= 2000)
-                    totalAirRate = 0.70 + (0.25 * (Math.Ceiling((weight - 20) / 10)));
-                else
-                    status = false;
+                if (zone == 1)
+                {
+                    if (0 < weight && weight <= 100)
+                        totalAirRate = 2.50;
+                    else if (100 < weight && weight <= 250)
+                        totalAirRate = 3.90;
+                    else if (250 < weight && weight <= 500)
+                        totalAirRate = 5.20;
+                    else if (weight > 500 && weight <= 2000)
+                    {
+                        totalAirRate = 5.20 + (1.10 * (Math.Ceiling((weight - 500) / 100)));
+                    }
+                    else
+                        status = false;
+                }
+                else if (zone == 2)
+                {
+                    if (0 < weight && weight <= 100)
+                        totalAirRate = 3.20;
+                    else if (100 < weight && weight <= 250)
+                        totalAirRate = 6.80;
+                    else if (250 < weight && weight <= 500)
+                        totalAirRate = 12.00;
+                    else if (weight > 500 && weight <= 2000)
+                    {
+                        totalAirRate = 12.00 + (2.50 * (Math.Ceiling((weight - 500) / 100)));
+                    }
+                    else
+                        status = false;
+                }
+                else if (zone == 3)
+                {
+                    if (0 < weight && weight <= 100)
+                        totalAirRate = 4.70;
+                    else if (100 < weight && weight <= 250)
+                        totalAirRate = 9.85;
+                    else if (250 < weight && weight <= 500)
+                        totalAirRate = 17.00;
+                    else if (weight > 500 && weight <= 2000)
+                    {
+                        totalAirRate = 17.00 + (3.50 * (Math.Ceiling((weight - 500) / 100)));
+                    }
+                    else
+                        status = false;
+                }
             }
-            else if (zone == 3)
+            else
             {
-                if (0 < weight && weight <= 20)
-                    totalAirRate = 1.30;
-                else if (weight > 20 && weight <= 2000)
-                    totalAirRate = 1.30 + (0.35 * (Math.Ceiling((weight - 20) / 10)));
-                else
-                    status = false;
+                status = false;
             }
         }
-        else if (mailType.Equals("packets"))
-        {
-            if (zone == 1)
-            {
-                if (0 < weight && weight <= 100)
-                    totalAirRate = 2.50;
-                else if (100 < weight && weight <= 250)
-                    totalAirRate = 3.90;
-                else if (250 < weight && weight <= 500)
-                    totalAirRate = 5.20;
-                else if (weight > 500 && weight <= 2000)
-                {
-                    totalAirRate = 5.20 + (1.10 * (Math.Ceiling((weight - 500) / 100)));
-                }
-                else
-                    status = false;
-            }
-            else if (zone == 2)
-            {
-                if (0 < weight && weight <= 100)
-                    totalAirRate = 3.20;
-                else if (100 < weight && weight <= 250)
-                    totalAirRate = 6.80;
-                else if (250 < weight && weight <= 500)
-                    totalAirRate = 12.00;
-                else if (weight > 500 && weight <= 2000)
-                {
-                    totalAirRate = 12.00 + (2.50 * (Math.Ceiling((weight - 500) / 100)));
-                }
-                else
-                    status = false;
-            }
-            else if (zone == 3)
-            {
-                if (0 < weight && weight <= 100)
-                    totalAirRate = 4.70;
-                else if (100 < weight && weight <= 250)
-                    totalAirRate = 9.85;
-                else if (250 < weight && weight <= 500)
-                    totalAirRate = 17.00;
-                else if (weight > 500 && weight <= 2000)
-                {
-                    totalAirRate = 17.00 + (3.50 * (Math.Ceiling((weight - 500) / 100)));
-                }
-                else
-                    status = false;
-            }
-        }
+        //Else country code is not 2 chars
         else
         {
             status = false;
         }
+
 
         p.price = totalAirRate;
         p.result = status;
@@ -547,42 +558,21 @@ public class LogisticsService : System.Web.Services.WebService
     public DataTable SearchHsCode(string searchBy, string searchText)
     {
         DataTable dt = new DataTable("HsCodeSearchResult");
-        //string connectionString = GetConectionString("https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en");
-        //using (OleDbConnection conn = new OleDbConnection(connectionString))
-        //{
-        //    conn.Open();
-        //    OleDbCommand cmd = new OleDbCommand();
-        //    cmd.Connection = conn;
+        //string searchText_final = "";
 
-        //    //Get all Sheets in Excel File
-        //    DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+        dt = ExcelSearchData_EP("https://drive.google.com/uc?export=download&id=1bvu9u09zqzQ4oTRSHRP2CQYUkasxudJw", 1, searchBy, searchText);
 
-        //    //Loop through all Sheets to get data
-        //    foreach (DataRow dr in dtSheet.Rows)
-        //    {
-        //        string sheetName = dr["TABLE_NAME"].ToString();
-
-        //        cmd.CommandText = "SELECT * FROM [" + sheetName + "] WHERE [" + searchBy + "]=" + Convert.ToInt32(searchText);
-        //        DataTable dt = new DataTable();
-        //        dt.TableName = sheetName;
-        //        OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-        //        da.Fill(dt);
-
-        //        ds.Tables.Add(dt);
-        //    }
-
-        //    cmd = null;
-        //    conn.Close();
-        //}
         return dt;
     }
+
     //For Airmail Post Rate Get Country Zone Number
     private int get_zone_no(string select)
     {
         string[] zone1 = "MY;BN".Split(';'),
-zone2 = "KR;KP;CN;IN;VN;IL;TH;IR;SA;SY;HK;PK;PH;ID;MV;MM;IQ;LK;QA;BD;YE;TW;KH;AE;LB;AF;PS;NP;OM;MO;UZ;JO;AZ;MN;KW;BT;BH;AM;KG;TM;TJ;TL;CX;IO;CC".Split(';');
+                 zone2 = "KR;KP;CN;IN;VN;IL;TH;IR;SA;SY;HK;PK;PH;ID;MV;MM;IQ;LK;QA;BD;YE;TW;KH;AE;LB;AF;PS;NP;OM;MO;UZ;JO;AZ;MN;KW;BT;BH;AM;KG;TM;TJ;TL;CX;IO;CC".Split(';'),
+                 zone3 = "NZ;AU;US;FR;GB;RU;MA;BG;ES;DE;PL;RO;UA;BY;GR".Split(';') ;
 
-        int zoneNumber = 3;
+        int zoneNumber = 0;
 
         for (int i = 0; i < zone1.Length; i++)
         {
@@ -593,6 +583,11 @@ zone2 = "KR;KP;CN;IN;VN;IL;TH;IR;SA;SY;HK;PK;PH;ID;MV;MM;IQ;LK;QA;BD;YE;TW;KH;AE
         {
             if (select.Equals(zone2[i]))
                 zoneNumber = 2;
+        }
+        for (int i=0; i<zone3.Length; i++)
+        {
+            if (select.Equals(zone3[i]))
+                zoneNumber = 3;
         }
 
         return zoneNumber;

@@ -5,7 +5,7 @@
     <p>This information is provided by PORT SERVICES CORPORATION (S.A.O.G), PORT SULTAN QABOOS. Visit this website for more information.</p>
     <a href="http://www.pscoman.com/" ><img src="../Content/SAOG-logo.PNG" style="width:497px;height:96px;"/></a>  
     <br />
-    <h5>Select the drop down list to search specific port information.</h5>
+    <p>Select the drop down list to search specific port information.<br />*Please note that all columns are case sensitive.*</p>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
             <table style="width:auto">
@@ -27,8 +27,10 @@
                         <asp:Label ID="lblTest" runat="server" Text=""></asp:Label></td>
                 </tr>
             </table>
-                <br />
+            <br />
+            <div class="gh_scroll">
                 <asp:GridView ID="gvSeaPort" runat="server" Width="100%"></asp:GridView>
+            </div>         
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>
