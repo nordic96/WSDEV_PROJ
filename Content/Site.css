@@ -15,6 +15,12 @@ div.gh_scroll {
     overflow-y: scroll; height:500px;
 }
 
+div.horizontal_scroll {
+    overflow-x: scroll; width: 100%;
+    overflow-y:scroll; height:500px;
+}
+
+
 div.gh_total_price {
     width:20%;
     border-bottom-style:solid;
