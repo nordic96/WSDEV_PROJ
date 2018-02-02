@@ -24,7 +24,8 @@ public class LogisticsService : System.Web.Services.WebService
     }
 
     //Read Excel(.xls) file and return a DataSet that contains global sea port information.
-    [WebMethod]
+    [WebMethod 
+    (Description = "Return a DataTable of global sea port information (Country Code, Country Name, Port Code, Port Name).")]
     public DataSet GetAllSeaPortInformation()
     {
         DataSet ds = new DataSet();
@@ -37,9 +38,9 @@ public class LogisticsService : System.Web.Services.WebService
      * KoGihun
     */
     [WebMethod
-        (Description = "Search port information based on selected category from the Excel file. " +
-        "searchBy must be either 'Country Code', 'Port Code', 'Country Name', 'Port Name', 'Port Code'. " +
-        "searchBy and searchText must be case-sensitive.")]
+    (Description = "Search port information based on selected category from the Excel file. " +
+    "searchBy must be either 'Country Code', 'Port Code', 'Country Name', 'Port Name', 'Port Code'. " +
+    "searchBy and searchText must be case-sensitive.")]
     public DataTable SearchSeaPortInformation(string searchBy, string searchText)
     {
         DataTable dt = new DataTable();
@@ -60,7 +61,9 @@ public class LogisticsService : System.Web.Services.WebService
     }
 
     //Calculate the post mail charge in local area (SG).
-    [WebMethod]
+    [WebMethod
+    (Description = "post_size must be either 'regular'/'large'/'non' (none for Non-Standard). weight is measured in (g). " +
+        "Maximum weight is 2000g (for regular size, max. weight is 40g) Invalid weight amount will return result as false.")]
     public PostalPrice CalculatePostRateLocal(string post_size, double weight)
     {
         PostalPrice postalPrice = new PostalPrice();
@@ -238,7 +241,7 @@ public class LogisticsService : System.Web.Services.WebService
         return p;
     }
 
-    [WebMethod]
+    [WebMethod (Description = "transport_mode must be either 'air'/'surface'. destination is for country code(2char; eg.MY for Malaysia). weight is measured in (kg).")]
     public PostalPrice CalculatePostRateBulk(string transport_mode, string destination, double weight)
     {
         PostalPrice p = new PostalPrice();
