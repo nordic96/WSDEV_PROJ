@@ -321,7 +321,7 @@ public class LogisticsService : System.Web.Services.WebService
     [WebMethod]
     public Duty CalculateIntnProductDuty(string HSCode, double weight, double totalPrice)
     {
-        ExcelRead excel = new ExcelRead();
+        //ExcelRead excel = new ExcelRead();
         DataSet hrcodes = new DataSet();
         Duty duty = new Duty();
         bool result = true;
@@ -357,7 +357,7 @@ public class LogisticsService : System.Web.Services.WebService
     [WebMethod]
     public Duty CalculateDomesticProductDuty(string HSCode, double weight, double totalPrice)
     {
-        ExcelRead excel = new ExcelRead();
+        //ExcelRead excel = new ExcelRead();
         DataSet hrcodes = new DataSet();
         Duty duty = new Duty();
         bool result = true;
