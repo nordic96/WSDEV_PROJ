@@ -31,6 +31,21 @@ public partial class WebPages_Freight : System.Web.UI.Page
             //ds = cis.GetAllDutiableTaxHSCode();
             //gvTest.DataSource = ds;
             //gvTest.DataBind();
+            ddlCompanyFFC.Visible = false;
+            ddlCountryFFC.Visible = false;
+            DataTable ffc = cis.GetAllFreightForwarderContacts();
+            ddlCompanyFFC.DataSource = ffc;
+            ddlCompanyFFC.DataTextField = ffc.Columns[1].ToString();
+            ddlCompanyFFC.DataValueField = ffc.Columns[1].ToString();
+            ddlCompanyFFC.DataBind();
+            ddlCountryFFC.DataSource = ffc;
+            ddlCountryFFC.DataTextField = ffc.Columns[0].ToString();
+            ddlCountryFFC.DataValueField = ffc.Columns[0].ToString();
+            ddlCountryFFC.DataBind();
+            gvFreightForwarderContact.DataSource = ffc;
+            gvFreightForwarderContact.DataBind();
+
+
         }
     }
 
@@ -141,5 +156,43 @@ public partial class WebPages_Freight : System.Web.UI.Page
     {
         MessageBox.Show(message, "Warning",
     MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+    }
+
+
+    protected void RadioButtonList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if(RadioButtonList1.SelectedValue == "Country")
+        {
+            ddlCountryFFC.Visible = true;
+            ddlCompanyFFC.Visible = false;
+        }
+        else if(RadioButtonList1.SelectedValue == "Company Name")
+        {
+            ddlCompanyFFC.Visible = true;
+            ddlCountryFFC.Visible = false;
+        }
+    }
+
+    protected void btnSearchFFC_Click(object sender, EventArgs e)
+    {
+        if(RadioButtonList1.SelectedValue == "Country")
+        {
+            DataTable dt = new DataTable();
+            string searchBy = RadioButtonList1.SelectedValue.ToString();
+            string searchText = ddlCountryFFC.SelectedValue.ToString();
+            dt = cis.SearchFreightForwarders(searchBy, searchText);
+            gvFreightForwarderContact.DataSource = dt;
+            gvFreightForwarderContact.DataBind();
+        }
+        else if(RadioButtonList1.SelectedValue == "Company Name")
+        {
+            DataTable dt = new DataTable();
+            string searchBy = RadioButtonList1.SelectedValue.ToString();
+            string searchText = ddlCompanyFFC.SelectedValue.ToString();
+            dt = cis.SearchFreightForwarders(searchBy, searchText);
+            gvFreightForwarderContact.DataSource = dt;
+            gvFreightForwarderContact.DataBind();
+        }
+
     }
 }

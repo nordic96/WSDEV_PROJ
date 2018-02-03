@@ -5,10 +5,13 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using currencyconverter;
 
 public partial class WebPages_Duties : System.Web.UI.Page
 {
     LogisticsService cis = new LogisticsService();
+    Converter ccs = new Converter();
+    
     //ExcelRead excel = new ExcelRead();
     DataSet hrcodes = null;
     protected void Page_Load(object sender, EventArgs e)
@@ -16,23 +19,18 @@ public partial class WebPages_Duties : System.Web.UI.Page
         if (!IsPostBack)
         {
             DataTable hrcodes = cis.GetAllDutiableTaxHSCode();
-            //for (int t = 0; t < 5; t++)
-            //{
-            //    hrcodes.Tables[0].Rows[t].Delete();
-
-            //}
             gv1.DataSource = hrcodes;
             gv1.DataBind();
-            //gv1.HeaderRow.Cells[0].Text = "HS Code";
-            //gv1.HeaderRow.Cells[1].Text = "Product Description";
-            //gv1.HeaderRow.Cells[2].Text = "Custom Duties";
-            //gv1.HeaderRow.Cells[3].Text = "Excise Duties";
             ddlHRCode.DataSource = hrcodes;
             //ddlHRCode.DataTextField = hrcodes.Tables[0].Columns[0].ToString();
             //ddlHRCode.DataValueField = hrcodes.Tables[0].Columns[0].ToString();
             ddlHRCode.DataTextField = hrcodes.Columns[0].ToString();
             ddlHRCode.DataValueField = hrcodes.Columns[0].ToString();
             ddlHRCode.DataBind();
+            string[] currencies = ccs.GetCurrencies();
+            ddlConvert.DataSource = currencies;
+            ddlHRCode.DataValueField = currencies.ToString();
+            ddlConvert.DataBind();
             for (int i = 0; i < ddlHRCode.Items.Count; i++)
             {
 
@@ -68,7 +66,7 @@ public partial class WebPages_Duties : System.Web.UI.Page
         if (ddlManufactured.Text == "Domestic")
         {
             duty = cis.CalculateDomesticProductDuty(HSCode, weight, totalproductprice);
-            lblTotPrice.Text = "Total Price : S$" + duty.totalDuties.ToString();
+            lblTotPrice.Text = duty.totalDuties.ToString();
         }
 
         else if (ddlManufactured.Text == "International")
@@ -81,7 +79,7 @@ public partial class WebPages_Duties : System.Web.UI.Page
             }
             else
             {
-                lblTotPrice.Text = "Total Price : S$" + duty.totalDuties.ToString();
+                lblTotPrice.Text = duty.totalDuties.ToString();
             }
 
         }
@@ -239,19 +237,28 @@ public partial class WebPages_Duties : System.Web.UI.Page
         DataTable dt = new DataTable();
         string searchBy = ddlSearchBy.SelectedValue.ToString();
         string searchText = tbSearchBy.Text.ToString();
-        //string url = "https://www.customs.gov.sg/~/media/cus/files/business/valuation%20duties%20taxes%20and%20fees/list%20of%20dutiable%20goods20feb2017.xlsx?la=en";
-        //if(search_by == "List of Dutiable Goods ")
-        if(searchBy == "HS Code")
+        dt = cis.SearchDutiableTaxHsCode(searchBy, searchText);
+        gv1.DataSource = dt;
+        gv1.DataBind();
+
+    }
+
+
+    protected void btnConvert_Click(object sender, EventArgs e)
+    {
+        if(lblTotPrice.Text == "")
         {
-            dt = cis.SearchHsCode(searchBy, searchText);
-            gv1.DataSource = hrcodes;
-            gv1.DataBind();
+            lblConvertResult.Text = "Calculate the total price first!";
         }
-        else if(searchBy == "Product Description")
+        else
         {
-            //hrcodes = cis.SearchExcelData(url, searchBy, searchText);
-            //gv1.DataSource = hrcodes;
-            //gv1.DataBind();
+            string CurrencyFrom = "SGD";
+            string CurrencyTo = ddlConvert.SelectedValue.ToString();
+            DateTime RateDate = DateTime.Now;
+            decimal currencyresult = ccs.GetConversionRate(CurrencyFrom, CurrencyTo, RateDate);
+            decimal totalpriceforconversion = Convert.ToDecimal(lblTotPrice.Text);
+            decimal convertedResult = currencyresult * totalpriceforconversion;
+            lblConvertResult.Text = "Converted Price : $" + convertedResult.ToString();
         }
     }
 

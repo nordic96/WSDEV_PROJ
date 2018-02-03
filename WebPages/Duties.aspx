@@ -44,7 +44,26 @@
             </table>          
             <br />
             <asp:Button ID="btnCalculate" runat="server" Text="Calculate" OnClick="btnCalculate_Click" />
+            Total Price : S$
             <asp:Label ID="lblTotPrice" runat="server" Text=""></asp:Label>
+            <br />
+            <br />
+            <table class ="gh_table">
+                <tr>
+                    <td>
+                        <asp:Label ID="lblConvert" runat="server" Text="Currency Convertion:"></asp:Label>
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="ddlConvert" runat="server"></asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:Button ID="btnConvert" runat="server" Text="Convert" OnClick="btnConvert_Click" />
+                    </td>
+                    <td>
+                        <asp:Label ID="lblConvertResult" runat="server" Text=""></asp:Label>
+                    </td>
+                </tr>
+            </table>   
             <br />
             <br />
             <h2>Search</h2>
@@ -56,7 +75,7 @@
             </asp:DropDownList>
             <asp:TextBox ID="tbSearchBy" runat="server"></asp:TextBox>
             <asp:Button ID="btnSearchBy" runat="server" Text="Search" OnClick="btnSearchBy_Click" />
-            <asp:GridView ID="gv1" runat="server"></asp:GridView>
+            <asp:GridView ID="gv1" runat="server" AutoGenerateColumns="true"></asp:GridView>
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>
