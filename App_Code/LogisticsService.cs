@@ -383,7 +383,8 @@ public class LogisticsService : System.Web.Services.WebService
     }
 
     //Used by Jacky;
-    [WebMethod]
+    [WebMethod
+    (Description = "Return a DataTable of Dutiable Tax HS Code information (HS Code, Product Description, Customs Duty, Excise Duty).")]
     public DataTable GetAllDutiableTaxHSCode()
     {
         int row_to_start = 1;
@@ -429,7 +430,11 @@ public class LogisticsService : System.Web.Services.WebService
         return ds2;
     }
 
-    [WebMethod]
+    [WebMethod
+    (Description = "Search Duty Rates information based on selected category from the Excel file. " +
+    "searchBy must be either 'HS Code', 'Product Description'" +
+    "searchText is any keywords in the sentence of Product Description" +
+    "searchBy and searchText must be case-sensitive.")]
     public DataTable SearchDutiableTaxHsCode(string searchBy, string searchText)
     {
         DataSet ds_whole = new DataSet();
@@ -476,7 +481,8 @@ public class LogisticsService : System.Web.Services.WebService
 
     }
 
-    [WebMethod]
+    [WebMethod
+    (Description = "Return a DataTable of HS Code information (HS Code, HS Description, HS UOM, ReferenceId)")]
     public DataSet GetAllHSCodeInformation()
     {
         DataSet ds = new DataSet();
@@ -485,7 +491,10 @@ public class LogisticsService : System.Web.Services.WebService
         return ds;
     }
 
-    [WebMethod]
+    [WebMethod
+    (Description = "Search HS Code information based on selected category from the Excel file. " +
+    "searchBy must be either 'HS Code', 'HS Description', 'HS UOM', 'ReferenceId'. " +
+    "searchBy and searchText must be case-sensitive.")]
     public DataTable SearchHsCodeInformation(string searchBy, string searchText)
     {
         DataTable dt = new DataTable();
@@ -496,7 +505,8 @@ public class LogisticsService : System.Web.Services.WebService
         return dt;
     }
 
-    [WebMethod]
+    [WebMethod
+    (Description = "Weight is in kg/litre, totalPrice is the total price of the goods")]
     public Duty CalculateDomesticProductDuty(string HSCode, double weight, double totalPrice)
     {
         //ExcelRead excel = new ExcelRead();
@@ -587,7 +597,8 @@ public class LogisticsService : System.Web.Services.WebService
         return duty;
     }
 
-    [WebMethod]
+    [WebMethod
+    (Description = "Weight is in kg / litre, totalPrice is the total price of the goods")]
     public Duty CalculateIntnProductDuty(string HSCode, double weight, double totalPrice)
     {
         //ExcelRead excel = new ExcelRead();
@@ -624,7 +635,8 @@ public class LogisticsService : System.Web.Services.WebService
         return duty;
     }
 
-    [WebMethod]
+    [WebMethod
+    (Description = "Return a DataTable of Freight Forwarder Contacts information")]
     public DataTable GetAllFreightForwarderContacts()
     {
         int row_to_start = 2;
@@ -678,7 +690,10 @@ public class LogisticsService : System.Web.Services.WebService
         return ds2;
     }
 
-    [WebMethod]
+    [WebMethod
+    (Description = "Search Freight Forwarder Contacts information based on selected category from the Excel file. " +
+    "searchBy must be either 'Country', 'Company Name'. " +
+    "searchBy and searchText must be case-sensitive.")]
     public DataTable SearchFreightForwarders(string searchBy, string searchText)
     {
         DataSet ds_whole = new DataSet();
