@@ -74,24 +74,14 @@ public partial class WebPages_Freight : System.Web.UI.Page
         {
             lblTest.Text = ex.ToString();
         }
-
-        //Validating empty search result.
-        if(results == null)
-        {
-            //lblTest.Text = "EMPTY";
-        }
-        else
-        {
-            //gvOneAddress.DataSource = results;
-            //gvOneAddress.DataBind();
-            //gvOneAddress.HeaderRow.Cells[0].Text = "Address Name";
-            //gvOneAddress.HeaderRow.Cells[1].Text = "BLK";
-            //gvOneAddress.HeaderRow.Cells[2].Text = "Road Name";
-            //gvOneAddress.HeaderRow.Cells[3].Text = "Building";
-            //gvOneAddress.HeaderRow.Cells[4].Text = "Address Details";
-            //gvOneAddress.HeaderRow.Cells[5].Text = "Postal Code";
-        }
-
+        gvOneAddress.DataSource = results;
+        gvOneAddress.DataBind();
+        gvOneAddress.HeaderRow.Cells[0].Text = "Address Name";
+        gvOneAddress.HeaderRow.Cells[1].Text = "BLK";
+        gvOneAddress.HeaderRow.Cells[2].Text = "Road Name";
+        gvOneAddress.HeaderRow.Cells[3].Text = "Building";
+        gvOneAddress.HeaderRow.Cells[4].Text = "Address Details";
+        gvOneAddress.HeaderRow.Cells[5].Text = "Postal Code";
         return data;
     }
 
@@ -103,6 +93,7 @@ public partial class WebPages_Freight : System.Web.UI.Page
 
         if(0 < counter && counter < totalPage)
         {
+            //popup_error("TESTING NOW GH");
             counter++;
             Session["AttemptCount"] = counter;
             data = load_data_result(value, counter);
