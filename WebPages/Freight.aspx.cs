@@ -44,7 +44,21 @@ public partial class WebPages_Freight : System.Web.UI.Page
             ddlCountryFFC.DataBind();
             gvFreightForwarderContact.DataSource = ffc;
             gvFreightForwarderContact.DataBind();
-
+            for (int i = 0; i < ddlCountryFFC.Items.Count; i++)
+            {
+                ddlCountryFFC.SelectedIndex = i;
+                string str = ddlCountryFFC.SelectedItem.ToString();
+                for (int counter = i + 1; counter < ddlCountryFFC.Items.Count; counter++)
+                {
+                    ddlCountryFFC.SelectedIndex = counter;
+                    string compareStr = ddlCountryFFC.SelectedItem.ToString();
+                    if (str == compareStr)
+                    {
+                        ddlCountryFFC.Items.RemoveAt(counter);
+                        counter = counter - 1;
+                    }
+                }
+            }
 
         }
     }
@@ -210,4 +224,5 @@ public partial class WebPages_Freight : System.Web.UI.Page
         }
 
     }
+
 }

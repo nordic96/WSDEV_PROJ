@@ -260,7 +260,8 @@ public partial class WebPages_Duties : System.Web.UI.Page
             decimal currencyresult = ccs.GetConversionRate(CurrencyFrom, CurrencyTo, RateDate);
             decimal totalpriceforconversion = Convert.ToDecimal(lblTotPrice.Text);
             decimal convertedResult = currencyresult * totalpriceforconversion;
-            lblConvertResult.Text = "Converted Price : $" + convertedResult.ToString();
+            decimal finalconvertedResult = Math.Round(convertedResult, 2);
+            lblConvertResult.Text = "Converted Price : " + ddlConvert.SelectedValue.ToString() + finalconvertedResult.ToString();
         }
     }
 
