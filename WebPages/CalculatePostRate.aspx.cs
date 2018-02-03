@@ -1,5 +1,4 @@
 ﻿using System;
-using CountryService;
 using System.Windows.Forms;
 using System.Net;
 using System.Web.Script.Serialization;
@@ -10,7 +9,6 @@ using System.Collections.Generic;
 
 public partial class WebPages_CalculatePostRate : System.Web.UI.Page
 {
-    country cis = new country();
     LogisticsService logistics = new LogisticsService(); //WS Proxy
     string getCountryJSONUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["GetCountryListUrl"];
 

@@ -386,13 +386,6 @@ public class LogisticsService : System.Web.Services.WebService
     [WebMethod]
     public DataTable GetAllDutiableTaxHSCode()
     {
-<<<<<<< HEAD
-        //ExcelRead excel = new ExcelRead();
-        DataSet hrcodes = new DataSet();
-        Duty duty = new Duty();
-        bool result = true;
-        double totPriceCalculation = 0;
-=======
         int row_to_start = 1;
         string url = "https://drive.google.com/uc?export=download&id=1bvu9u09zqzQ4oTRSHRP2CQYUkasxudJw";
         DownloadFile file = new DownloadFile();
@@ -481,8 +474,6 @@ public class LogisticsService : System.Web.Services.WebService
         dt2.Load(dt.CreateDataReader(), System.Data.LoadOption.OverwriteChanges);
         return dt2;
 
->>>>>>> e6b59a0dba5321ecf555b120b29f2fefc2a0bf3e
-
     }
 
     [WebMethod]
@@ -509,12 +500,8 @@ public class LogisticsService : System.Web.Services.WebService
     public Duty CalculateDomesticProductDuty(string HSCode, double weight, double totalPrice)
     {
         //ExcelRead excel = new ExcelRead();
-<<<<<<< HEAD
-        DataSet hrcodes = new DataSet();
-=======
         //DataSet hrcodes = new DataSet();
         DataTable hrcodes = new DataTable();
->>>>>>> e6b59a0dba5321ecf555b120b29f2fefc2a0bf3e
         Duty duty = new Duty();
         bool result = true;
         double totPriceCalculation = 0;
@@ -692,11 +679,7 @@ public class LogisticsService : System.Web.Services.WebService
     }
 
     [WebMethod]
-<<<<<<< HEAD
-    public DataTable SearchDutiableTaxHsCode(string searchBy, string searchText)
-=======
     public DataTable SearchFreightForwarders(string searchBy, string searchText)
->>>>>>> e6b59a0dba5321ecf555b120b29f2fefc2a0bf3e
     {
         DataSet ds_whole = new DataSet();
         DataTable ds_result = new DataTable();
@@ -733,12 +716,6 @@ public class LogisticsService : System.Web.Services.WebService
             dt.TableName = "EmptySearchInfoList";
         }
 
-<<<<<<< HEAD
-        dt2.Columns.Add("HS Code", typeof(string));
-        dt2.Columns.Add("Product Description", typeof(string));
-        dt2.Columns.Add("Customs Duty", typeof(string));
-        dt2.Columns.Add("Excise Duty", typeof(string));
-=======
         dt2.Columns.Add("Country", typeof(string));
         dt2.Columns.Add("Company Name", typeof(string));
         dt2.Columns.Add("Tel Num", typeof(string));
@@ -751,7 +728,6 @@ public class LogisticsService : System.Web.Services.WebService
         dt2.Columns.Add("Skype", typeof(string));
         dt2.Columns.Add("Address", typeof(string));
         dt2.Columns.Add("Noted", typeof(string));
->>>>>>> e6b59a0dba5321ecf555b120b29f2fefc2a0bf3e
         dt2.Load(dt.CreateDataReader(), System.Data.LoadOption.OverwriteChanges);
         return dt2;
     }
