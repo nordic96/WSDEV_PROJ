@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://currencyconverter.kowabunga.net/converter.asmx?disco" filename="converter.disco" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://currencyconverter.kowabunga.net/converter.asmx?wsdl" filename="converter.wsdl" />
+  </Results>
+</DiscoveryClientResultsFile>
