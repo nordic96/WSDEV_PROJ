@@ -660,7 +660,7 @@ public class LogisticsService : System.Web.Services.WebService
                 {
                     ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
                     {
-                        EmptyColumnNamePrefix = "A",
+                        EmptyColumnNamePrefix = "EmptyColumn",
 
                         UseHeaderRow = true,
                         ReadHeaderRow = (rowReader) => {
@@ -674,18 +674,11 @@ public class LogisticsService : System.Web.Services.WebService
                 // The result of each spreadsheet is in result.Tables
             }
         }
-        //ds2.Columns.Add("Country", typeof(string));
-        //ds2.Columns.Add("Company Name", typeof(string));
-        //ds2.Columns.Add("Tel Num", typeof(string));
-        //ds2.Columns.Add("Emergency Num", typeof(string));
-        //ds2.Columns.Add("Fax Number", typeof(string));
-        //ds2.Columns.Add("Email", typeof(string));
-        //ds2.Columns.Add("Contact Names", typeof(string));
-        //ds2.Columns.Add("Website", typeof(string));
-        //ds2.Columns.Add("MSN", typeof(string));
-        //ds2.Columns.Add("Skype", typeof(string));
-        //ds2.Columns.Add("Address", typeof(string));
-        //ds2.Columns.Add("Noted", typeof(string));
+        for (int i = ds.Tables[0].Columns.Count - 1; i > -1; i--)
+        {
+            if (ds.Tables[0].Columns[i].ColumnName.StartsWith("EmptyColumn"))
+                ds.Tables[0].Columns.Remove(ds.Tables[0].Columns[i]);
+        }
         ds2.Load(ds.CreateDataReader(), System.Data.LoadOption.OverwriteChanges);
         return ds2;
     }
