@@ -28,6 +28,22 @@
             <br />
             <asp:GridView ID="gvTest" runat="server" Width="100%" AutoGenerateColumns="true"></asp:GridView>
             <br /><br />
+            <h2>Freight Forwarder Contacts</h2>
+            <tr>
+                <td>Search By: </td>
+                <td><asp:RadioButtonList ID="RadioButtonList1" runat="server" AutoPostBack="True" OnSelectedIndexChanged="RadioButtonList1_SelectedIndexChanged">
+                    <asp:ListItem>Country</asp:ListItem>
+                    <asp:ListItem>Company Name</asp:ListItem>
+                    </asp:RadioButtonList></td>
+                <td><asp:DropDownList ID="ddlCountryFFC" runat="server"></asp:DropDownList></td>
+                <td><asp:DropDownList ID="ddlCompanyFFC" runat="server"></asp:DropDownList></td>
+                <td><asp:Button ID="btnSearchFFC" runat="server" Text="Search" OnClick="btnSearchFFC_Click" /></td>
+            </tr>
+            <br /><br />
+            <div class="horizontal_scroll">
+                <asp:GridView ID="gvFreightForwarderContact" runat="server" Width="100%"></asp:GridView>
+            </div>
+            <br /><br />
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>
