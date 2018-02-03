@@ -689,14 +689,12 @@ public class LogisticsService : System.Web.Services.WebService
     "searchBy and searchText must be case-sensitive.")]
     public DataTable SearchFreightForwarders(string searchBy, string searchText)
     {
-        DataSet ds_whole = new DataSet();
         DataTable ds_result = new DataTable();
         DataTable dt = new DataTable();
-        DataTable dt2 = new DataTable("final");
+        DataTable dt2 = new DataTable("FreightForwardersSearchResult");
         IEnumerable<DataRow> query = null;
 
-        ds_whole = ExcelReadData_EP("http://www.worldfreightnetwork.com/userimages/WFN%20Contact%20List.xls", 2);
-        ds_result = ds_whole.Tables[0];
+        ds_result = GetAllFreightForwarderContacts();
 
         //If Else to check whether searchby is HS Code or Product Description.
         if (searchBy.Equals("Country"))
@@ -726,16 +724,16 @@ public class LogisticsService : System.Web.Services.WebService
 
         dt2.Columns.Add("Country", typeof(string));
         dt2.Columns.Add("Company Name", typeof(string));
-        dt2.Columns.Add("Tel Num", typeof(string));
-        dt2.Columns.Add("Emergency Num", typeof(string));
+        dt2.Columns.Add("Tel Number", typeof(string));
+        dt2.Columns.Add("Emergency Tel", typeof(string));
         dt2.Columns.Add("Fax Number", typeof(string));
         dt2.Columns.Add("Email", typeof(string));
         dt2.Columns.Add("Contact Names", typeof(string));
         dt2.Columns.Add("Website", typeof(string));
         dt2.Columns.Add("MSN", typeof(string));
-        dt2.Columns.Add("Skype", typeof(string));
+        dt2.Columns.Add("SKYPE", typeof(string));
         dt2.Columns.Add("Address", typeof(string));
-        dt2.Columns.Add("Noted", typeof(string));
+        dt2.Columns.Add("NOTES", typeof(string));
         dt2.Load(dt.CreateDataReader(), System.Data.LoadOption.OverwriteChanges);
         return dt2;
     }
