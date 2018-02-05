@@ -10,8 +10,6 @@ using LogisticsWS;
 
 public partial class WebPages_Duties : System.Web.UI.Page
 {
-    Converter cis2 = new Converter();
-
     LogisticsService cis = new LogisticsService();
     Converter ccs = new Converter();
     

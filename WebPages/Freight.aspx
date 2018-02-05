@@ -1,6 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="Freight.aspx.cs" Inherits="WebPages_Freight" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
+    <asp:UpdateProgress ID="UpdateProgress1" runat="server">
+        <ProgressTemplate>
+            Loading...<img src="../Content/loading-icon.gif" style="width:70px;height:50px;"/>
+        </ProgressTemplate>
+    </asp:UpdateProgress>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
             <h2>Local Address Search</h2>
@@ -41,7 +46,7 @@
             </tr>
             <br /><br />
             <div class="horizontal_scroll">
-                <asp:GridView ID="gvFreightForwarderContact" runat="server" Width="100%" AutoGenerateColumns="false" GridLines="None"></asp:GridView>
+                <asp:GridView ID="gvFreightForwarderContact" runat="server" Width="100%"></asp:GridView>
             </div>
             <br /><br />
         </ContentTemplate>
