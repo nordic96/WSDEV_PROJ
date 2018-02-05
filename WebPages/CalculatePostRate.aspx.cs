@@ -7,6 +7,7 @@ using System.IO;
 using System.Text;
 using System.Web.UI.WebControls;
 using System.Collections.Generic;
+using Logistics;
 
 public partial class WebPages_CalculatePostRate : System.Web.UI.Page
 {

@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using currencyconverter;
+using Logistics;
 
 public partial class WebPages_Duties : System.Web.UI.Page
 {
