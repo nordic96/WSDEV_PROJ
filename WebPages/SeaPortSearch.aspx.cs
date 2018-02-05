@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using Logistics;
+using LogisticsWS;
 
 public partial class WebPages_SeaPortSearch : System.Web.UI.Page
 {

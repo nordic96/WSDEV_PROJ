@@ -11,8 +11,8 @@ body {
     padding-right: 15px;
 }
 
-div.gh_scroll {
-    overflow-y: scroll; height:500px;
+.gh_scroll {
+    overflow-y: scroll; height:600px;
 }
 
 div.horizontal_scroll {
@@ -21,18 +21,18 @@ div.horizontal_scroll {
 }
 
 
-div.gh_total_price {
+.gh_total_price {
     width:20%;
     border-bottom-style:solid;
     border-bottom-width:thin;
     border-bottom-color:dodgerblue;
 }
 
-table.gh_table td {
+.gh_table td {
     padding:10px;
 }
 
-div.gh_postCal_div {
+.gh_postCal_div {
     display: none;
 }
 
