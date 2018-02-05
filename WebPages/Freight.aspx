@@ -41,7 +41,7 @@
             </tr>
             <br /><br />
             <div class="horizontal_scroll">
-                <asp:GridView ID="gvFreightForwarderContact" runat="server" Width="100%"></asp:GridView>
+                <asp:GridView ID="gvFreightForwarderContact" runat="server" Width="100%" AutoGenerateColumns="false" GridLines="None"></asp:GridView>
             </div>
             <br /><br />
         </ContentTemplate>

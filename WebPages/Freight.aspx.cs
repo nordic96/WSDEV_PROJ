@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
+using LogisticsWS;
 
 public partial class WebPages_Freight : System.Web.UI.Page
 {

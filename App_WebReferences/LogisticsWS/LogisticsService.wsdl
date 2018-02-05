@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.tpifc.com/TPWebServices" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.tpifc.com/TPWebServices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.tpifc.com/TPWebServices">
+      <s:element name="GetAllSeaPortInformation">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllSeaPortInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllSeaPortInformationResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchSeaPortInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="searchBy" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchText" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchSeaPortInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchSeaPortInformationResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CalculatePostRateLocal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="post_size" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="weight" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CalculatePostRateLocalResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CalculatePostRateLocalResult" type="tns:PostalPrice" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PostalPrice">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="price" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="result" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CalculatePostRateSurface">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mailType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="weight" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CalculatePostRateSurfaceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CalculatePostRateSurfaceResult" type="tns:PostalPrice" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CalculatePostRateAir">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="country_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="weight" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CalculatePostRateAirResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CalculatePostRateAirResult" type="tns:PostalPrice" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CalculatePostRateBulk">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="transport_mode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destination" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="weight" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CalculatePostRateBulkResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CalculatePostRateBulkResult" type="tns:PostalPrice" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllDutiableTaxHSCode">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllDutiableTaxHSCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllDutiableTaxHSCodeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchDutiableTaxHsCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="searchBy" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchText" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchDutiableTaxHsCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchDutiableTaxHsCodeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllHSCodeInformation">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllHSCodeInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllHSCodeInformationResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchHsCodeInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="searchBy" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchText" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchHsCodeInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchHsCodeInformationResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CalculateDomesticProductDuty">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HSCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="weight" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="totalPrice" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CalculateDomesticProductDutyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CalculateDomesticProductDutyResult" type="tns:Duty" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Duty">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="totalDuties" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="result" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CalculateIntnProductDuty">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HSCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="weight" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="totalPrice" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CalculateIntnProductDutyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CalculateIntnProductDutyResult" type="tns:Duty" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllFreightForwarderContacts">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllFreightForwarderContactsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllFreightForwarderContactsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchFreightForwarders">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="searchBy" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchText" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchFreightForwardersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchFreightForwardersResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetAllSeaPortInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllSeaPortInformation" />
+  </wsdl:message>
+  <wsdl:message name="GetAllSeaPortInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllSeaPortInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchSeaPortInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchSeaPortInformation" />
+  </wsdl:message>
+  <wsdl:message name="SearchSeaPortInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchSeaPortInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateLocalSoapIn">
+    <wsdl:part name="parameters" element="tns:CalculatePostRateLocal" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateLocalSoapOut">
+    <wsdl:part name="parameters" element="tns:CalculatePostRateLocalResponse" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateSurfaceSoapIn">
+    <wsdl:part name="parameters" element="tns:CalculatePostRateSurface" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateSurfaceSoapOut">
+    <wsdl:part name="parameters" element="tns:CalculatePostRateSurfaceResponse" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateAirSoapIn">
+    <wsdl:part name="parameters" element="tns:CalculatePostRateAir" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateAirSoapOut">
+    <wsdl:part name="parameters" element="tns:CalculatePostRateAirResponse" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateBulkSoapIn">
+    <wsdl:part name="parameters" element="tns:CalculatePostRateBulk" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateBulkSoapOut">
+    <wsdl:part name="parameters" element="tns:CalculatePostRateBulkResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllDutiableTaxHSCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllDutiableTaxHSCode" />
+  </wsdl:message>
+  <wsdl:message name="GetAllDutiableTaxHSCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllDutiableTaxHSCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchDutiableTaxHsCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchDutiableTaxHsCode" />
+  </wsdl:message>
+  <wsdl:message name="SearchDutiableTaxHsCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchDutiableTaxHsCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllHSCodeInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllHSCodeInformation" />
+  </wsdl:message>
+  <wsdl:message name="GetAllHSCodeInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllHSCodeInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchHsCodeInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchHsCodeInformation" />
+  </wsdl:message>
+  <wsdl:message name="SearchHsCodeInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchHsCodeInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="CalculateDomesticProductDutySoapIn">
+    <wsdl:part name="parameters" element="tns:CalculateDomesticProductDuty" />
+  </wsdl:message>
+  <wsdl:message name="CalculateDomesticProductDutySoapOut">
+    <wsdl:part name="parameters" element="tns:CalculateDomesticProductDutyResponse" />
+  </wsdl:message>
+  <wsdl:message name="CalculateIntnProductDutySoapIn">
+    <wsdl:part name="parameters" element="tns:CalculateIntnProductDuty" />
+  </wsdl:message>
+  <wsdl:message name="CalculateIntnProductDutySoapOut">
+    <wsdl:part name="parameters" element="tns:CalculateIntnProductDutyResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllFreightForwarderContactsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllFreightForwarderContacts" />
+  </wsdl:message>
+  <wsdl:message name="GetAllFreightForwarderContactsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllFreightForwarderContactsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchFreightForwardersSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchFreightForwarders" />
+  </wsdl:message>
+  <wsdl:message name="SearchFreightForwardersSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchFreightForwardersResponse" />
+  </wsdl:message>
+  <wsdl:portType name="LogisticsServiceSoap">
+    <wsdl:operation name="GetAllSeaPortInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of global sea port information (Country Code, Country Name, Port Code, Port Name).</wsdl:documentation>
+      <wsdl:input message="tns:GetAllSeaPortInformationSoapIn" />
+      <wsdl:output message="tns:GetAllSeaPortInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchSeaPortInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search port information based on selected category from the Excel file. searchBy must be either 'Country Code', 'Port Code', 'Country Name', 'Port Name', 'Port Code'. searchBy and searchText must be case-sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:SearchSeaPortInformationSoapIn" />
+      <wsdl:output message="tns:SearchSeaPortInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateLocal">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">post_size must be either 'regular'/'large'/'non' (none for Non-Standard). weight is measured in (g). Maximum weight is 2000g (for regular size, max. weight is 40g) Invalid weight amount will return result as false.</wsdl:documentation>
+      <wsdl:input message="tns:CalculatePostRateLocalSoapIn" />
+      <wsdl:output message="tns:CalculatePostRateLocalSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateSurface">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">mailType can be only 'papers' available. weight is measaured in (g). (max. weight is 2000g)</wsdl:documentation>
+      <wsdl:input message="tns:CalculatePostRateSurfaceSoapIn" />
+      <wsdl:output message="tns:CalculatePostRateSurfaceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateAir">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">country_code (2 characters ex: MY for Malaysia). mailType only allows 'papers'/'packets'. weight is in (g). Any fail in validation, the result value will be set to false.</wsdl:documentation>
+      <wsdl:input message="tns:CalculatePostRateAirSoapIn" />
+      <wsdl:output message="tns:CalculatePostRateAirSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateBulk">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">transport_mode must be either 'air'/'surface'. destination is for country code(2char; eg.MY for Malaysia). weight is measured in (kg).</wsdl:documentation>
+      <wsdl:input message="tns:CalculatePostRateBulkSoapIn" />
+      <wsdl:output message="tns:CalculatePostRateBulkSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllDutiableTaxHSCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of Dutiable Tax HS Code information (HS Code, Product Description, Customs Duty, Excise Duty).</wsdl:documentation>
+      <wsdl:input message="tns:GetAllDutiableTaxHSCodeSoapIn" />
+      <wsdl:output message="tns:GetAllDutiableTaxHSCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchDutiableTaxHsCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search Duty Rates information based on selected category from the Excel file. searchBy must be either 'HS Code', 'Product Description'searchText is any keywords in the sentence of Product DescriptionsearchBy and searchText must be case-sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:SearchDutiableTaxHsCodeSoapIn" />
+      <wsdl:output message="tns:SearchDutiableTaxHsCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllHSCodeInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of HS Code information (HS Code, HS Description, HS UOM, ReferenceId)</wsdl:documentation>
+      <wsdl:input message="tns:GetAllHSCodeInformationSoapIn" />
+      <wsdl:output message="tns:GetAllHSCodeInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchHsCodeInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search HS Code information based on selected category from the Excel file. searchBy must be either 'HS Code', 'HS Description', 'HS UOM', 'ReferenceId'. searchBy and searchText must be case-sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:SearchHsCodeInformationSoapIn" />
+      <wsdl:output message="tns:SearchHsCodeInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculateDomesticProductDuty">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Weight is in kg/litre, totalPrice is the total price of the goods</wsdl:documentation>
+      <wsdl:input message="tns:CalculateDomesticProductDutySoapIn" />
+      <wsdl:output message="tns:CalculateDomesticProductDutySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculateIntnProductDuty">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Weight is in kg / litre, totalPrice is the total price of the goods</wsdl:documentation>
+      <wsdl:input message="tns:CalculateIntnProductDutySoapIn" />
+      <wsdl:output message="tns:CalculateIntnProductDutySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllFreightForwarderContacts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of Freight Forwarder Contacts information</wsdl:documentation>
+      <wsdl:input message="tns:GetAllFreightForwarderContactsSoapIn" />
+      <wsdl:output message="tns:GetAllFreightForwarderContactsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchFreightForwarders">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search Freight Forwarder Contacts information based on selected category from the Excel file. searchBy must be either 'Country', 'Company Name'. searchBy and searchText must be case-sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:SearchFreightForwardersSoapIn" />
+      <wsdl:output message="tns:SearchFreightForwardersSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LogisticsServiceSoap" type="tns:LogisticsServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAllSeaPortInformation">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/GetAllSeaPortInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchSeaPortInformation">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/SearchSeaPortInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateLocal">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/CalculatePostRateLocal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateSurface">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/CalculatePostRateSurface" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateAir">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/CalculatePostRateAir" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateBulk">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/CalculatePostRateBulk" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllDutiableTaxHSCode">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/GetAllDutiableTaxHSCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchDutiableTaxHsCode">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/SearchDutiableTaxHsCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllHSCodeInformation">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/GetAllHSCodeInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchHsCodeInformation">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/SearchHsCodeInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateDomesticProductDuty">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/CalculateDomesticProductDuty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateIntnProductDuty">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/CalculateIntnProductDuty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllFreightForwarderContacts">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/GetAllFreightForwarderContacts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchFreightForwarders">
+      <soap:operation soapAction="http://www.tpifc.com/TPWebServices/SearchFreightForwarders" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="LogisticsServiceSoap12" type="tns:LogisticsServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAllSeaPortInformation">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/GetAllSeaPortInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchSeaPortInformation">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/SearchSeaPortInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateLocal">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/CalculatePostRateLocal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateSurface">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/CalculatePostRateSurface" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateAir">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/CalculatePostRateAir" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateBulk">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/CalculatePostRateBulk" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllDutiableTaxHSCode">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/GetAllDutiableTaxHSCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchDutiableTaxHsCode">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/SearchDutiableTaxHsCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllHSCodeInformation">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/GetAllHSCodeInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchHsCodeInformation">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/SearchHsCodeInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateDomesticProductDuty">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/CalculateDomesticProductDuty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateIntnProductDuty">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/CalculateIntnProductDuty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllFreightForwarderContacts">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/GetAllFreightForwarderContacts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchFreightForwarders">
+      <soap12:operation soapAction="http://www.tpifc.com/TPWebServices/SearchFreightForwarders" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LogisticsService">
+    <wsdl:port name="LogisticsServiceSoap" binding="tns:LogisticsServiceSoap">
+      <soap:address location="http://172.20.34.2/WSDEVPE01/PE01Gihun/LogisticsService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="LogisticsServiceSoap12" binding="tns:LogisticsServiceSoap12">
+      <soap12:address location="http://172.20.34.2/WSDEVPE01/PE01Gihun/LogisticsService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

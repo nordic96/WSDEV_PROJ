@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.Web.UI.WebControls;
 using System.Collections.Generic;
+using LogisticsWS;
 
 public partial class WebPages_CalculatePostRate : System.Web.UI.Page
 {
@@ -73,7 +74,7 @@ public partial class WebPages_CalculatePostRate : System.Web.UI.Page
 
     protected void btnCalLocal_Click(object sender, EventArgs e)
     {
-        PostalPrice p = new PostalPrice();
+        LogisticsWS.PostalPrice p = new LogisticsWS.PostalPrice();
         if (!ddlPostSizeLocal.SelectedValue.Equals("empty") && !txtPostWeightLocal.Text.Equals(""))
         {
             string select = ddlPostSizeLocal.SelectedValue;
@@ -119,7 +120,7 @@ public partial class WebPages_CalculatePostRate : System.Web.UI.Page
             popup_empty();
         else
         {
-            PostalPrice p = new PostalPrice();
+            LogisticsWS.PostalPrice p = new LogisticsWS.PostalPrice();
             string countrySelect = ddlCountryAir.SelectedValue;
             string mailType = ddlAirMailType.SelectedValue;
             double weight = Convert.ToDouble(txtAirMailWeight.Text);
@@ -151,7 +152,7 @@ public partial class WebPages_CalculatePostRate : System.Web.UI.Page
 
         else
         {
-            PostalPrice p = new PostalPrice();
+            LogisticsWS.PostalPrice p = new LogisticsWS.PostalPrice();
             string countrySelect = ddlCountrySurf.SelectedValue;
             string mailType = ddlMailTypeSurface.SelectedValue;
             double weight = Convert.ToDouble(txtSurfaceMailWeight.Text);
@@ -202,7 +203,7 @@ public partial class WebPages_CalculatePostRate : System.Web.UI.Page
         }
         else if(!ddlBulkTransport.SelectedValue.Equals("empty") && !txtBulkWeight.Text.Equals(""))
         {
-            PostalPrice p = new PostalPrice();
+            LogisticsWS.PostalPrice p = new LogisticsWS.PostalPrice();
             bool result;
             double weight = Convert.ToDouble(txtBulkWeight.Text);
             string transport_mode = ddlBulkTransport.SelectedValue;

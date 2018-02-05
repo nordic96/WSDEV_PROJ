@@ -12,7 +12,7 @@ body {
 }
 
 .gh_scroll {
-    overflow-y: scroll; height:500px;
+    overflow-y: scroll; height:600px;
 }
 
 div.horizontal_scroll {
