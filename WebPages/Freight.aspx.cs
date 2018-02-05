@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
+using LogisticsWS;
 
 public partial class WebPages_Freight : System.Web.UI.Page
 {
@@ -88,9 +89,6 @@ public partial class WebPages_Freight : System.Web.UI.Page
         {
             lblTest.Text = ex.ToString();
         }
-
-        //Validating empty search result.
-
         gvOneAddress.DataSource = results;
         gvOneAddress.DataBind();
         gvOneAddress.HeaderRow.Cells[0].Text = "Address Name";
@@ -110,6 +108,7 @@ public partial class WebPages_Freight : System.Web.UI.Page
 
         if(0 < counter && counter < totalPage)
         {
+            //popup_error("TESTING NOW GH");
             counter++;
             Session["AttemptCount"] = counter;
             data = load_data_result(value, counter);
@@ -149,20 +148,37 @@ public partial class WebPages_Freight : System.Web.UI.Page
         }
         else
         {
-            btnNextPage.Visible = true;
-            btnPrevPage.Visible = true;
-
             data = load_data_result(searchVal, 1);
+            if(data.totalNumPages == 0)
+            {
+                lblTest.Text = "No search result found :(";
+            }
+            else
+            {
+                btnNextPage.Visible = true;
+                btnPrevPage.Visible = true;
+                //Store input data and counter as Session values.
+                Session["searchval"] = txtSearchAddress.Text;
+                Session["AttemptCount"] = 1;
+                Session["TotalPage"] = data.totalNumPages;
 
-            //Store input data and counter as Session values.
-            Session["searchval"] = txtSearchAddress.Text;
-            Session["AttemptCount"] = 1;
-            Session["TotalPage"] = data.totalNumPages;
+                int totalPage = (int)Session["TotalPage"];
+                int counter = (int)Session["AttemptCount"];
 
-            int totalPage = (int)Session["TotalPage"];
-            int counter = (int)Session["AttemptCount"];
+                lblTest.Text = "Current Page : " + counter + " Total Page: " + totalPage;
 
-            lblTest.Text = "Current Page : " + counter + " Total Page: " + totalPage;
+                gvOneAddress.DataSource = results;
+                gvOneAddress.DataBind();
+                gvOneAddress.HeaderRow.Cells[0].Text = "Address Name";
+                gvOneAddress.HeaderRow.Cells[1].Text = "BLK";
+                gvOneAddress.HeaderRow.Cells[2].Text = "Road Name";
+                gvOneAddress.HeaderRow.Cells[3].Text = "Building";
+                gvOneAddress.HeaderRow.Cells[4].Text = "Address Details";
+                gvOneAddress.HeaderRow.Cells[5].Text = "Postal Code";
+            }
+
+
+
         }
     }
 

@@ -12,6 +12,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using BusWS;
 
 public partial class _Default : Page
 {
@@ -20,6 +21,10 @@ public partial class _Default : Page
     {
         if(!Page.IsPostBack)
         {
+            BusWebService bus = new BusWebService();
+            gvTest.DataSource = bus.GetBusArrivalsInformation("62079", "129");
+            gvTest.DataBind();
+
             this.PopulateRSSFeed("RssFeedUrlCargo");
             string[] newsTopicList = System.Web.Configuration.WebConfigurationManager.AppSettings["RssFeedMenuList"].Split(',');
             ddlNewsTopic.DataSource = newsTopicList;
