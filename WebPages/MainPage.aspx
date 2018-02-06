@@ -20,8 +20,8 @@
     </asp:UpdateProgress>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
     <ContentTemplate>
-        <h2>Test</h2>
-        <asp:GridView ID="gvTest" runat="server"></asp:GridView>
+        <h2>Bank Information</h2>
+
         <table style="width:100%">
             <tr><td><h2><asp:Label ID="lblRssFeedSubject" runat="server" Text=""></asp:Label>News</h2></td></tr>
             <tr><td><p>This news feed is provided by RealWire (RSS). Visit this website for more information.</p></td></tr>
