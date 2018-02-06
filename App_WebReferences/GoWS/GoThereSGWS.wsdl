@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.tempuri.org" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.tempuri.org" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.tempuri.org">
+      <s:element name="getAllMRTStations">
+        <s:complexType />
+      </s:element>
+      <s:element name="getAllMRTStationsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getAllMRTStationsResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getStationsCodeInLine">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LineCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getStationsCodeInLineResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getStationsCodeInLineResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getStationsNameInLine">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LineCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getStationsNameInLineResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getStationsNameInLineResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getMRTLines">
+        <s:complexType />
+      </s:element>
+      <s:element name="getMRTLinesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getMRTLinesResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getStationCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StationName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getStationCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getStationCodeResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getStationName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stationCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getStationNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getStationNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getConnectingStations">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FromLineCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToLineCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getConnectingStationsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getConnectingStationsResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getRoute">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FromStationCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToStationCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getRouteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getRouteResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getHotlines">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Category" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getHotlinesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getHotlinesResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="getAllMRTStationsSoapIn">
+    <wsdl:part name="parameters" element="tns:getAllMRTStations" />
+  </wsdl:message>
+  <wsdl:message name="getAllMRTStationsSoapOut">
+    <wsdl:part name="parameters" element="tns:getAllMRTStationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getStationsCodeInLineSoapIn">
+    <wsdl:part name="parameters" element="tns:getStationsCodeInLine" />
+  </wsdl:message>
+  <wsdl:message name="getStationsCodeInLineSoapOut">
+    <wsdl:part name="parameters" element="tns:getStationsCodeInLineResponse" />
+  </wsdl:message>
+  <wsdl:message name="getStationsNameInLineSoapIn">
+    <wsdl:part name="parameters" element="tns:getStationsNameInLine" />
+  </wsdl:message>
+  <wsdl:message name="getStationsNameInLineSoapOut">
+    <wsdl:part name="parameters" element="tns:getStationsNameInLineResponse" />
+  </wsdl:message>
+  <wsdl:message name="getMRTLinesSoapIn">
+    <wsdl:part name="parameters" element="tns:getMRTLines" />
+  </wsdl:message>
+  <wsdl:message name="getMRTLinesSoapOut">
+    <wsdl:part name="parameters" element="tns:getMRTLinesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getStationCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:getStationCode" />
+  </wsdl:message>
+  <wsdl:message name="getStationCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:getStationCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="getStationNameSoapIn">
+    <wsdl:part name="parameters" element="tns:getStationName" />
+  </wsdl:message>
+  <wsdl:message name="getStationNameSoapOut">
+    <wsdl:part name="parameters" element="tns:getStationNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="getConnectingStationsSoapIn">
+    <wsdl:part name="parameters" element="tns:getConnectingStations" />
+  </wsdl:message>
+  <wsdl:message name="getConnectingStationsSoapOut">
+    <wsdl:part name="parameters" element="tns:getConnectingStationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getRouteSoapIn">
+    <wsdl:part name="parameters" element="tns:getRoute" />
+  </wsdl:message>
+  <wsdl:message name="getRouteSoapOut">
+    <wsdl:part name="parameters" element="tns:getRouteResponse" />
+  </wsdl:message>
+  <wsdl:message name="getHotlinesSoapIn">
+    <wsdl:part name="parameters" element="tns:getHotlines" />
+  </wsdl:message>
+  <wsdl:message name="getHotlinesSoapOut">
+    <wsdl:part name="parameters" element="tns:getHotlinesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="GoThereSGWSSoap">
+    <wsdl:operation name="getAllMRTStations">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get XML document for all MRT stations, including: station code, station name, line name.&lt;/br&gt;Output: { XML document for all MRT stations, including: station code, station name, line name. }</wsdl:documentation>
+      <wsdl:input message="tns:getAllMRTStationsSoapIn" />
+      <wsdl:output message="tns:getAllMRTStationsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getStationsCodeInLine">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all station codes for all stations located on the queried line.&lt;/br&gt;Input: { LineCode: Code of the Line to query. }&lt;/br&gt;Output: { Station codes for all stations located on the queried line. }</wsdl:documentation>
+      <wsdl:input message="tns:getStationsCodeInLineSoapIn" />
+      <wsdl:output message="tns:getStationsCodeInLineSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getStationsNameInLine">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all station names for all stations located on the queried line.&lt;/br&gt;Input: { LineCode: Name of the Line to query. }&lt;/br&gt;Output: { Station names for all stations located on the queried line. }</wsdl:documentation>
+      <wsdl:input message="tns:getStationsNameInLineSoapIn" />
+      <wsdl:output message="tns:getStationsNameInLineSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getMRTLines">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all MRT Line codes and names.&lt;/br&gt;Output: { MRT Line codes and names. }</wsdl:documentation>
+      <wsdl:input message="tns:getMRTLinesSoapIn" />
+      <wsdl:output message="tns:getMRTLinesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getStationCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get station code of queried station name.&lt;/br&gt;Input: { StationName: Name of the station to query. }&lt;/br&gt;Output: { Station code of queried station name. }</wsdl:documentation>
+      <wsdl:input message="tns:getStationCodeSoapIn" />
+      <wsdl:output message="tns:getStationCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getStationName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get station name of queried station code.&lt;/br&gt;Input: { StationCode: Code of the station to query. }&lt;/br&gt;Output: { Station name of queried station code. }</wsdl:documentation>
+      <wsdl:input message="tns:getStationNameSoapIn" />
+      <wsdl:output message="tns:getStationNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getConnectingStations">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all connecting station codes of queried lines.&lt;/br&gt;Input = {FromLineCode: Initial MRT Line code. | ToLineCode: Destination MRT Line code. }&lt;/br&gt;Output: { All connecting stations of queried lines. }</wsdl:documentation>
+      <wsdl:input message="tns:getConnectingStationsSoapIn" />
+      <wsdl:output message="tns:getConnectingStationsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getRoute">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all station name and code enroute to queried destination.&lt;/br&gt;Input: { FromStationCode: Initial station code. | ToStationCode: Destination station code. }&lt;/br&gt;Output: { All station name and code enroute to queried destination. }</wsdl:documentation>
+      <wsdl:input message="tns:getRouteSoapIn" />
+      <wsdl:output message="tns:getRouteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getHotlines">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Emergency numbers and Taxi hotlines of queried category.&lt;/br&gt;Input: { Category of hotlines: Emergency / Taxi }&lt;/br&gt;Output: { Emergency numbers and Taxi hotlines of queried category. }</wsdl:documentation>
+      <wsdl:input message="tns:getHotlinesSoapIn" />
+      <wsdl:output message="tns:getHotlinesSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GoThereSGWSSoap" type="tns:GoThereSGWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getAllMRTStations">
+      <soap:operation soapAction="http://www.tempuri.org/getAllMRTStations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStationsCodeInLine">
+      <soap:operation soapAction="http://www.tempuri.org/getStationsCodeInLine" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStationsNameInLine">
+      <soap:operation soapAction="http://www.tempuri.org/getStationsNameInLine" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMRTLines">
+      <soap:operation soapAction="http://www.tempuri.org/getMRTLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStationCode">
+      <soap:operation soapAction="http://www.tempuri.org/getStationCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStationName">
+      <soap:operation soapAction="http://www.tempuri.org/getStationName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getConnectingStations">
+      <soap:operation soapAction="http://www.tempuri.org/getConnectingStations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRoute">
+      <soap:operation soapAction="http://www.tempuri.org/getRoute" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getHotlines">
+      <soap:operation soapAction="http://www.tempuri.org/getHotlines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="GoThereSGWSSoap12" type="tns:GoThereSGWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getAllMRTStations">
+      <soap12:operation soapAction="http://www.tempuri.org/getAllMRTStations" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStationsCodeInLine">
+      <soap12:operation soapAction="http://www.tempuri.org/getStationsCodeInLine" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStationsNameInLine">
+      <soap12:operation soapAction="http://www.tempuri.org/getStationsNameInLine" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMRTLines">
+      <soap12:operation soapAction="http://www.tempuri.org/getMRTLines" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStationCode">
+      <soap12:operation soapAction="http://www.tempuri.org/getStationCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStationName">
+      <soap12:operation soapAction="http://www.tempuri.org/getStationName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getConnectingStations">
+      <soap12:operation soapAction="http://www.tempuri.org/getConnectingStations" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRoute">
+      <soap12:operation soapAction="http://www.tempuri.org/getRoute" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getHotlines">
+      <soap12:operation soapAction="http://www.tempuri.org/getHotlines" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GoThereSGWS">
+    <wsdl:port name="GoThereSGWSSoap" binding="tns:GoThereSGWSSoap">
+      <soap:address location="http://172.20.34.2/WSDEVPE01/PE01MingYang/GoThereSGWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="GoThereSGWSSoap12" binding="tns:GoThereSGWSSoap12">
+      <soap12:address location="http://172.20.34.2/WSDEVPE01/PE01MingYang/GoThereSGWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
