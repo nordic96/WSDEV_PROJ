@@ -48,22 +48,32 @@
             <asp:Label ID="lblTotPrice" runat="server" Text=""></asp:Label>
             <br />
             <br />
-            <table class ="gh_table">
-                <tr>
-                    <td>
-                        <asp:Label ID="lblConvert" runat="server" Text="Currency Convertion:"></asp:Label>
-                    </td>
-                    <td>
-                        <asp:DropDownList ID="ddlConvert" runat="server"></asp:DropDownList>
-                    </td>
-                    <td>
-                        <asp:Button ID="btnConvert" runat="server" Text="Convert" OnClick="btnConvert_Click" />
-                    </td>
-                    <td>
-                        <asp:Label ID="lblConvertResult" runat="server" Text=""></asp:Label>
-                    </td>
-                </tr>
-            </table>   
+            <asp:UpdateProgress ID="UpdateProgress1" runat="server">
+                <ProgressTemplate>
+                    Loading...<img src="../Content/loading-icon.gif" style="width:70px;height:50px;"/>
+                </ProgressTemplate>
+            </asp:UpdateProgress>
+            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                <ContentTemplate>
+                    <table class ="gh_table">
+                        <tr>
+                            <td>
+                                <asp:Label ID="lblConvert" runat="server" Text="Currency Convertion:"></asp:Label>
+                            </td>
+                            <td>
+                                <asp:DropDownList ID="ddlConvert" runat="server"></asp:DropDownList>
+                            </td>
+                            <td>
+                                <asp:Button ID="btnConvert" runat="server" Text="Convert" OnClick="btnConvert_Click" />
+                            </td>
+                            <td>
+                                <asp:Label ID="lblConvertResult" runat="server" Text=""></asp:Label>
+                            </td>
+                        </tr>
+                    </table>   
+                </ContentTemplate>            
+            </asp:UpdatePanel>
+           
             <br />
             <br />
             <h2>Search</h2>
