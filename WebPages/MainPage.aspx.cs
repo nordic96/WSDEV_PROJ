@@ -12,13 +12,15 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using BusWS;
+using TestWS;
 
 public partial class _Default : Page
 {
-
+    FacilityWS fws = new FacilityWS();
     protected void Page_Load(object sender, EventArgs e)
     {
+        
+
         if(!Page.IsPostBack)
         {
 
@@ -26,6 +28,8 @@ public partial class _Default : Page
             string[] newsTopicList = System.Web.Configuration.WebConfigurationManager.AppSettings["RssFeedMenuList"].Split(',');
             ddlNewsTopic.DataSource = newsTopicList;
             ddlNewsTopic.DataBind();
+            gvBankInfo.DataSource = fws.showEquipment();
+            gvBankInfo.DataBind();
 
         }
     }

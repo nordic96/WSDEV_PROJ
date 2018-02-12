@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using MrtWS;
+using BusWS;
 using System.Xml;
 using System.Data;
-using System.IO;
 using System.Xml.Linq;
-using BusWS;
 using System.Xml.Serialization;
-using System.Windows.Forms;
-using System.Drawing;
+using MrtWS;
 
 public partial class About : Page
 {
@@ -21,7 +15,7 @@ public partial class About : Page
         
         BusWebService bus = new BusWebService();
         LoadOneMapData data = new LoadOneMapData();
-        Root root = initialize();
+        Root root = initializeMRT();
 
         List<string> lineNames = new List<string>();
 
@@ -35,6 +29,7 @@ public partial class About : Page
             ddlLineStart.DataBind();
             ddlLineEnd.DataSource = lineNames;
             ddlLineEnd.DataBind();
+
             
             gvRoute.DataSource = data.load_data_result("Temasek Polytechnic", 1).results;
             gvRoute.DataBind();
@@ -64,6 +59,34 @@ public partial class About : Page
 
             //Fixed Tampines for Destination MRT Station
             ddlMrtEnd.SelectedValue = "EW2";
+
+
+            ddlBusStops.DataSource = bus.GetBusStopsByRoadName("Tampines Rd");
+            ddlBusStops.DataTextField = "Description";
+            ddlBusStops.DataValueField = "BusStopCode";
+            ddlBusStops.DataBind();
+            lblRefresh.Text = "Bus Stop No." + ddlBusStops.SelectedValue.ToString() + " " + ddlBusStops.SelectedItem.ToString();
+
+            BusWS.BusArrival[] arrivals =  initializeBus();
+            List<BusList> busList = new List<BusList>();
+            foreach (BusWS.BusArrival arrival in arrivals)
+            {
+                BusList b = new BusList();
+                b.busNo = arrival.ServiceNo;
+                b.arrivalTime1 = arrival.NextBus.EstimatedArrival;
+                b.arrivalTime2 = arrival.NextBus2.EstimatedArrival;
+                b.arrivalTime3 = arrival.NextBus3.EstimatedArrival;
+
+                busList.Add(b);
+            }
+            gvBus.DataSource = busList;
+            gvBus.DataBind();
+        
+            //Change Column Name
+            gvBus.HeaderRow.Cells[0].Text = "Bus No.";
+            gvBus.HeaderRow.Cells[1].Text = "Next Bus 1";
+            gvBus.HeaderRow.Cells[2].Text = "Next Bus 2";
+            gvBus.HeaderRow.Cells[3].Text = "Next Bus 3";
         }
     }
 
@@ -124,6 +147,7 @@ public partial class About : Page
                 lineRouteOrder[i] = "DT";
                 arrows.Add(new arrow(@"../Content/blue_arrow.png"));
             }
+
         }
         lblTotalMrtStationsToGo.Text = "Total MRT Stations to travel : " + gvMrtRoute.Rows.Count.ToString();
         gvArrow.DataSource = arrows;
@@ -132,7 +156,7 @@ public partial class About : Page
 
     protected void ddlLineStart_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Root root = initialize();
+        Root root = initializeMRT();
 
         int lineIndex = ddlLineStart.SelectedIndex;
         row[] rows = root.Lines[lineIndex].rows;
@@ -149,7 +173,7 @@ public partial class About : Page
 
     protected void ddlLineEnd_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Root root = initialize();
+        Root root = initializeMRT();
 
         int lineIndex = ddlLineEnd.SelectedIndex;
         row[] rows = root.Lines[lineIndex].rows;
@@ -185,7 +209,7 @@ public partial class About : Page
     }
 
     //Getting the Root object, which is the MRT stations info.
-    private Root initialize()
+    private Root initializeMRT()
     {
         GoThereSGWS service = new GoThereSGWS();
         XmlNode result = service.getAllMRTStations();
@@ -193,5 +217,65 @@ public partial class About : Page
         Root root = Deserialize<Root>(xml);
 
         return root;
+    }
+
+    private BusWS.BusArrival[] initializeBus()
+    {
+        BusWebService ws = new BusWebService();
+        //BusWS.BusArrival[] result = ws.GetBusArrivalsInformation("75239", "");
+        BusWS.BusArrival[] result = ws.GetBusArrivalsInformation(ddlBusStops.SelectedValue, "");
+        return result;
+    }
+
+    protected void Timer1_Tick(object sender, EventArgs e)
+    {
+        BusWS.BusArrival[] arrivals = initializeBus();
+        List<BusList> busList = new List<BusList>();
+        foreach (BusWS.BusArrival arrival in arrivals)
+        {
+            BusList b = new BusList();
+            b.busNo = arrival.ServiceNo;
+            b.arrivalTime1 = arrival.NextBus.EstimatedArrival;
+            b.arrivalTime2 = arrival.NextBus2.EstimatedArrival;
+            b.arrivalTime3 = arrival.NextBus3.EstimatedArrival;
+
+            busList.Add(b);
+        }
+        gvBus.DataSource = busList;
+        gvBus.DataBind();
+
+        //Change Column Name
+        gvBus.HeaderRow.Cells[0].Text = "Bus No.";
+        gvBus.HeaderRow.Cells[1].Text = "Next Bus 1";
+        gvBus.HeaderRow.Cells[2].Text = "Next Bus 2";
+        gvBus.HeaderRow.Cells[3].Text = "Next Bus 3";
+
+        lblRefresh.Text = "The Bus Timing have been refreshed on " + DateTime.Now;
+    }
+
+    protected void ddlBusStops_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        BusWS.BusArrival[] arrivals = initializeBus();
+        List<BusList> busList = new List<BusList>();
+        foreach (BusWS.BusArrival arrival in arrivals)
+        {
+            BusList b = new BusList();
+            b.busNo = arrival.ServiceNo;
+            b.arrivalTime1 = arrival.NextBus.EstimatedArrival;
+            b.arrivalTime2 = arrival.NextBus2.EstimatedArrival;
+            b.arrivalTime3 = arrival.NextBus3.EstimatedArrival;
+
+            busList.Add(b);
+        }
+        gvBus.DataSource = busList;
+        gvBus.DataBind();
+
+        //Change Column Name
+        gvBus.HeaderRow.Cells[0].Text = "Bus No.";
+        gvBus.HeaderRow.Cells[1].Text = "Next Bus 1";
+        gvBus.HeaderRow.Cells[2].Text = "Next Bus 2";
+        gvBus.HeaderRow.Cells[3].Text = "Next Bus 3";
+
+        lblRefresh.Text = "Bus Stop No." + ddlBusStops.SelectedValue.ToString() + " " + ddlBusStops.SelectedItem.ToString();
     }
 }
