@@ -8,8 +8,15 @@ using System.Web;
 /// </summary>
 public class Health
 {
-    
+
 }
+
+public class Polyclinic
+{
+    public string name { get; set; }
+    public string address { get; set; }
+    public string telNumber { get; set; }
+} 
 
 public class GymArea
 {
