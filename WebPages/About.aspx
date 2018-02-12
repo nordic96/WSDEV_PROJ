@@ -64,6 +64,22 @@
                                     </asp:GridView>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <asp:DropDownList ID="ddlBusStops" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlBusStops_SelectedIndexChanged"></asp:DropDownList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                                        <ContentTemplate>
+                                            <asp:Timer ID="Timer1" runat="server" Interval="60000" ontick="Timer1_Tick"></asp:Timer>
+                                            <asp:Label ID="lblRefresh" runat="server"></asp:Label>
+                                            <asp:GridView ID="gvBus" runat="server"></asp:GridView>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                </td>
+                            </tr>
                         </table>
                     </td>
                     <td><asp:Label ID="lblTest" runat="server" Text=""></asp:Label></td>

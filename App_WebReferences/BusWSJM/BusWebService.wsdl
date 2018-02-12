@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://aggressivegaming.org" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://aggressivegaming.org" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service allow you to get real-time datasets for bus services.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://aggressivegaming.org">
+      <s:element name="GetBusArrivalsInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="busStopCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="busServiceNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBusArrivalsInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBusArrivalsInformationResult" type="tns:ArrayOfBusArrival" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBusArrival">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BusArrival" nillable="true" type="tns:BusArrival" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BusArrival">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ServiceNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Operator" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NextBus" type="tns:NextBus" />
+          <s:element minOccurs="0" maxOccurs="1" name="NextBus2" type="tns:NextBus" />
+          <s:element minOccurs="0" maxOccurs="1" name="NextBus3" type="tns:NextBus" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="NextBus">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="OriginCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DestinationCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EstimatedArrival" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Latitude" nillable="true" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="Longitude" nillable="true" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="VisitNumber" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Load" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Feature" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAllBusServicesInformation">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllBusServicesInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllBusServicesInformationResult" type="tns:ArrayOfBusService" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBusService">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BusService" nillable="true" type="tns:BusService" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BusService">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ServiceNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Operator" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Direction" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Category" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OriginCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DestinationCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AM_Peak_Freq" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AM_Offpeak_Freq" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PM_Peak_Freq" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PM_Offpeak_Freq" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LoopDesc" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBusServicesByBusService">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="busServiceNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBusServicesByBusServiceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBusServicesByBusServiceResult" type="tns:ArrayOfBusService" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBusServicesByOperator">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="busOperator" type="tns:BusOperator" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="BusOperator">
+        <s:restriction base="s:string">
+          <s:enumeration value="SBST" />
+          <s:enumeration value="SMRT" />
+          <s:enumeration value="GAS" />
+          <s:enumeration value="TTS" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetBusServicesByOperatorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBusServicesByOperatorResult" type="tns:ArrayOfBusService" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllBusRoutesInformation">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllBusRoutesInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllBusRoutesInformationResult" type="tns:ArrayOfBusRoute" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBusRoute">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BusRoute" nillable="true" type="tns:BusRoute" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BusRoute">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ServiceNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Operator" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Direction" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="StopSequence" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="BusStopCode" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Distance" nillable="true" type="s:float" />
+          <s:element minOccurs="0" maxOccurs="1" name="WD_FirstBus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="WD_LastBus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SAT_FirstBus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SAT_LastBus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SUN_FirstBus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SUN_LastBus" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBusRoutesByBusService">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="busServiceNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBusRoutesByBusServiceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBusRoutesByBusServiceResult" type="tns:ArrayOfBusRoute" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllBusStopsInformation">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllBusStopsInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllBusStopsInformationResult" type="tns:ArrayOfBusStop" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBusStop">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BusStop" nillable="true" type="tns:BusStop" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BusStop">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="BusStopCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RoadName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Latitude" nillable="true" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="Longitude" nillable="true" type="s:float" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBusStopsByBusStopCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="busStopCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBusStopsByBusStopCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBusStopsByBusStopCodeResult" type="tns:BusStop" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBusStopsByRoadName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="roadName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBusStopsByRoadNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBusStopsByRoadNameResult" type="tns:ArrayOfBusStop" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ArrayOfBusArrival" nillable="true" type="tns:ArrayOfBusArrival" />
+      <s:element name="ArrayOfBusService" nillable="true" type="tns:ArrayOfBusService" />
+      <s:element name="ArrayOfBusRoute" nillable="true" type="tns:ArrayOfBusRoute" />
+      <s:element name="ArrayOfBusStop" nillable="true" type="tns:ArrayOfBusStop" />
+      <s:element name="BusStop" nillable="true" type="tns:BusStop" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetBusArrivalsInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBusArrivalsInformation" />
+  </wsdl:message>
+  <wsdl:message name="GetBusArrivalsInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBusArrivalsInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusServicesInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllBusServicesInformation" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusServicesInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllBusServicesInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBusServicesByBusServiceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBusServicesByBusService" />
+  </wsdl:message>
+  <wsdl:message name="GetBusServicesByBusServiceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBusServicesByBusServiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBusServicesByOperatorSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBusServicesByOperator" />
+  </wsdl:message>
+  <wsdl:message name="GetBusServicesByOperatorSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBusServicesByOperatorResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusRoutesInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllBusRoutesInformation" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusRoutesInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllBusRoutesInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBusRoutesByBusServiceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBusRoutesByBusService" />
+  </wsdl:message>
+  <wsdl:message name="GetBusRoutesByBusServiceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBusRoutesByBusServiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusStopsInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllBusStopsInformation" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusStopsInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllBusStopsInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBusStopsByBusStopCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBusStopsByBusStopCode" />
+  </wsdl:message>
+  <wsdl:message name="GetBusStopsByBusStopCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBusStopsByBusStopCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBusStopsByRoadNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBusStopsByRoadName" />
+  </wsdl:message>
+  <wsdl:message name="GetBusStopsByRoadNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBusStopsByRoadNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBusArrivalsInformationHttpGetIn">
+    <wsdl:part name="busStopCode" type="s:string" />
+    <wsdl:part name="busServiceNumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetBusArrivalsInformationHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusArrival" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusServicesInformationHttpGetIn" />
+  <wsdl:message name="GetAllBusServicesInformationHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusService" />
+  </wsdl:message>
+  <wsdl:message name="GetBusServicesByBusServiceHttpGetIn">
+    <wsdl:part name="busServiceNumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetBusServicesByBusServiceHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusService" />
+  </wsdl:message>
+  <wsdl:message name="GetBusServicesByOperatorHttpGetIn">
+    <wsdl:part name="busOperator" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetBusServicesByOperatorHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusService" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusRoutesInformationHttpGetIn" />
+  <wsdl:message name="GetAllBusRoutesInformationHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusRoute" />
+  </wsdl:message>
+  <wsdl:message name="GetBusRoutesByBusServiceHttpGetIn">
+    <wsdl:part name="busServiceNumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetBusRoutesByBusServiceHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusRoute" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusStopsInformationHttpGetIn" />
+  <wsdl:message name="GetAllBusStopsInformationHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusStop" />
+  </wsdl:message>
+  <wsdl:message name="GetBusStopsByBusStopCodeHttpGetIn">
+    <wsdl:part name="busStopCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetBusStopsByBusStopCodeHttpGetOut">
+    <wsdl:part name="Body" element="tns:BusStop" />
+  </wsdl:message>
+  <wsdl:message name="GetBusStopsByRoadNameHttpGetIn">
+    <wsdl:part name="roadName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetBusStopsByRoadNameHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusStop" />
+  </wsdl:message>
+  <wsdl:message name="GetBusArrivalsInformationHttpPostIn">
+    <wsdl:part name="busStopCode" type="s:string" />
+    <wsdl:part name="busServiceNumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetBusArrivalsInformationHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusArrival" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusServicesInformationHttpPostIn" />
+  <wsdl:message name="GetAllBusServicesInformationHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusService" />
+  </wsdl:message>
+  <wsdl:message name="GetBusServicesByBusServiceHttpPostIn">
+    <wsdl:part name="busServiceNumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetBusServicesByBusServiceHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusService" />
+  </wsdl:message>
+  <wsdl:message name="GetBusServicesByOperatorHttpPostIn">
+    <wsdl:part name="busOperator" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetBusServicesByOperatorHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusService" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusRoutesInformationHttpPostIn" />
+  <wsdl:message name="GetAllBusRoutesInformationHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusRoute" />
+  </wsdl:message>
+  <wsdl:message name="GetBusRoutesByBusServiceHttpPostIn">
+    <wsdl:part name="busServiceNumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetBusRoutesByBusServiceHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusRoute" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusStopsInformationHttpPostIn" />
+  <wsdl:message name="GetAllBusStopsInformationHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusStop" />
+  </wsdl:message>
+  <wsdl:message name="GetBusStopsByBusStopCodeHttpPostIn">
+    <wsdl:part name="busStopCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetBusStopsByBusStopCodeHttpPostOut">
+    <wsdl:part name="Body" element="tns:BusStop" />
+  </wsdl:message>
+  <wsdl:message name="GetBusStopsByRoadNameHttpPostIn">
+    <wsdl:part name="roadName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetBusStopsByRoadNameHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBusStop" />
+  </wsdl:message>
+  <wsdl:portType name="BusWebServiceSoap">
+    <wsdl:operation name="GetBusArrivalsInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get real-time Bus Arrival information of Bus Services at a queried Bus Stop, including Est. Arrival Time, Est. Current Location, Est. Current Load. &lt;br /&gt;
+                                   Input: { busStopCode: The bus stop code you would like to query. | busServiceNumber: Bus service you would like to query. (Optional, can be null) } &lt;br /&gt;
+                                   Output: { Detailed service information for all buses currently in operation, including: first stop, last stop, peak / offpeak frequency of dispatch. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusArrivalsInformationSoapIn" />
+      <wsdl:output message="tns:GetBusArrivalsInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusServicesInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed service information for all buses currently in operation, including: first stop, last stop, peak / offpeak frequency of dispatch. &lt;br /&gt;
+                                   Output: { Detailed service information for all buses currently in operation, including: first stop, last stop, peak / offpeak frequency of dispatch. }</wsdl:documentation>
+      <wsdl:input message="tns:GetAllBusServicesInformationSoapIn" />
+      <wsdl:output message="tns:GetAllBusServicesInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByBusService">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed service information for the selected bus service, including: first stop, last stop, peak / offpeak frequency of dispatch. &lt;br /&gt;
+                                   Input: { busServiceNumber: Bus service you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed service information for the selected bus service, including: first stop, last stop, peak / offpeak frequency of dispatch. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusServicesByBusServiceSoapIn" />
+      <wsdl:output message="tns:GetBusServicesByBusServiceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByOperator">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed service information for the selected bus service, including: first stop, last stop, peak / offpeak frequency of dispatch. &lt;br /&gt;
+                                   Input: { busOperator: Bus operator you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed service information for the selected bus service, including: first stop, last stop, peak / offpeak frequency of dispatch. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusServicesByOperatorSoapIn" />
+      <wsdl:output message="tns:GetBusServicesByOperatorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusRoutesInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed route information for all services currently in operation, including: all bus stops along each route, first/last bus timings for each stop. &lt;br /&gt;
+                                   Output: { Detailed route information for all services currently in operation, including: all bus stops along each route, first/last bus timings for each stop. }</wsdl:documentation>
+      <wsdl:input message="tns:GetAllBusRoutesInformationSoapIn" />
+      <wsdl:output message="tns:GetAllBusRoutesInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusRoutesByBusService">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed route information for selected bus service, including: all bus stops along each route, first/last bus timings for each stop. &lt;br /&gt;
+                                   Input: { busServiceNumber: Bus service you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed route information for selected bus service, including: all bus stops along each route, first/last bus timings for each stop. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusRoutesByBusServiceSoapIn" />
+      <wsdl:output message="tns:GetBusRoutesByBusServiceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusStopsInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed information for all bus stops currently being serviced by buses, including: Bus Stop Code, location coordinates. &lt;br /&gt;
+                                   Output: { Detailed information for all bus stops currently being serviced by buses, including: Bus Stop Code, location coordinates. }</wsdl:documentation>
+      <wsdl:input message="tns:GetAllBusStopsInformationSoapIn" />
+      <wsdl:output message="tns:GetAllBusStopsInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByBusStopCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed information for the selected bus stop currently being serviced by buses, including: Bus Stop Code, location coordinates. &lt;br /&gt;
+                                   Input: { busStopCode: The bus stop code you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed information for the selected bus stop currently being serviced by buses, including: Bus Stop Code, location coordinates. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusStopsByBusStopCodeSoapIn" />
+      <wsdl:output message="tns:GetBusStopsByBusStopCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByRoadName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed information for the selected bus stop currently being serviced by buses, including: Bus Stop Code, location coordinates. &lt;br /&gt;
+                                   Input: { roadName: The name of the road you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed information for the selected bus stop currently being serviced by buses, including: Bus Stop Code, location coordinates. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusStopsByRoadNameSoapIn" />
+      <wsdl:output message="tns:GetBusStopsByRoadNameSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="BusWebServiceHttpGet">
+    <wsdl:operation name="GetBusArrivalsInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get real-time Bus Arrival information of Bus Services at a queried Bus Stop, including Est. Arrival Time, Est. Current Location, Est. Current Load. &lt;br /&gt;
+                                   Input: { busStopCode: The bus stop code you would like to query. | busServiceNumber: Bus service you would like to query. (Optional, can be null) } &lt;br /&gt;
+                                   Output: { Detailed service information for all buses currently in operation, including: first stop, last stop, peak / offpeak frequency of dispatch. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusArrivalsInformationHttpGetIn" />
+      <wsdl:output message="tns:GetBusArrivalsInformationHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusServicesInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed service information for all buses currently in operation, including: first stop, last stop, peak / offpeak frequency of dispatch. &lt;br /&gt;
+                                   Output: { Detailed service information for all buses currently in operation, including: first stop, last stop, peak / offpeak frequency of dispatch. }</wsdl:documentation>
+      <wsdl:input message="tns:GetAllBusServicesInformationHttpGetIn" />
+      <wsdl:output message="tns:GetAllBusServicesInformationHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByBusService">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed service information for the selected bus service, including: first stop, last stop, peak / offpeak frequency of dispatch. &lt;br /&gt;
+                                   Input: { busServiceNumber: Bus service you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed service information for the selected bus service, including: first stop, last stop, peak / offpeak frequency of dispatch. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusServicesByBusServiceHttpGetIn" />
+      <wsdl:output message="tns:GetBusServicesByBusServiceHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByOperator">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed service information for the selected bus service, including: first stop, last stop, peak / offpeak frequency of dispatch. &lt;br /&gt;
+                                   Input: { busOperator: Bus operator you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed service information for the selected bus service, including: first stop, last stop, peak / offpeak frequency of dispatch. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusServicesByOperatorHttpGetIn" />
+      <wsdl:output message="tns:GetBusServicesByOperatorHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusRoutesInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed route information for all services currently in operation, including: all bus stops along each route, first/last bus timings for each stop. &lt;br /&gt;
+                                   Output: { Detailed route information for all services currently in operation, including: all bus stops along each route, first/last bus timings for each stop. }</wsdl:documentation>
+      <wsdl:input message="tns:GetAllBusRoutesInformationHttpGetIn" />
+      <wsdl:output message="tns:GetAllBusRoutesInformationHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusRoutesByBusService">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed route information for selected bus service, including: all bus stops along each route, first/last bus timings for each stop. &lt;br /&gt;
+                                   Input: { busServiceNumber: Bus service you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed route information for selected bus service, including: all bus stops along each route, first/last bus timings for each stop. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusRoutesByBusServiceHttpGetIn" />
+      <wsdl:output message="tns:GetBusRoutesByBusServiceHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusStopsInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed information for all bus stops currently being serviced by buses, including: Bus Stop Code, location coordinates. &lt;br /&gt;
+                                   Output: { Detailed information for all bus stops currently being serviced by buses, including: Bus Stop Code, location coordinates. }</wsdl:documentation>
+      <wsdl:input message="tns:GetAllBusStopsInformationHttpGetIn" />
+      <wsdl:output message="tns:GetAllBusStopsInformationHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByBusStopCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed information for the selected bus stop currently being serviced by buses, including: Bus Stop Code, location coordinates. &lt;br /&gt;
+                                   Input: { busStopCode: The bus stop code you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed information for the selected bus stop currently being serviced by buses, including: Bus Stop Code, location coordinates. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusStopsByBusStopCodeHttpGetIn" />
+      <wsdl:output message="tns:GetBusStopsByBusStopCodeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByRoadName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed information for the selected bus stop currently being serviced by buses, including: Bus Stop Code, location coordinates. &lt;br /&gt;
+                                   Input: { roadName: The name of the road you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed information for the selected bus stop currently being serviced by buses, including: Bus Stop Code, location coordinates. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusStopsByRoadNameHttpGetIn" />
+      <wsdl:output message="tns:GetBusStopsByRoadNameHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="BusWebServiceHttpPost">
+    <wsdl:operation name="GetBusArrivalsInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get real-time Bus Arrival information of Bus Services at a queried Bus Stop, including Est. Arrival Time, Est. Current Location, Est. Current Load. &lt;br /&gt;
+                                   Input: { busStopCode: The bus stop code you would like to query. | busServiceNumber: Bus service you would like to query. (Optional, can be null) } &lt;br /&gt;
+                                   Output: { Detailed service information for all buses currently in operation, including: first stop, last stop, peak / offpeak frequency of dispatch. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusArrivalsInformationHttpPostIn" />
+      <wsdl:output message="tns:GetBusArrivalsInformationHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusServicesInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed service information for all buses currently in operation, including: first stop, last stop, peak / offpeak frequency of dispatch. &lt;br /&gt;
+                                   Output: { Detailed service information for all buses currently in operation, including: first stop, last stop, peak / offpeak frequency of dispatch. }</wsdl:documentation>
+      <wsdl:input message="tns:GetAllBusServicesInformationHttpPostIn" />
+      <wsdl:output message="tns:GetAllBusServicesInformationHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByBusService">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed service information for the selected bus service, including: first stop, last stop, peak / offpeak frequency of dispatch. &lt;br /&gt;
+                                   Input: { busServiceNumber: Bus service you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed service information for the selected bus service, including: first stop, last stop, peak / offpeak frequency of dispatch. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusServicesByBusServiceHttpPostIn" />
+      <wsdl:output message="tns:GetBusServicesByBusServiceHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByOperator">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed service information for the selected bus service, including: first stop, last stop, peak / offpeak frequency of dispatch. &lt;br /&gt;
+                                   Input: { busOperator: Bus operator you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed service information for the selected bus service, including: first stop, last stop, peak / offpeak frequency of dispatch. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusServicesByOperatorHttpPostIn" />
+      <wsdl:output message="tns:GetBusServicesByOperatorHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusRoutesInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed route information for all services currently in operation, including: all bus stops along each route, first/last bus timings for each stop. &lt;br /&gt;
+                                   Output: { Detailed route information for all services currently in operation, including: all bus stops along each route, first/last bus timings for each stop. }</wsdl:documentation>
+      <wsdl:input message="tns:GetAllBusRoutesInformationHttpPostIn" />
+      <wsdl:output message="tns:GetAllBusRoutesInformationHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusRoutesByBusService">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed route information for selected bus service, including: all bus stops along each route, first/last bus timings for each stop. &lt;br /&gt;
+                                   Input: { busServiceNumber: Bus service you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed route information for selected bus service, including: all bus stops along each route, first/last bus timings for each stop. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusRoutesByBusServiceHttpPostIn" />
+      <wsdl:output message="tns:GetBusRoutesByBusServiceHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusStopsInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed information for all bus stops currently being serviced by buses, including: Bus Stop Code, location coordinates. &lt;br /&gt;
+                                   Output: { Detailed information for all bus stops currently being serviced by buses, including: Bus Stop Code, location coordinates. }</wsdl:documentation>
+      <wsdl:input message="tns:GetAllBusStopsInformationHttpPostIn" />
+      <wsdl:output message="tns:GetAllBusStopsInformationHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByBusStopCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed information for the selected bus stop currently being serviced by buses, including: Bus Stop Code, location coordinates. &lt;br /&gt;
+                                   Input: { busStopCode: The bus stop code you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed information for the selected bus stop currently being serviced by buses, including: Bus Stop Code, location coordinates. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusStopsByBusStopCodeHttpPostIn" />
+      <wsdl:output message="tns:GetBusStopsByBusStopCodeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByRoadName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get detailed information for the selected bus stop currently being serviced by buses, including: Bus Stop Code, location coordinates. &lt;br /&gt;
+                                   Input: { roadName: The name of the road you would like to query. } &lt;br /&gt;
+                                   Output: { Detailed information for the selected bus stop currently being serviced by buses, including: Bus Stop Code, location coordinates. }</wsdl:documentation>
+      <wsdl:input message="tns:GetBusStopsByRoadNameHttpPostIn" />
+      <wsdl:output message="tns:GetBusStopsByRoadNameHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BusWebServiceSoap" type="tns:BusWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetBusArrivalsInformation">
+      <soap:operation soapAction="http://aggressivegaming.org/GetBusArrivalsInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusServicesInformation">
+      <soap:operation soapAction="http://aggressivegaming.org/GetAllBusServicesInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByBusService">
+      <soap:operation soapAction="http://aggressivegaming.org/GetBusServicesByBusService" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByOperator">
+      <soap:operation soapAction="http://aggressivegaming.org/GetBusServicesByOperator" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusRoutesInformation">
+      <soap:operation soapAction="http://aggressivegaming.org/GetAllBusRoutesInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusRoutesByBusService">
+      <soap:operation soapAction="http://aggressivegaming.org/GetBusRoutesByBusService" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusStopsInformation">
+      <soap:operation soapAction="http://aggressivegaming.org/GetAllBusStopsInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByBusStopCode">
+      <soap:operation soapAction="http://aggressivegaming.org/GetBusStopsByBusStopCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByRoadName">
+      <soap:operation soapAction="http://aggressivegaming.org/GetBusStopsByRoadName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BusWebServiceSoap12" type="tns:BusWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetBusArrivalsInformation">
+      <soap12:operation soapAction="http://aggressivegaming.org/GetBusArrivalsInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusServicesInformation">
+      <soap12:operation soapAction="http://aggressivegaming.org/GetAllBusServicesInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByBusService">
+      <soap12:operation soapAction="http://aggressivegaming.org/GetBusServicesByBusService" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByOperator">
+      <soap12:operation soapAction="http://aggressivegaming.org/GetBusServicesByOperator" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusRoutesInformation">
+      <soap12:operation soapAction="http://aggressivegaming.org/GetAllBusRoutesInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusRoutesByBusService">
+      <soap12:operation soapAction="http://aggressivegaming.org/GetBusRoutesByBusService" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusStopsInformation">
+      <soap12:operation soapAction="http://aggressivegaming.org/GetAllBusStopsInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByBusStopCode">
+      <soap12:operation soapAction="http://aggressivegaming.org/GetBusStopsByBusStopCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByRoadName">
+      <soap12:operation soapAction="http://aggressivegaming.org/GetBusStopsByRoadName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BusWebServiceHttpGet" type="tns:BusWebServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="GetBusArrivalsInformation">
+      <http:operation location="/GetBusArrivalsInformation" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusServicesInformation">
+      <http:operation location="/GetAllBusServicesInformation" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByBusService">
+      <http:operation location="/GetBusServicesByBusService" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByOperator">
+      <http:operation location="/GetBusServicesByOperator" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusRoutesInformation">
+      <http:operation location="/GetAllBusRoutesInformation" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusRoutesByBusService">
+      <http:operation location="/GetBusRoutesByBusService" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusStopsInformation">
+      <http:operation location="/GetAllBusStopsInformation" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByBusStopCode">
+      <http:operation location="/GetBusStopsByBusStopCode" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByRoadName">
+      <http:operation location="/GetBusStopsByRoadName" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BusWebServiceHttpPost" type="tns:BusWebServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="GetBusArrivalsInformation">
+      <http:operation location="/GetBusArrivalsInformation" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusServicesInformation">
+      <http:operation location="/GetAllBusServicesInformation" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByBusService">
+      <http:operation location="/GetBusServicesByBusService" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusServicesByOperator">
+      <http:operation location="/GetBusServicesByOperator" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusRoutesInformation">
+      <http:operation location="/GetAllBusRoutesInformation" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusRoutesByBusService">
+      <http:operation location="/GetBusRoutesByBusService" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusStopsInformation">
+      <http:operation location="/GetAllBusStopsInformation" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByBusStopCode">
+      <http:operation location="/GetBusStopsByBusStopCode" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBusStopsByRoadName">
+      <http:operation location="/GetBusStopsByRoadName" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BusWebService">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service allow you to get real-time datasets for bus services.</wsdl:documentation>
+    <wsdl:port name="BusWebServiceSoap" binding="tns:BusWebServiceSoap">
+      <soap:address location="http://149.56.157.79/GoThereSG/BusWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BusWebServiceSoap12" binding="tns:BusWebServiceSoap12">
+      <soap12:address location="http://149.56.157.79/GoThereSG/BusWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BusWebServiceHttpGet" binding="tns:BusWebServiceHttpGet">
+      <http:address location="http://149.56.157.79/GoThereSG/BusWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BusWebServiceHttpPost" binding="tns:BusWebServiceHttpPost">
+      <http:address location="http://149.56.157.79/GoThereSG/BusWebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

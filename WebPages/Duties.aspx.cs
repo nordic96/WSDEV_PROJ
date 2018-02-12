@@ -23,8 +23,6 @@ public partial class WebPages_Duties : System.Web.UI.Page
             gv1.DataSource = hrcodes;
             gv1.DataBind();
             ddlHRCode.DataSource = hrcodes;
-            //ddlHRCode.DataTextField = hrcodes.Tables[0].Columns[0].ToString();
-            //ddlHRCode.DataValueField = hrcodes.Tables[0].Columns[0].ToString();
             ddlHRCode.DataTextField = hrcodes.Columns[0].ToString();
             ddlHRCode.DataValueField = hrcodes.Columns[0].ToString();
             ddlHRCode.DataBind();
@@ -52,10 +50,7 @@ public partial class WebPages_Duties : System.Web.UI.Page
         LogisticsWS.Duty duty = new LogisticsWS.Duty();
         DataTable hrcodes = cis.GetAllDutiableTaxHSCode();
         ddlHRCode.DataSource = hrcodes;
-        //int i = ddlHRCode.SelectedIndex + 5;
         int i = ddlHRCode.SelectedIndex;
-        //string calculationCustomRate = hrcodes.Tables[0].Rows[i][2].ToString();
-        //string calculationExciseRate = hrcodes.Tables[0].Rows[i][3].ToString();
         string calculationCustomRate = hrcodes.Rows[i][2].ToString();
         string calculationExciseRate = hrcodes.Rows[i][3].ToString();
         double weight = Int32.Parse(tbWeight.Text);

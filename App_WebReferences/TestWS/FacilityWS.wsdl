@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.facilityproject.com/FacilityWebService" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.facilityproject.com/FacilityWebService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.facilityproject.com/FacilityWebService">
+      <s:element name="showFacility">
+        <s:complexType />
+      </s:element>
+      <s:element name="showFacilityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="showFacilityResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="addFacility">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="facilityID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="costOffPeak" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="costPeak" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="maintenance" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="operatingHours" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="availability" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="addFacilityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="addFacilityResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="showMusic">
+        <s:complexType />
+      </s:element>
+      <s:element name="showMusicResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="showMusicResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="addMusic">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="musicID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="artistName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="songTitle" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="addMusicResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="addMusicResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="showEquipment">
+        <s:complexType />
+      </s:element>
+      <s:element name="showEquipmentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="showEquipmentResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="addEquipment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="equipmentID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="equipmentName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="numberOfEquipment" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="addEquipmentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="addEquipmentResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="showFacilitySoapIn">
+    <wsdl:part name="parameters" element="tns:showFacility" />
+  </wsdl:message>
+  <wsdl:message name="showFacilitySoapOut">
+    <wsdl:part name="parameters" element="tns:showFacilityResponse" />
+  </wsdl:message>
+  <wsdl:message name="addFacilitySoapIn">
+    <wsdl:part name="parameters" element="tns:addFacility" />
+  </wsdl:message>
+  <wsdl:message name="addFacilitySoapOut">
+    <wsdl:part name="parameters" element="tns:addFacilityResponse" />
+  </wsdl:message>
+  <wsdl:message name="showMusicSoapIn">
+    <wsdl:part name="parameters" element="tns:showMusic" />
+  </wsdl:message>
+  <wsdl:message name="showMusicSoapOut">
+    <wsdl:part name="parameters" element="tns:showMusicResponse" />
+  </wsdl:message>
+  <wsdl:message name="addMusicSoapIn">
+    <wsdl:part name="parameters" element="tns:addMusic" />
+  </wsdl:message>
+  <wsdl:message name="addMusicSoapOut">
+    <wsdl:part name="parameters" element="tns:addMusicResponse" />
+  </wsdl:message>
+  <wsdl:message name="showEquipmentSoapIn">
+    <wsdl:part name="parameters" element="tns:showEquipment" />
+  </wsdl:message>
+  <wsdl:message name="showEquipmentSoapOut">
+    <wsdl:part name="parameters" element="tns:showEquipmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="addEquipmentSoapIn">
+    <wsdl:part name="parameters" element="tns:addEquipment" />
+  </wsdl:message>
+  <wsdl:message name="addEquipmentSoapOut">
+    <wsdl:part name="parameters" element="tns:addEquipmentResponse" />
+  </wsdl:message>
+  <wsdl:portType name="FacilityWSSoap">
+    <wsdl:operation name="showFacility">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Will show the Facilities, the cost during peak and off peak, maintenance, operating hours and the availability of the facility.</wsdl:documentation>
+      <wsdl:input message="tns:showFacilitySoapIn" />
+      <wsdl:output message="tns:showFacilitySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="addFacility">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add new facility.</wsdl:documentation>
+      <wsdl:input message="tns:addFacilitySoapIn" />
+      <wsdl:output message="tns:addFacilitySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="showMusic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Will show the song title name and the artist name.</wsdl:documentation>
+      <wsdl:input message="tns:showMusicSoapIn" />
+      <wsdl:output message="tns:showMusicSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="addMusic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add new music.</wsdl:documentation>
+      <wsdl:input message="tns:addMusicSoapIn" />
+      <wsdl:output message="tns:addMusicSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="showEquipment">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Will show the list of Gym equipment.</wsdl:documentation>
+      <wsdl:input message="tns:showEquipmentSoapIn" />
+      <wsdl:output message="tns:showEquipmentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="addEquipment">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add new gym equipment.</wsdl:documentation>
+      <wsdl:input message="tns:addEquipmentSoapIn" />
+      <wsdl:output message="tns:addEquipmentSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="FacilityWSSoap" type="tns:FacilityWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="showFacility">
+      <soap:operation soapAction="http://www.facilityproject.com/FacilityWebService/showFacility" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addFacility">
+      <soap:operation soapAction="http://www.facilityproject.com/FacilityWebService/addFacility" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="showMusic">
+      <soap:operation soapAction="http://www.facilityproject.com/FacilityWebService/showMusic" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addMusic">
+      <soap:operation soapAction="http://www.facilityproject.com/FacilityWebService/addMusic" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="showEquipment">
+      <soap:operation soapAction="http://www.facilityproject.com/FacilityWebService/showEquipment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addEquipment">
+      <soap:operation soapAction="http://www.facilityproject.com/FacilityWebService/addEquipment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="FacilityWSSoap12" type="tns:FacilityWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="showFacility">
+      <soap12:operation soapAction="http://www.facilityproject.com/FacilityWebService/showFacility" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addFacility">
+      <soap12:operation soapAction="http://www.facilityproject.com/FacilityWebService/addFacility" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="showMusic">
+      <soap12:operation soapAction="http://www.facilityproject.com/FacilityWebService/showMusic" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addMusic">
+      <soap12:operation soapAction="http://www.facilityproject.com/FacilityWebService/addMusic" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="showEquipment">
+      <soap12:operation soapAction="http://www.facilityproject.com/FacilityWebService/showEquipment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addEquipment">
+      <soap12:operation soapAction="http://www.facilityproject.com/FacilityWebService/addEquipment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FacilityWS">
+    <wsdl:port name="FacilityWSSoap" binding="tns:FacilityWSSoap">
+      <soap:address location="http://172.20.34.2/WSDEVPE01/PE01Sabrina/FacilityWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="FacilityWSSoap12" binding="tns:FacilityWSSoap12">
+      <soap12:address location="http://172.20.34.2/WSDEVPE01/PE01Sabrina/FacilityWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
