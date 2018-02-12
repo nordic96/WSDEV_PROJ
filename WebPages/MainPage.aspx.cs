@@ -67,7 +67,10 @@ public partial class _Default : Page
 
     }
 
-    //Populating RSS Feed
+    /*
+     * Populating RSS Feed
+     * Gihun Ko 10/1/2018
+     */
     private void PopulateRSSFeed(string urlConfig)
     {
         string rssFeedUrl = ConfigurationManager.AppSettings[urlConfig];
@@ -178,7 +181,7 @@ public partial class _Default : Page
 
     protected void ddlPolyclinicsArea_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if(ddlPolyclinicsArea.SelectedValue == "central")
+        if(ddlPolyclinicsArea.SelectedValue == "Central")
         {
             HealthWS.Polyclinics[] polyclinics = initializePoliclinicsCentral();
             List<Polyclinic> polycliniclist = new List<Polyclinic>();
