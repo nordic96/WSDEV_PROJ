@@ -28,8 +28,6 @@ public partial class _Default : Page
             string[] newsTopicList = System.Web.Configuration.WebConfigurationManager.AppSettings["RssFeedMenuList"].Split(',');
             ddlNewsTopic.DataSource = newsTopicList;
             ddlNewsTopic.DataBind();
-            gvBankInfo.DataSource = fws.showEquipment();
-            gvBankInfo.DataBind();
 
         }
     }

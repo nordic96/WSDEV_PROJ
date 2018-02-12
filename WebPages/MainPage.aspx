@@ -20,10 +20,6 @@
     </asp:UpdateProgress>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
     <ContentTemplate>
-
-        <h2>Bank Information</h2>
-        <asp:GridView ID="gvBankInfo" runat="server"></asp:GridView>
-
         <table style="width:100%">
             <tr><td><h2><asp:Label ID="lblRssFeedSubject" runat="server" Text=""></asp:Label>News</h2></td></tr>
             <tr><td><p>This news feed is provided by RealWire (RSS). Visit this website for more information.</p></td></tr>
@@ -58,8 +54,22 @@
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
-            </asp:GridView>
+            </asp:GridView>       
         </div>
+        <h2>Maintain Healthy Lifestyle</h2>
+        <!-- GIHUN KO's Part -->
+        <p>Our company promotes all of our employee to maintain a healthy lifestyle. Below tables are</p>
+        <br />
+        <table class="gh_table">
+            <tr>
+                <td>Area</td>
+                <td>: <asp:DropDownList ID="ddlGymArea" runat="server"></asp:DropDownList></td>
+            </tr>
+        </table>
+        <br />
+        <asp:GridView ID="gvGym" runat="server" Width="100%"></asp:GridView>
+        <h2>Available Polyclinics in Singapore</h2>
+        <!-- JACKY TAN's Part -->
     </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>
