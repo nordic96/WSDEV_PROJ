@@ -70,6 +70,15 @@
         <asp:GridView ID="gvGym" runat="server" Width="100%"></asp:GridView>
         <h2>Available Polyclinics in Singapore</h2>
         <!-- JACKY TAN's Part -->
+        <table class="gh_table">
+            <tr>
+                <td>Area</td>
+                <td>: <asp:DropDownList ID="ddlPolyclinicsArea" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlPolyclinicsArea_SelectedIndexChanged">
+                    </asp:DropDownList></td>
+            </tr>
+        </table>
+        <br />
+        <asp:GridView ID="gvPolyclinics" runat="server" Width="100%" GridLines="None"></asp:GridView>
     </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>

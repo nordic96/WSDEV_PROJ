@@ -12,11 +12,15 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using TestWS;
+using HealthWS;
+using System.Xml;
 
 public partial class _Default : Page
 {
     FacilityWS fws = new FacilityWS();
+    HealthcareWS hcws = new HealthcareWS();
     protected void Page_Load(object sender, EventArgs e)
     {
         
@@ -29,7 +33,31 @@ public partial class _Default : Page
             ddlNewsTopic.DataSource = newsTopicList;
             ddlNewsTopic.DataBind();
 
+            ddlPolyclinicsArea.DataSource = hcws.GetPolyclinicArea();
+            ddlPolyclinicsArea.DataTextField = "area";
+            ddlPolyclinicsArea.DataValueField = "area";
+            ddlPolyclinicsArea.DataBind();
+
+            HealthWS.Polyclinics[] polyclinics = initializePoliclinicsCentral();
+            List<Polyclinic> polycliniclist = new List<Polyclinic>();
+            foreach (HealthWS.Polyclinics polyclinic in polyclinics)
+            {
+                Polyclinic b = new Polyclinic();
+                b.name = polyclinic.name;
+                b.address = polyclinic.address;
+                b.telNumber = polyclinic.telNumber;
+
+                polycliniclist.Add(b);
+            }
+            gvPolyclinics.DataSource = polycliniclist;
+            gvPolyclinics.DataBind();
+
+            gvPolyclinics.HeaderRow.Cells[0].Text = "Name";
+            gvPolyclinics.HeaderRow.Cells[1].Text = "Address";
+            gvPolyclinics.HeaderRow.Cells[2].Text = "Telephone No.";
         }
+
+
     }
 
     //Populating RSS Feed
@@ -64,5 +92,149 @@ public partial class _Default : Page
         string rssFeedKey = "";
         rssFeedKey = "RssFeedUrl" + ddlNewsTopic.SelectedValue;
         PopulateRSSFeed(rssFeedKey);
+    }
+
+
+    private HealthWS.Polyclinics[] initializePoliclinicsCentral()
+    {
+        HealthcareWS hc = new HealthcareWS();
+        HealthWS.Polyclinics[] result = hc.GetPolyclinicCentral();
+        return result;
+    }
+
+    private HealthWS.Polyclinics[] initializePoliclinicsNorth()
+    {
+        HealthcareWS hc = new HealthcareWS();
+        HealthWS.Polyclinics[] result = hc.GetPolyclinicNorth();
+        return result;
+    }
+
+    private HealthWS.Polyclinics[] initializePoliclinicsEast()
+    {
+        HealthcareWS hc = new HealthcareWS();
+        HealthWS.Polyclinics[] result = hc.GetPolyclinicEast();
+        return result;
+    }
+
+    private HealthWS.Polyclinics[] initializePoliclinicsNE()
+    {
+        HealthcareWS hc = new HealthcareWS();
+        HealthWS.Polyclinics[] result = hc.GetPolyclinicNorthEast();
+        return result;
+    }
+
+    private HealthWS.Polyclinics[] initializePoliclinicsWest()
+    {
+        HealthcareWS hc = new HealthcareWS();
+        HealthWS.Polyclinics[] result = hc.GetPolyclinicWest();
+        return result;
+    }
+
+    protected void ddlPolyclinicsArea_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if(ddlPolyclinicsArea.SelectedValue == "central")
+        {
+            HealthWS.Polyclinics[] polyclinics = initializePoliclinicsCentral();
+            List<Polyclinic> polycliniclist = new List<Polyclinic>();
+            foreach (HealthWS.Polyclinics polyclinic in polyclinics)
+            {
+                Polyclinic b = new Polyclinic();
+                b.name = polyclinic.name;
+                b.address = polyclinic.address;
+                b.telNumber = polyclinic.telNumber;
+
+                polycliniclist.Add(b);
+            }
+            gvPolyclinics.DataSource = polycliniclist;
+            gvPolyclinics.DataBind();
+
+            gvPolyclinics.HeaderRow.Cells[0].Text = "Name";
+            gvPolyclinics.HeaderRow.Cells[1].Text = "Address";
+            gvPolyclinics.HeaderRow.Cells[2].Text = "Telephone No.";
+        }
+
+        else if(ddlPolyclinicsArea.SelectedValue == "North")
+        {
+            HealthWS.Polyclinics[] polyclinics = initializePoliclinicsNorth();
+            List<Polyclinic> polycliniclist = new List<Polyclinic>();
+            foreach (HealthWS.Polyclinics polyclinic in polyclinics)
+            {
+                Polyclinic b = new Polyclinic();
+                b.name = polyclinic.name;
+                b.address = polyclinic.address;
+                b.telNumber = polyclinic.telNumber;
+
+                polycliniclist.Add(b);
+            }
+            gvPolyclinics.DataSource = polycliniclist;
+            gvPolyclinics.DataBind();
+
+            gvPolyclinics.HeaderRow.Cells[0].Text = "Name";
+            gvPolyclinics.HeaderRow.Cells[1].Text = "Address";
+            gvPolyclinics.HeaderRow.Cells[2].Text = "Telephone No.";
+        }
+
+        else if(ddlPolyclinicsArea.SelectedValue == "East")
+        {
+            HealthWS.Polyclinics[] polyclinics = initializePoliclinicsEast();
+            List<Polyclinic> polycliniclist = new List<Polyclinic>();
+            foreach (HealthWS.Polyclinics polyclinic in polyclinics)
+            {
+                Polyclinic b = new Polyclinic();
+                b.name = polyclinic.name;
+                b.address = polyclinic.address;
+                b.telNumber = polyclinic.telNumber;
+
+                polycliniclist.Add(b);
+            }
+            gvPolyclinics.DataSource = polycliniclist;
+            gvPolyclinics.DataBind();
+
+            gvPolyclinics.HeaderRow.Cells[0].Text = "Name";
+            gvPolyclinics.HeaderRow.Cells[1].Text = "Address";
+            gvPolyclinics.HeaderRow.Cells[2].Text = "Telephone No.";
+        }
+
+        else if(ddlPolyclinicsArea.SelectedValue == "North-East")
+        {
+            HealthWS.Polyclinics[] polyclinics = initializePoliclinicsNE();
+            List<Polyclinic> polycliniclist = new List<Polyclinic>();
+            foreach (HealthWS.Polyclinics polyclinic in polyclinics)
+            {
+                Polyclinic b = new Polyclinic();
+                b.name = polyclinic.name;
+                b.address = polyclinic.address;
+                b.telNumber = polyclinic.telNumber;
+
+                polycliniclist.Add(b);
+            }
+            gvPolyclinics.DataSource = polycliniclist;
+            gvPolyclinics.DataBind();
+
+            gvPolyclinics.HeaderRow.Cells[0].Text = "Name";
+            gvPolyclinics.HeaderRow.Cells[1].Text = "Address";
+            gvPolyclinics.HeaderRow.Cells[2].Text = "Telephone No.";
+        }
+
+        else if(ddlPolyclinicsArea.SelectedValue == "West")
+        {
+            HealthWS.Polyclinics[] polyclinics = initializePoliclinicsWest();
+            List<Polyclinic> polycliniclist = new List<Polyclinic>();
+            foreach (HealthWS.Polyclinics polyclinic in polyclinics)
+            {
+                Polyclinic b = new Polyclinic();
+                b.name = polyclinic.name;
+                b.address = polyclinic.address;
+                b.telNumber = polyclinic.telNumber;
+
+                polycliniclist.Add(b);
+            }
+            gvPolyclinics.DataSource = polycliniclist;
+            gvPolyclinics.DataBind();
+
+            gvPolyclinics.HeaderRow.Cells[0].Text = "Name";
+            gvPolyclinics.HeaderRow.Cells[1].Text = "Address";
+            gvPolyclinics.HeaderRow.Cells[2].Text = "Telephone No.";
+        }
     }
 }

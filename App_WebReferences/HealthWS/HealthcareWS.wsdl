@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="calculateBMI">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="weight" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="height" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="calculateBMIResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="calculateBMIResult" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllPolyclinicsXML">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllPolyclinicsXMLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllPolyclinicsXMLResult" type="tns:ArrayOfPolyclinics" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfPolyclinics">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Polyclinics" nillable="true" type="tns:Polyclinics" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Polyclinics">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="telNumber" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPolyclinicEast">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetPolyclinicEastResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPolyclinicEastResult" type="tns:ArrayOfPolyclinics" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPolyclinicNorth">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetPolyclinicNorthResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPolyclinicNorthResult" type="tns:ArrayOfPolyclinics" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPolyclinicCentral">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetPolyclinicCentralResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPolyclinicCentralResult" type="tns:ArrayOfPolyclinics" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPolyclinicWest">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetPolyclinicWestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPolyclinicWestResult" type="tns:ArrayOfPolyclinics" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPolyclinicNorthEast">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetPolyclinicNorthEastResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPolyclinicNorthEastResult" type="tns:ArrayOfPolyclinics" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPolyclinicArea">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetPolyclinicAreaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPolyclinicAreaResult" type="tns:ArrayOfPolyclinicArea" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfPolyclinicArea">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PolyclinicArea" nillable="true" type="tns:PolyclinicArea" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PolyclinicArea">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="area" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetGymLocationsXML">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetGymLocationsXMLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGymLocationsXMLResult" type="tns:ArrayOfGymAll" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfGymAll">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="GymAll" nillable="true" type="tns:GymAll" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="GymAll">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TelNo" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetGymAllNorth">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetGymAllNorthResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGymAllNorthResult" type="tns:ArrayOfGymAll" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGymAllEast">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetGymAllEastResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGymAllEastResult" type="tns:ArrayOfGymAll" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGymAllWest">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetGymAllWestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGymAllWestResult" type="tns:ArrayOfGymAll" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGymAllCentral">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetGymAllCentralResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGymAllCentralResult" type="tns:ArrayOfGymAll" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGymAllNorthEast">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetGymAllNorthEastResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGymAllNorthEastResult" type="tns:ArrayOfGymAll" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGymAreas">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetGymAreasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGymAreasResult" type="tns:ArrayOfGymAreas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfGymAreas">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="GymAreas" nillable="true" type="tns:GymAreas" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="GymAreas">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="area" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="calculateBMISoapIn">
+    <wsdl:part name="parameters" element="tns:calculateBMI" />
+  </wsdl:message>
+  <wsdl:message name="calculateBMISoapOut">
+    <wsdl:part name="parameters" element="tns:calculateBMIResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllPolyclinicsXMLSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllPolyclinicsXML" />
+  </wsdl:message>
+  <wsdl:message name="GetAllPolyclinicsXMLSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllPolyclinicsXMLResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPolyclinicEastSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPolyclinicEast" />
+  </wsdl:message>
+  <wsdl:message name="GetPolyclinicEastSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPolyclinicEastResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPolyclinicNorthSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPolyclinicNorth" />
+  </wsdl:message>
+  <wsdl:message name="GetPolyclinicNorthSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPolyclinicNorthResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPolyclinicCentralSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPolyclinicCentral" />
+  </wsdl:message>
+  <wsdl:message name="GetPolyclinicCentralSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPolyclinicCentralResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPolyclinicWestSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPolyclinicWest" />
+  </wsdl:message>
+  <wsdl:message name="GetPolyclinicWestSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPolyclinicWestResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPolyclinicNorthEastSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPolyclinicNorthEast" />
+  </wsdl:message>
+  <wsdl:message name="GetPolyclinicNorthEastSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPolyclinicNorthEastResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPolyclinicAreaSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPolyclinicArea" />
+  </wsdl:message>
+  <wsdl:message name="GetPolyclinicAreaSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPolyclinicAreaResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGymLocationsXMLSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGymLocationsXML" />
+  </wsdl:message>
+  <wsdl:message name="GetGymLocationsXMLSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGymLocationsXMLResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGymAllNorthSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGymAllNorth" />
+  </wsdl:message>
+  <wsdl:message name="GetGymAllNorthSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGymAllNorthResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGymAllEastSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGymAllEast" />
+  </wsdl:message>
+  <wsdl:message name="GetGymAllEastSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGymAllEastResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGymAllWestSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGymAllWest" />
+  </wsdl:message>
+  <wsdl:message name="GetGymAllWestSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGymAllWestResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGymAllCentralSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGymAllCentral" />
+  </wsdl:message>
+  <wsdl:message name="GetGymAllCentralSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGymAllCentralResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGymAllNorthEastSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGymAllNorthEast" />
+  </wsdl:message>
+  <wsdl:message name="GetGymAllNorthEastSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGymAllNorthEastResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGymAreasSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGymAreas" />
+  </wsdl:message>
+  <wsdl:message name="GetGymAreasSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGymAreasResponse" />
+  </wsdl:message>
+  <wsdl:portType name="HealthcareWSSoap">
+    <wsdl:operation name="calculateBMI">
+      <wsdl:input message="tns:calculateBMISoapIn" />
+      <wsdl:output message="tns:calculateBMISoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPolyclinicsXML">
+      <wsdl:input message="tns:GetAllPolyclinicsXMLSoapIn" />
+      <wsdl:output message="tns:GetAllPolyclinicsXMLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicEast">
+      <wsdl:input message="tns:GetPolyclinicEastSoapIn" />
+      <wsdl:output message="tns:GetPolyclinicEastSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicNorth">
+      <wsdl:input message="tns:GetPolyclinicNorthSoapIn" />
+      <wsdl:output message="tns:GetPolyclinicNorthSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicCentral">
+      <wsdl:input message="tns:GetPolyclinicCentralSoapIn" />
+      <wsdl:output message="tns:GetPolyclinicCentralSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicWest">
+      <wsdl:input message="tns:GetPolyclinicWestSoapIn" />
+      <wsdl:output message="tns:GetPolyclinicWestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicNorthEast">
+      <wsdl:input message="tns:GetPolyclinicNorthEastSoapIn" />
+      <wsdl:output message="tns:GetPolyclinicNorthEastSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicArea">
+      <wsdl:input message="tns:GetPolyclinicAreaSoapIn" />
+      <wsdl:output message="tns:GetPolyclinicAreaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGymLocationsXML">
+      <wsdl:input message="tns:GetGymLocationsXMLSoapIn" />
+      <wsdl:output message="tns:GetGymLocationsXMLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllNorth">
+      <wsdl:input message="tns:GetGymAllNorthSoapIn" />
+      <wsdl:output message="tns:GetGymAllNorthSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllEast">
+      <wsdl:input message="tns:GetGymAllEastSoapIn" />
+      <wsdl:output message="tns:GetGymAllEastSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllWest">
+      <wsdl:input message="tns:GetGymAllWestSoapIn" />
+      <wsdl:output message="tns:GetGymAllWestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllCentral">
+      <wsdl:input message="tns:GetGymAllCentralSoapIn" />
+      <wsdl:output message="tns:GetGymAllCentralSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllNorthEast">
+      <wsdl:input message="tns:GetGymAllNorthEastSoapIn" />
+      <wsdl:output message="tns:GetGymAllNorthEastSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAreas">
+      <wsdl:input message="tns:GetGymAreasSoapIn" />
+      <wsdl:output message="tns:GetGymAreasSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HealthcareWSSoap" type="tns:HealthcareWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="calculateBMI">
+      <soap:operation soapAction="http://tempuri.org/calculateBMI" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPolyclinicsXML">
+      <soap:operation soapAction="http://tempuri.org/GetAllPolyclinicsXML" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicEast">
+      <soap:operation soapAction="http://tempuri.org/GetPolyclinicEast" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicNorth">
+      <soap:operation soapAction="http://tempuri.org/GetPolyclinicNorth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicCentral">
+      <soap:operation soapAction="http://tempuri.org/GetPolyclinicCentral" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicWest">
+      <soap:operation soapAction="http://tempuri.org/GetPolyclinicWest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicNorthEast">
+      <soap:operation soapAction="http://tempuri.org/GetPolyclinicNorthEast" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicArea">
+      <soap:operation soapAction="http://tempuri.org/GetPolyclinicArea" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymLocationsXML">
+      <soap:operation soapAction="http://tempuri.org/GetGymLocationsXML" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllNorth">
+      <soap:operation soapAction="http://tempuri.org/GetGymAllNorth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllEast">
+      <soap:operation soapAction="http://tempuri.org/GetGymAllEast" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllWest">
+      <soap:operation soapAction="http://tempuri.org/GetGymAllWest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllCentral">
+      <soap:operation soapAction="http://tempuri.org/GetGymAllCentral" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllNorthEast">
+      <soap:operation soapAction="http://tempuri.org/GetGymAllNorthEast" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAreas">
+      <soap:operation soapAction="http://tempuri.org/GetGymAreas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="HealthcareWSSoap12" type="tns:HealthcareWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="calculateBMI">
+      <soap12:operation soapAction="http://tempuri.org/calculateBMI" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPolyclinicsXML">
+      <soap12:operation soapAction="http://tempuri.org/GetAllPolyclinicsXML" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicEast">
+      <soap12:operation soapAction="http://tempuri.org/GetPolyclinicEast" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicNorth">
+      <soap12:operation soapAction="http://tempuri.org/GetPolyclinicNorth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicCentral">
+      <soap12:operation soapAction="http://tempuri.org/GetPolyclinicCentral" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicWest">
+      <soap12:operation soapAction="http://tempuri.org/GetPolyclinicWest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicNorthEast">
+      <soap12:operation soapAction="http://tempuri.org/GetPolyclinicNorthEast" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPolyclinicArea">
+      <soap12:operation soapAction="http://tempuri.org/GetPolyclinicArea" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymLocationsXML">
+      <soap12:operation soapAction="http://tempuri.org/GetGymLocationsXML" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllNorth">
+      <soap12:operation soapAction="http://tempuri.org/GetGymAllNorth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllEast">
+      <soap12:operation soapAction="http://tempuri.org/GetGymAllEast" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllWest">
+      <soap12:operation soapAction="http://tempuri.org/GetGymAllWest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllCentral">
+      <soap12:operation soapAction="http://tempuri.org/GetGymAllCentral" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAllNorthEast">
+      <soap12:operation soapAction="http://tempuri.org/GetGymAllNorthEast" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGymAreas">
+      <soap12:operation soapAction="http://tempuri.org/GetGymAreas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HealthcareWS">
+    <wsdl:port name="HealthcareWSSoap" binding="tns:HealthcareWSSoap">
+      <soap:address location="http://localhost/health_ws/HealthcareWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="HealthcareWSSoap12" binding="tns:HealthcareWSSoap12">
+      <soap12:address location="http://localhost/health_ws/HealthcareWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
