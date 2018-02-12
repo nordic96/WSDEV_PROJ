@@ -2,33 +2,37 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Web;
-using System.Web.Script.Serialization;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Windows.Forms;
 using System.Xml.Linq;
-using TestWS;
+using HealthWS;
 
 public partial class _Default : Page
 {
-    FacilityWS fws = new FacilityWS();
+    HealthcareWS health = new HealthcareWS();
     protected void Page_Load(object sender, EventArgs e)
     {
-        
-
         if(!Page.IsPostBack)
         {
-
+            //For RSS
             this.PopulateRSSFeed("RssFeedUrlCargo");
             string[] newsTopicList = System.Web.Configuration.WebConfigurationManager.AppSettings["RssFeedMenuList"].Split(',');
             ddlNewsTopic.DataSource = newsTopicList;
             ddlNewsTopic.DataBind();
 
+            //For Adding Gym Information (Drop Down List)
+            List<string> gymAreaList = new List<string>();
+            GymAreas[] gymAreas = health.GetGymAreas();
+            foreach(GymAreas g in gymAreas)
+            {
+                gymAreaList.Add(g.area.ToString());
+            }
+
+            ddlGymArea.DataSource = gymAreaList;
+            ddlGymArea.DataBind();
+
+            //For Adding Gym Information Gridview Initializing
+            changeGymGridView(ddlGymArea.SelectedItem.ToString());
         }
     }
 
@@ -64,5 +68,45 @@ public partial class _Default : Page
         string rssFeedKey = "";
         rssFeedKey = "RssFeedUrl" + ddlNewsTopic.SelectedValue;
         PopulateRSSFeed(rssFeedKey);
+    }
+
+    /*
+     * Changing the GymGridView's DataSource based on the selected Area in SG 
+     * Using Nicholas' WS
+     * Gihun Ko 12/2/2018
+    */
+    private void changeGymGridView(string area)
+    {
+        HealthcareWS h = new HealthcareWS();
+        GymAll[] gyms = null;
+
+        if (area.Equals("North"))
+        {
+            gyms = h.GetGymAllNorth();
+        }
+        else if (area.Equals("East"))
+        {
+            gyms = h.GetGymAllEast();
+        }
+        else if (area.Equals("West"))
+        {
+            gyms = h.GetGymAllWest();
+        }
+        else if (area.Equals("Central"))
+        {
+            gyms = h.GetGymAllCentral();
+        }
+        else if (area.Equals("North-East"))
+        {
+            gyms = h.GetGymAllNorthEast();
+        }
+
+        gvGym.DataSource = gyms;
+        gvGym.DataBind();
+    }
+
+    protected void ddlGymArea_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        changeGymGridView(ddlGymArea.SelectedItem.ToString());
     }
 }

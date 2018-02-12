@@ -18,7 +18,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <asp:GridView ID="gvRoute" runat="server" Width="100%"></asp:GridView>
+                        <asp:GridView ID="gvRoute" runat="server" Width="100%" GridLines="None"></asp:GridView>
                     </td>
                 </tr>
                 <tr>

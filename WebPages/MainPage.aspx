@@ -58,16 +58,16 @@
         </div>
         <h2>Maintain Healthy Lifestyle</h2>
         <!-- GIHUN KO's Part -->
-        <p>Our company promotes all of our employee to maintain a healthy lifestyle. Below tables are</p>
+        <p>Our company promotes all of our employee to maintain a healthy lifestyle. Below table is the information of our partnershipped gyms available in Singapore.</p>
         <br />
         <table class="gh_table">
             <tr>
                 <td>Area</td>
-                <td>: <asp:DropDownList ID="ddlGymArea" runat="server"></asp:DropDownList></td>
+                <td>: <asp:DropDownList ID="ddlGymArea" runat="server" OnSelectedIndexChanged="ddlGymArea_SelectedIndexChanged" AutoPostBack="True"></asp:DropDownList></td>
             </tr>
         </table>
-        <br />
-        <asp:GridView ID="gvGym" runat="server" Width="100%"></asp:GridView>
+        <asp:Label ID="lblTestGym" runat="server" Text=""></asp:Label>
+        <asp:GridView ID="gvGym" runat="server" Width="100%" GridLines="None"></asp:GridView>
         <h2>Available Polyclinics in Singapore</h2>
         <!-- JACKY TAN's Part -->
     </ContentTemplate>
