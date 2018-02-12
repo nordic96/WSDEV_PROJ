@@ -23,8 +23,6 @@ public partial class WebPages_Duties : System.Web.UI.Page
             gv1.DataSource = hrcodes;
             gv1.DataBind();
             ddlHRCode.DataSource = hrcodes;
-            //ddlHRCode.DataTextField = hrcodes.Tables[0].Columns[0].ToString();
-            //ddlHRCode.DataValueField = hrcodes.Tables[0].Columns[0].ToString();
             ddlHRCode.DataTextField = hrcodes.Columns[0].ToString();
             ddlHRCode.DataValueField = hrcodes.Columns[0].ToString();
             ddlHRCode.DataBind();

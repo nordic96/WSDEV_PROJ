@@ -2,29 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Xml.Serialization;
 
 /// <summary>
 /// Summary description for Bus
 /// </summary>
-public class Bus
+public class BusList
 {
-    public string ServiceNo { get; set; }
-    public string Operator { get; set; }
-    public string NextBus { get; set; }
-    public string NextBus2 { get; set; }
-    public string NextBus3 { get; set; }
-    public Bus_Result[] bus_results { get; set; }
+    public string busNo { get; set; }
+    public string arrivalTime1 { get; set; }
+    public string arrivalTime2 { get; set; }
+    public string arrivalTime3 { get; set; }
 }
 
-public class Bus_Result
+public class BusStops
 {
-    public string OriginCode { get; set; }
-    public string DestinationCode { get; set; }
-    public string EstimatedArrival { get; set; }
-    public string Latitude { get; set; }
-    public string Longitude { get; set; }
-    public string VisitNumber { get; set; }
-    public string Load { get; set; }
-    public string Feature { get; set; }
-    public string Type { get; set; }
+    public string BusStopCode { get; set; }
+    public string RoadName { get; set; }
+    public string Description { get; set; }
 }

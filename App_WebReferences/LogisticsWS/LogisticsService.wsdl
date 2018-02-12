@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.tpifc.com/TPWebServices" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.tpifc.com/TPWebServices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.tpifc.com/TPWebServices" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.tpifc.com/TPWebServices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://www.tpifc.com/TPWebServices">
       <s:element name="GetAllSeaPortInformation">
@@ -264,6 +264,24 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:element ref="s:schema" />
+            <s:any />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DataTable" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+            <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PostalPrice" nillable="true" type="tns:PostalPrice" />
+      <s:element name="Duty" nillable="true" type="tns:Duty" />
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetAllSeaPortInformationSoapIn">
@@ -350,6 +368,186 @@
   <wsdl:message name="SearchFreightForwardersSoapOut">
     <wsdl:part name="parameters" element="tns:SearchFreightForwardersResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAllSeaPortInformationHttpGetIn" />
+  <wsdl:message name="GetAllSeaPortInformationHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="SearchSeaPortInformationHttpGetIn">
+    <wsdl:part name="searchBy" type="s:string" />
+    <wsdl:part name="searchText" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SearchSeaPortInformationHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateLocalHttpGetIn">
+    <wsdl:part name="post_size" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateLocalHttpGetOut">
+    <wsdl:part name="Body" element="tns:PostalPrice" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateSurfaceHttpGetIn">
+    <wsdl:part name="mailType" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateSurfaceHttpGetOut">
+    <wsdl:part name="Body" element="tns:PostalPrice" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateAirHttpGetIn">
+    <wsdl:part name="country_code" type="s:string" />
+    <wsdl:part name="mailType" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateAirHttpGetOut">
+    <wsdl:part name="Body" element="tns:PostalPrice" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateBulkHttpGetIn">
+    <wsdl:part name="transport_mode" type="s:string" />
+    <wsdl:part name="destination" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateBulkHttpGetOut">
+    <wsdl:part name="Body" element="tns:PostalPrice" />
+  </wsdl:message>
+  <wsdl:message name="GetAllDutiableTaxHSCodeHttpGetIn" />
+  <wsdl:message name="GetAllDutiableTaxHSCodeHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="SearchDutiableTaxHsCodeHttpGetIn">
+    <wsdl:part name="searchBy" type="s:string" />
+    <wsdl:part name="searchText" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SearchDutiableTaxHsCodeHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="GetAllHSCodeInformationHttpGetIn" />
+  <wsdl:message name="GetAllHSCodeInformationHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="SearchHsCodeInformationHttpGetIn">
+    <wsdl:part name="searchBy" type="s:string" />
+    <wsdl:part name="searchText" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SearchHsCodeInformationHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="CalculateDomesticProductDutyHttpGetIn">
+    <wsdl:part name="HSCode" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+    <wsdl:part name="totalPrice" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CalculateDomesticProductDutyHttpGetOut">
+    <wsdl:part name="Body" element="tns:Duty" />
+  </wsdl:message>
+  <wsdl:message name="CalculateIntnProductDutyHttpGetIn">
+    <wsdl:part name="HSCode" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+    <wsdl:part name="totalPrice" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CalculateIntnProductDutyHttpGetOut">
+    <wsdl:part name="Body" element="tns:Duty" />
+  </wsdl:message>
+  <wsdl:message name="GetAllFreightForwarderContactsHttpGetIn" />
+  <wsdl:message name="GetAllFreightForwarderContactsHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="SearchFreightForwardersHttpGetIn">
+    <wsdl:part name="searchBy" type="s:string" />
+    <wsdl:part name="searchText" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SearchFreightForwardersHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="GetAllSeaPortInformationHttpPostIn" />
+  <wsdl:message name="GetAllSeaPortInformationHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="SearchSeaPortInformationHttpPostIn">
+    <wsdl:part name="searchBy" type="s:string" />
+    <wsdl:part name="searchText" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SearchSeaPortInformationHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateLocalHttpPostIn">
+    <wsdl:part name="post_size" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateLocalHttpPostOut">
+    <wsdl:part name="Body" element="tns:PostalPrice" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateSurfaceHttpPostIn">
+    <wsdl:part name="mailType" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateSurfaceHttpPostOut">
+    <wsdl:part name="Body" element="tns:PostalPrice" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateAirHttpPostIn">
+    <wsdl:part name="country_code" type="s:string" />
+    <wsdl:part name="mailType" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateAirHttpPostOut">
+    <wsdl:part name="Body" element="tns:PostalPrice" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateBulkHttpPostIn">
+    <wsdl:part name="transport_mode" type="s:string" />
+    <wsdl:part name="destination" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CalculatePostRateBulkHttpPostOut">
+    <wsdl:part name="Body" element="tns:PostalPrice" />
+  </wsdl:message>
+  <wsdl:message name="GetAllDutiableTaxHSCodeHttpPostIn" />
+  <wsdl:message name="GetAllDutiableTaxHSCodeHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="SearchDutiableTaxHsCodeHttpPostIn">
+    <wsdl:part name="searchBy" type="s:string" />
+    <wsdl:part name="searchText" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SearchDutiableTaxHsCodeHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="GetAllHSCodeInformationHttpPostIn" />
+  <wsdl:message name="GetAllHSCodeInformationHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="SearchHsCodeInformationHttpPostIn">
+    <wsdl:part name="searchBy" type="s:string" />
+    <wsdl:part name="searchText" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SearchHsCodeInformationHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="CalculateDomesticProductDutyHttpPostIn">
+    <wsdl:part name="HSCode" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+    <wsdl:part name="totalPrice" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CalculateDomesticProductDutyHttpPostOut">
+    <wsdl:part name="Body" element="tns:Duty" />
+  </wsdl:message>
+  <wsdl:message name="CalculateIntnProductDutyHttpPostIn">
+    <wsdl:part name="HSCode" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+    <wsdl:part name="totalPrice" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CalculateIntnProductDutyHttpPostOut">
+    <wsdl:part name="Body" element="tns:Duty" />
+  </wsdl:message>
+  <wsdl:message name="GetAllFreightForwarderContactsHttpPostIn" />
+  <wsdl:message name="GetAllFreightForwarderContactsHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="SearchFreightForwardersHttpPostIn">
+    <wsdl:part name="searchBy" type="s:string" />
+    <wsdl:part name="searchText" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SearchFreightForwardersHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
   <wsdl:portType name="LogisticsServiceSoap">
     <wsdl:operation name="GetAllSeaPortInformation">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of global sea port information (Country Code, Country Name, Port Code, Port Name).</wsdl:documentation>
@@ -420,6 +618,150 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search Freight Forwarder Contacts information based on selected category from the Excel file. searchBy must be either 'Country', 'Company Name'. searchBy and searchText must be case-sensitive.</wsdl:documentation>
       <wsdl:input message="tns:SearchFreightForwardersSoapIn" />
       <wsdl:output message="tns:SearchFreightForwardersSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="LogisticsServiceHttpGet">
+    <wsdl:operation name="GetAllSeaPortInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of global sea port information (Country Code, Country Name, Port Code, Port Name).</wsdl:documentation>
+      <wsdl:input message="tns:GetAllSeaPortInformationHttpGetIn" />
+      <wsdl:output message="tns:GetAllSeaPortInformationHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchSeaPortInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search port information based on selected category from the Excel file. searchBy must be either 'Country Code', 'Port Code', 'Country Name', 'Port Name', 'Port Code'. searchBy and searchText must be case-sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:SearchSeaPortInformationHttpGetIn" />
+      <wsdl:output message="tns:SearchSeaPortInformationHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateLocal">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">post_size must be either 'regular'/'large'/'non' (none for Non-Standard). weight is measured in (g). Maximum weight is 2000g (for regular size, max. weight is 40g) Invalid weight amount will return result as false.</wsdl:documentation>
+      <wsdl:input message="tns:CalculatePostRateLocalHttpGetIn" />
+      <wsdl:output message="tns:CalculatePostRateLocalHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateSurface">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">mailType can be only 'papers' available. weight is measaured in (g). (max. weight is 2000g)</wsdl:documentation>
+      <wsdl:input message="tns:CalculatePostRateSurfaceHttpGetIn" />
+      <wsdl:output message="tns:CalculatePostRateSurfaceHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateAir">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">country_code (2 characters ex: MY for Malaysia). mailType only allows 'papers'/'packets'. weight is in (g). Any fail in validation, the result value will be set to false.</wsdl:documentation>
+      <wsdl:input message="tns:CalculatePostRateAirHttpGetIn" />
+      <wsdl:output message="tns:CalculatePostRateAirHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateBulk">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">transport_mode must be either 'air'/'surface'. destination is for country code(2char; eg.MY for Malaysia). weight is measured in (kg).</wsdl:documentation>
+      <wsdl:input message="tns:CalculatePostRateBulkHttpGetIn" />
+      <wsdl:output message="tns:CalculatePostRateBulkHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllDutiableTaxHSCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of Dutiable Tax HS Code information (HS Code, Product Description, Customs Duty, Excise Duty).</wsdl:documentation>
+      <wsdl:input message="tns:GetAllDutiableTaxHSCodeHttpGetIn" />
+      <wsdl:output message="tns:GetAllDutiableTaxHSCodeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchDutiableTaxHsCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search Duty Rates information based on selected category from the Excel file. searchBy must be either 'HS Code', 'Product Description'searchText is any keywords in the sentence of Product DescriptionsearchBy and searchText must be case-sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:SearchDutiableTaxHsCodeHttpGetIn" />
+      <wsdl:output message="tns:SearchDutiableTaxHsCodeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllHSCodeInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of HS Code information (HS Code, HS Description, HS UOM, ReferenceId)</wsdl:documentation>
+      <wsdl:input message="tns:GetAllHSCodeInformationHttpGetIn" />
+      <wsdl:output message="tns:GetAllHSCodeInformationHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchHsCodeInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search HS Code information based on selected category from the Excel file. searchBy must be either 'HS Code', 'HS Description', 'HS UOM', 'ReferenceId'. searchBy and searchText must be case-sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:SearchHsCodeInformationHttpGetIn" />
+      <wsdl:output message="tns:SearchHsCodeInformationHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculateDomesticProductDuty">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Weight is in kg/litre, totalPrice is the total price of the goods</wsdl:documentation>
+      <wsdl:input message="tns:CalculateDomesticProductDutyHttpGetIn" />
+      <wsdl:output message="tns:CalculateDomesticProductDutyHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculateIntnProductDuty">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Weight is in kg / litre, totalPrice is the total price of the goods</wsdl:documentation>
+      <wsdl:input message="tns:CalculateIntnProductDutyHttpGetIn" />
+      <wsdl:output message="tns:CalculateIntnProductDutyHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllFreightForwarderContacts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of Freight Forwarder Contacts information</wsdl:documentation>
+      <wsdl:input message="tns:GetAllFreightForwarderContactsHttpGetIn" />
+      <wsdl:output message="tns:GetAllFreightForwarderContactsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchFreightForwarders">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search Freight Forwarder Contacts information based on selected category from the Excel file. searchBy must be either 'Country', 'Company Name'. searchBy and searchText must be case-sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:SearchFreightForwardersHttpGetIn" />
+      <wsdl:output message="tns:SearchFreightForwardersHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="LogisticsServiceHttpPost">
+    <wsdl:operation name="GetAllSeaPortInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of global sea port information (Country Code, Country Name, Port Code, Port Name).</wsdl:documentation>
+      <wsdl:input message="tns:GetAllSeaPortInformationHttpPostIn" />
+      <wsdl:output message="tns:GetAllSeaPortInformationHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchSeaPortInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search port information based on selected category from the Excel file. searchBy must be either 'Country Code', 'Port Code', 'Country Name', 'Port Name', 'Port Code'. searchBy and searchText must be case-sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:SearchSeaPortInformationHttpPostIn" />
+      <wsdl:output message="tns:SearchSeaPortInformationHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateLocal">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">post_size must be either 'regular'/'large'/'non' (none for Non-Standard). weight is measured in (g). Maximum weight is 2000g (for regular size, max. weight is 40g) Invalid weight amount will return result as false.</wsdl:documentation>
+      <wsdl:input message="tns:CalculatePostRateLocalHttpPostIn" />
+      <wsdl:output message="tns:CalculatePostRateLocalHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateSurface">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">mailType can be only 'papers' available. weight is measaured in (g). (max. weight is 2000g)</wsdl:documentation>
+      <wsdl:input message="tns:CalculatePostRateSurfaceHttpPostIn" />
+      <wsdl:output message="tns:CalculatePostRateSurfaceHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateAir">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">country_code (2 characters ex: MY for Malaysia). mailType only allows 'papers'/'packets'. weight is in (g). Any fail in validation, the result value will be set to false.</wsdl:documentation>
+      <wsdl:input message="tns:CalculatePostRateAirHttpPostIn" />
+      <wsdl:output message="tns:CalculatePostRateAirHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateBulk">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">transport_mode must be either 'air'/'surface'. destination is for country code(2char; eg.MY for Malaysia). weight is measured in (kg).</wsdl:documentation>
+      <wsdl:input message="tns:CalculatePostRateBulkHttpPostIn" />
+      <wsdl:output message="tns:CalculatePostRateBulkHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllDutiableTaxHSCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of Dutiable Tax HS Code information (HS Code, Product Description, Customs Duty, Excise Duty).</wsdl:documentation>
+      <wsdl:input message="tns:GetAllDutiableTaxHSCodeHttpPostIn" />
+      <wsdl:output message="tns:GetAllDutiableTaxHSCodeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchDutiableTaxHsCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search Duty Rates information based on selected category from the Excel file. searchBy must be either 'HS Code', 'Product Description'searchText is any keywords in the sentence of Product DescriptionsearchBy and searchText must be case-sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:SearchDutiableTaxHsCodeHttpPostIn" />
+      <wsdl:output message="tns:SearchDutiableTaxHsCodeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllHSCodeInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of HS Code information (HS Code, HS Description, HS UOM, ReferenceId)</wsdl:documentation>
+      <wsdl:input message="tns:GetAllHSCodeInformationHttpPostIn" />
+      <wsdl:output message="tns:GetAllHSCodeInformationHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchHsCodeInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search HS Code information based on selected category from the Excel file. searchBy must be either 'HS Code', 'HS Description', 'HS UOM', 'ReferenceId'. searchBy and searchText must be case-sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:SearchHsCodeInformationHttpPostIn" />
+      <wsdl:output message="tns:SearchHsCodeInformationHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculateDomesticProductDuty">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Weight is in kg/litre, totalPrice is the total price of the goods</wsdl:documentation>
+      <wsdl:input message="tns:CalculateDomesticProductDutyHttpPostIn" />
+      <wsdl:output message="tns:CalculateDomesticProductDutyHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculateIntnProductDuty">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Weight is in kg / litre, totalPrice is the total price of the goods</wsdl:documentation>
+      <wsdl:input message="tns:CalculateIntnProductDutyHttpPostIn" />
+      <wsdl:output message="tns:CalculateIntnProductDutyHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllFreightForwarderContacts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return a DataTable of Freight Forwarder Contacts information</wsdl:documentation>
+      <wsdl:input message="tns:GetAllFreightForwarderContactsHttpPostIn" />
+      <wsdl:output message="tns:GetAllFreightForwarderContactsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchFreightForwarders">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search Freight Forwarder Contacts information based on selected category from the Excel file. searchBy must be either 'Country', 'Company Name'. searchBy and searchText must be case-sensitive.</wsdl:documentation>
+      <wsdl:input message="tns:SearchFreightForwardersHttpPostIn" />
+      <wsdl:output message="tns:SearchFreightForwardersHttpPostOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="LogisticsServiceSoap" type="tns:LogisticsServiceSoap">
@@ -680,12 +1022,276 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
+  <wsdl:binding name="LogisticsServiceHttpGet" type="tns:LogisticsServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="GetAllSeaPortInformation">
+      <http:operation location="/GetAllSeaPortInformation" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchSeaPortInformation">
+      <http:operation location="/SearchSeaPortInformation" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateLocal">
+      <http:operation location="/CalculatePostRateLocal" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateSurface">
+      <http:operation location="/CalculatePostRateSurface" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateAir">
+      <http:operation location="/CalculatePostRateAir" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateBulk">
+      <http:operation location="/CalculatePostRateBulk" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllDutiableTaxHSCode">
+      <http:operation location="/GetAllDutiableTaxHSCode" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchDutiableTaxHsCode">
+      <http:operation location="/SearchDutiableTaxHsCode" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllHSCodeInformation">
+      <http:operation location="/GetAllHSCodeInformation" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchHsCodeInformation">
+      <http:operation location="/SearchHsCodeInformation" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateDomesticProductDuty">
+      <http:operation location="/CalculateDomesticProductDuty" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateIntnProductDuty">
+      <http:operation location="/CalculateIntnProductDuty" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllFreightForwarderContacts">
+      <http:operation location="/GetAllFreightForwarderContacts" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchFreightForwarders">
+      <http:operation location="/SearchFreightForwarders" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="LogisticsServiceHttpPost" type="tns:LogisticsServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="GetAllSeaPortInformation">
+      <http:operation location="/GetAllSeaPortInformation" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchSeaPortInformation">
+      <http:operation location="/SearchSeaPortInformation" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateLocal">
+      <http:operation location="/CalculatePostRateLocal" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateSurface">
+      <http:operation location="/CalculatePostRateSurface" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateAir">
+      <http:operation location="/CalculatePostRateAir" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculatePostRateBulk">
+      <http:operation location="/CalculatePostRateBulk" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllDutiableTaxHSCode">
+      <http:operation location="/GetAllDutiableTaxHSCode" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchDutiableTaxHsCode">
+      <http:operation location="/SearchDutiableTaxHsCode" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllHSCodeInformation">
+      <http:operation location="/GetAllHSCodeInformation" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchHsCodeInformation">
+      <http:operation location="/SearchHsCodeInformation" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateDomesticProductDuty">
+      <http:operation location="/CalculateDomesticProductDuty" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateIntnProductDuty">
+      <http:operation location="/CalculateIntnProductDuty" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllFreightForwarderContacts">
+      <http:operation location="/GetAllFreightForwarderContacts" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchFreightForwarders">
+      <http:operation location="/SearchFreightForwarders" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
   <wsdl:service name="LogisticsService">
     <wsdl:port name="LogisticsServiceSoap" binding="tns:LogisticsServiceSoap">
-      <soap:address location="http://172.20.34.2/WSDEVPE01/PE01GiHun/LogisticsService.asmx" />
+      <soap:address location="http://localhost/Logistics_WS/LogisticsService.asmx" />
     </wsdl:port>
     <wsdl:port name="LogisticsServiceSoap12" binding="tns:LogisticsServiceSoap12">
-      <soap12:address location="http://172.20.34.2/WSDEVPE01/PE01GiHun/LogisticsService.asmx" />
+      <soap12:address location="http://localhost/Logistics_WS/LogisticsService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="LogisticsServiceHttpGet" binding="tns:LogisticsServiceHttpGet">
+      <http:address location="http://localhost/Logistics_WS/LogisticsService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="LogisticsServiceHttpPost" binding="tns:LogisticsServiceHttpPost">
+      <http:address location="http://localhost/Logistics_WS/LogisticsService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
